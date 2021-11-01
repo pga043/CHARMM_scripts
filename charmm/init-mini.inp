@@ -1,0 +1,45 @@
+* Minimize PDB
+*
+bomlev -2
+
+! read topology and parameter file
+read rtf card name toppar/top_all36_prot.rtf
+read param card flex name toppar/par_all36_prot.prm
+read rtf card name toppar/top_all36_cgenff.rtf append
+read param card flex name toppar/par_all36_cgenff.prm append
+
+bomlev 0
+
+stream ligand/@lig.str
+stream toppar/toppar_water_ions.str
+
+
+! read the psf and coordinate file
+read psf card name @prot-@lig.psf
+read coor card name @prot-@lig.crd
+
+! set up shake
+shake bonh param sele all end
+
+! set up electrostatics, since we're not using PME, set up switching
+! electrostatics
+nbond inbfrq -1 elec fswitch vdw vswitch cutnb 16. ctofnb 12. ctonnb 10.
+
+energy
+
+coor copy comp
+
+mini sd nstep 100
+mini abnr nstep 1000 nprint 100 tolg 0.01
+coor rms
+
+ioform extended
+
+write coor card name @prot-@lig-initialmini.crd
+* Initial minimization, no PME.
+*
+
+write coor pdb name @prot-@lig-initialmini.pdb
+
+stop
+

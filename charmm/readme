@@ -1,0 +1,13 @@
+#cp /Users/parveengartan/data/simulations/trajectories/pr3-bay8501/forMSLD/pr3_prod.psf .
+#cp /Users/parveengartan/data/simulations/trajectories/pr3-bay8501/forMSLD/pr3_prod.crd .
+#cp /Users/parveengartan/data/simulations/trajectories/pr3-bay8501/forMSLD/pr3_prod.pdb .
+
+#charmm prot=pr3_prod lig=mol53 -i complex.inp > complex.out
+#charmm prot=pr3_prod lig=mol53 -i init-mini.inp > init-mini.out
+#charmm prot=pr3_prod lig=mol53 -i solvate.inp > solvate.out
+#grep GREATERVALUE solvate.out
+
+#/Home/ii/parveeng/CHARMM_NR/build/cmake/charmm prot=pr3_prod lig=mol53 box=67.4743642 -i neutralize.inp > neutralize.out  
+
+/Home/ii/parveeng/CHARMM_NR/build/cmake/charmm prot=pr3_prod lig=mol53 box=67.4743642 -i final-mini.inp > final-mini.out
+

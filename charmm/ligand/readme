@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#obabel -ipdbqt docking/mol53_out.pdbqt -omol  > mol53.mol
+# 1. open mol files in MarvinSketch
+# 2. check connectivities (bond orders, change if required)
+# 3. add explicit hydrogens
+# 4. save as mol2
+
+## LINUX commands
+#sed -i "s/noname/LIG/g" mol53.mol2
+#sed -i '2d' mol53.mol2 
+#gawk -i inplace 'FNR==2{print "LIG"}1' mol53.mol2
+#/net/orinoco/apps/silcsbio.2020.1/cgenff/cgenff -v mol53.mol2 > mol53.str
+#sed -n -e '/flex/,/RETURN/ p' mol53.str > mol53.prm
+
+#obabel -imol2 mol53.mol2 -opdb > mol53.pdb
+
+#charmm lig=mol53 -i build_ligand.inp > build_ligand.out
+

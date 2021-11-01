@@ -1,0 +1,33 @@
+* Append the PDBs/modify them
+*
+
+! read topology and parameter files
+
+read rtf card name toppar/top_all36_prot.rtf
+read param card flex name toppar/par_all36_prot.prm
+
+! Read PSF and coordinates from file
+read psf card name hne.psf
+read coor card name hne-allh.crd
+
+! Handle disulfide patching!
+patch disu prot 26 prot 42 setup
+patch disu prot 119 prot 171 setup
+patch disu prot 146 prot 152 setup
+patch disu prot 161 prot 186 setup
+
+! redo hydrogen coordinates for the complete structure
+coor init sele hydrogen end
+hbuild
+
+! calculate energy
+energy
+
+ioform extended
+
+write psf card name hne-final.psf
+write coor card name hne-final.crd
+
+
+stop
+

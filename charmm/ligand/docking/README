@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#cp /Users/parveengartan/data/MSLD/bayer-7/ligands_prep/ligands/mol53.mol2 .
+
+# open ../../pr3_prod.pdb with adt and create ../../pr3_prod.pdbqt
+# center on macromolecule for grid box
+
+#obabel -imol2 mol53.mol2 -opdbqt > mol53.pdbqt
+
+#vina --receptor pr3_prod.pdbqt --ligand mol53.pdbqt --center_x 8.256 --center_y 57.250 --center_z 9.967 --size_x 40 --size_y 40 --size_z 40  --num_modes 1 --log log.txt --out mol53_out.pdbqt
+
+
