@@ -1,0 +1,38 @@
+* Run Segment Through CHARMM
+*
+
+read rtf card name toppar/top_all36_prot.rtf
+read param card flex name toppar/par_all36_prot.prm
+
+read sequ pdb name HNE/hne-remod-5.pdb
+
+! now generate the PSF and also the IC table (SETU keyword), prot is SEGID defined by me
+generate setu prot first NTER last CTER
+
+! Handle disulfide patching!
+patch disu prot 26 prot 42 setup
+patch disu prot 122 prot 179 setup
+patch disu prot 152 prot 158 setup
+patch disu prot 169 prot 194 setup
+
+! set bomlev to -1 to avois sying on lack of hydrogen coordinates
+bomlev -1
+read coor pdb name HNE/hne-remod-5.pdb
+! them put bomlev back up to 0
+bomlev 0
+
+
+! prints out number of atoms that still have undefined coordinates.
+define test select segid prot .and. ( .not. hydrogen ) .and. ( .not. init ) show end
+
+ic para
+ic fill preserve
+ic build
+hbuild sele all end
+
+write psf card name hne.psf
+write coor card name hne.crd
+write coor pdb name hne.pdb
+
+stop
+
