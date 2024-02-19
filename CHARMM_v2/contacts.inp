@@ -1,0 +1,83 @@
+* compute hydrophobic contacts from trajectory
+* time series
+
+!===================================================================
+set toppar = /net/orinoco/pga043/simulations/hne-mol53/namd/toppar 
+set str =  /net/orinoco/pga043/simulations/hne-mol53/ligand
+
+! read topology and parameter files
+read rtf card name @toppar/top_all36_prot.rtf
+read param card flex name @toppar/par_all36_prot.prm
+stream @toppar/toppar_water_ions.str
+read rtf card name @toppar/top_all36_cgenff.rtf append
+bomlev -2
+read param card flex name @toppar/par_all36_cgenff.prm append
+bomlev 0
+stream @str/@lig.str
+!=================================================================
+
+read psf card name @toppar/../../@prot-@lig-neutralized.psf
+read coor card name @toppar/../../@prot-@lig-finalmini.crd
+
+
+!================================================
+!Hydrophobic definitions for Protein and Ligand !
+define hydrophob1 sele segid prot .and. (resname ala .or. resname asn .or. resname asp .or. resname cys .or. resname gly -
+                                  .or. resname hsd .or. resname hse .or. resname ser) .and. (type ca .or. type ha* -
+                                  .or. type cb .or. type hb*) end
+
+define hydrophob2 sele segid prot .and. (resname arg .or. resname glu .or. resname gln .or. resname hsp) -
+                                  .and. (type ca .or. type ha* .or. type cb .or. type hb* .or. type cg* .or. type hg*) end
+
+define hydrophob3 sele segid prot .and. (resname ile .or. resname leu .or. resname met .or. resname phe -
+                                  .or. resname pro .or. resname val) .and. (type ca .or. -
+                                  type ha* .or. type cb .or. type hb* .or. type cg* .or. type hg* .or. type cd* .or. -
+                                  type hd* .or. type ce* .or. type he* .or. type cz* .or. type hz*) end
+
+define hydrophob4 sele segid prot .and. (resname thr) .and (type ca .or. type ha .or. type cb .or. type hb -
+                                  .or. type cg* .or. type hg2*) end
+
+define hydrophob5 sele segid prot .and. (resname lys) .and (type ca .or. type ha .or. type cb .or. type hb* -
+                                  .or. type cg* .or. type hg* .or. type cd .or. type hd* .or. type ce .or. type he*) end
+
+define hydrophob6 sele segid prot .and. (resname trp) .and (type ca .or. type ha .or. type cb .or. type hb* -
+                                  .or. type cg .or. type cd* .or. type he3 .or. type hd* .or. type ce3 .or. -
+                                  type cz* .or. type hz* .or. type ch* .or. type hh*) end
+
+define hydrophob7 sele segid prot .and. (resname tyr) .and (type ca .or. type ha .or. type cb .or. type hb* -
+                                  .or. type cg* .or. type cd* .or. type hd* .or. type ce1 .or. type he1) end
+
+define hydrophobic sele (hydrophob1 .or. hydrophob2 .or. hydrophob3 .or. hydrophob4 .or. hydrophob5 .or. hydrophob6 .or. hydrophob7) show end
+
+define ligand sele segid lig .and. (( type H* .and. prop abs charge .lt. 0.1) .or. (type C* .and. prop abs charge .lt. 0.3)) show end
+
+!==============================================!
+
+!now get the time dependent hydrophobic contacts
+!the output can be voluminous, especially with the verbose option
+! so we print some of it to a scratch file
+open unit 101 write form name series/hydrophobics.dat
+
+open unit 51 read unform name @prot-@lig-oriented.dcd
+
+traj firstu 51 nunit 1 skip 1000 begin 0 ! use whole trajectory
+set t 0.0 ! keep track of time, traj is from 0 to @time ps
+label loop
+! get next coordinate set according to specifications above
+traj read
+
+coordinates contact cuthb 4.0 tcut 0.05 -
+sele segid lig end sele hydrophobic end 
+!Using the whole ligand after discussion with Nathalie 
+!Post anaylsis will be required after this selection for actual hydrophobic contacts
+
+set e1 ?nhbond
+write title unit 101
+* @t @e1
+*
+
+incr t by 100 ! time in ps
+if t le @time goto loop
+
+stop
+

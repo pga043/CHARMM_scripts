@@ -1,0 +1,62 @@
+* Calculating rmsd for the ligands compared to docked structure
+* during lambda dynamics simulation
+
+
+
+!===================== IMAGE ==================================================
+! set up crystal and images
+set boxsize = @box 
+crystal define cubic @boxsize @boxsize @boxsize 90. 90. 90.
+crystal build noper 0
+
+! These segments are used for water and ions in bulk solvent
+define bulks sele segid bwat .or. segid pot .or. segid cl .or. segid sod .or. -
+  segid cal .or. segid mg .or. segid ces end 
+
+! You may need to change these depending on how you plan to do recentering
+image byseg sele .not. resname tip3 .and. .not. bulks end
+image byres sele resname tip3 .or. bulks end
+!===================================================================================
+
+define heavy sele .not. hydrogen end
+define backbone sele heavy .and. (type N .or. type c .or. type ca .or. type o ) .and. (.not. resname tip3) end
+
+open unit 21 write form name junk_rmsd.dat
+
+set j = 1
+label loop
+
+calc k = @j + 100
+
+open unit @k read unform name run@j/dcd/lmnmt_flat.dcd_0
+traj query unit @k
+
+traj firstu @k nunit 1 skip 1 begin 0 
+
+
+!-------------- rmsd calculation loop -------------------
+set fr 1
+label frame_loop
+
+traj read
+coor orient rms sele backbone end
+
+coor rms select segid XRAY .and. (.not. type *H*) end
+set xrayrmsd = ?rms 
+
+coor rms select segid REVR .and. (.not. type *H*) end
+set revrrmsd = ?rms
+
+write title unit 21
+* @fr run@j @xrayrmsd @revrrmsd
+*
+  
+incr fr by 1
+if fr le ?nfile goto frame_loop
+
+!-------------------------------------------------------
+
+incr j by 1
+if j le @end goto loop
+
+stop

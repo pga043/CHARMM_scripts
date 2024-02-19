@@ -1,0 +1,37 @@
+* Compute radial correltion function: using CORREL tools
+*
+
+!===================================================================
+set toppar = /net/orinoco/pga043/simulations/hne-mol54/namd/toppar
+set str =  /net/orinoco/pga043/simulations/hne-mol54/ligand
+
+! read topology and parameter files
+read rtf card name @toppar/top_all36_prot.rtf
+read param card flex name @toppar/par_all36_prot.prm
+stream @toppar/toppar_water_ions.str
+read rtf card name @toppar/top_all36_cgenff.rtf append
+bomlev -2
+read param card flex name @toppar/par_all36_cgenff.prm append
+bomlev 0
+stream @str/@lig.str
+!=================================================================
+
+read psf card name @toppar/../../@prot-@lig-neutralized.psf
+read coor card name @toppar/../../@prot-@lig-finalmini.crd
+
+coor copy comp
+
+open unit 101 write form name series/rdf.dat
+
+open unit 51 read unform name @prot-@lig-oriented.dcd
+
+coor anal select resname tip3 end -
+site select segid LIG end multi -
+byresidue - 
+firstu 51 nunit 1 skip 1 - !trajectory specifications
+iSdist 101 -
+mgn 1000 dr 0.1 -
+rsph 999.9 - ! using ALL waters for calculation
+xbox @box ybox @box zbox @box
+
+stop

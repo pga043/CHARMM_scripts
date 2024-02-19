@@ -1,0 +1,54 @@
+* Simulation analysis: calculate the number of hydrogen bonds
+* Water and hybrid ligand, time series 
+*
+
+!===================================================================
+set toppar = /net/orinoco/pga043/simulations/hne-mol53/namd/toppar 
+set str =  /net/orinoco/pga043/simulations/hne-mol53/ligand
+
+! read topology and parameter files
+read rtf card name @toppar/top_all36_prot.rtf
+read param card flex name @toppar/par_all36_prot.prm
+stream @toppar/toppar_water_ions.str
+read rtf card name @toppar/top_all36_cgenff.rtf append
+bomlev -2
+read param card flex name @toppar/par_all36_cgenff.prm append
+bomlev 0
+stream @str/@lig.str
+!=================================================================
+
+read psf card name @toppar/../../@prot-@lig-neutralized.psf
+read coor card name @toppar/../../@prot-@lig-finalmini.crd
+
+
+! for hbonds to the ligands we have to add information about
+! hbond donors/acceptors (paramchem does not provide this)
+donor add sele (resn LIG .and. (type N3 .or. type H1 )) show end 
+acceptor add sele (resn LIG .and. (type N* .or. type F* .or. type O* ) ) show end
+
+open unit 51 read unform name @prot-@lig-oriented.dcd
+
+open unit 101 write form name series/water.dat
+
+traj firstu 51 nunit 1 skip 1000 begin 0 ! use whole trajectory
+set t 0.0 ! keep track of time, traj is from 0 to @time ps
+label loop
+! get next coordinate set according to specifications above
+traj read 
+
+
+! protein - ligand
+coor hbond cuthb 2.4 cutha 130 - 
+select segid LIG end select segid BWAT end 
+
+set e1 ?nhbond
+write title unit 101
+* @t @e1
+*
+  
+incr t by 100 ! time in ps
+if t le @time goto loop
+
+stop
+
+

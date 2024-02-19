@@ -1,0 +1,106 @@
+*FILENAME: rmsf-residue.str
+*PURPOSE: average atomic RMS fluctuations (around average structure from trajectory)
+* per residue for protein non hydrogen atoms
+*AUTHOR: Lennart Nilsson, Karolinska Institutet (October 8, 2003)
+*
+!ASSUMPTIONS:
+! Only the relevant segment is present (no solvent, ions,...)
+! A "COOR DYNA" COMMAND has been executed prior to running this script
+! in order to get the relevant fluctuations into the wmain array,
+! eg (where only the protein segment will be used, and we also orient to remove
+! unwanted overall rotation/translation):
+!! NB: Both selections are needed, and the orient has to be first!!
+! coor dyna <traj-spec> orient sele segid prot end sele segid prot end
+! dele atom sele .not. segid prot end ! this removes all but the protein
+! Unit 21 is open for formatted write to the file where the result is written
+! CHARMM variable R1 set to the (numerical!) resid of the first residue
+! NB: standard top_all22_na atom names are assumed for the backbone atoms
+!RESULT:
+! This file calculates nucleotide averaged RMS fluctuations
+! The average rmsf for the whole residue, backbone and sidechainis written to unit 21
+! N- and C-terminal atoms are included with the sidchains
+! Bomblev is set to -1 to avoid stopping on empty selections (Gly has no sidechain)
+!LOCAL VARIABLES:
+! R, RALL,RBACK,RSIDE,I,N
+! Uses scalar storage arrays 3,4,5,6
+! Defines selections HEAVY and BACKBONE
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+read rtf card name ../toppar/top_all36_prot.rtf
+read param card flex name ../toppar/par_all36_prot.prm
+stream ../toppar/toppar_water_ions.str
+
+read psf card name ../trypsin-neutr.psf
+read coor card name ../equil/trypsin-equil.crd
+coor copy comp
+
+open read unit 13 file name ../prod/trypsin-prod.dcd 
+traj query unit 13
+
+coor dyna firstu 13 nunit 1 skip 100  -
+orient select segid prot end sele segid prot end
+delete atom sele .not. segid prot end ! we don't want rmsd for the waters
+set R1 1 ! this fragment starts with residue 1
+open unit 21 write form name rmsf.dat
+
+define heavy sele .not. hydrogen end
+define backbone sele heavy .and. (type N .or. type c .or. type ca .or. type o ) end
+! save main coordinates
+scalar sca3 = x
+scalar sca4 = y
+scalar sca5 = z
+scalar sca6 = wmain
+
+! average per residue, all atoms
+scalar x = wmain
+scalar x aver byres sele all end
+! average per residue, backbone atoms
+scalar y = wmain
+scalar y aver byres sele backbone end
+! average per residue, sidchain atoms
+scalar z = wmain
+scalar z aver byres -
+sele heavy .and. .not. backbone end
+
+
+! now print it out
+bomlev -1
+set i 1
+set n @r1
+write title unit 21
+* IRES RMS_ALL RMS_BACKB RMS_SIDE
+*
+label LOOP
+coor stat sele ires @i .and. type CA end
+format (F12.4)
+set rall ?xave
+incr rall by 0.0 ! trick to get the format applied to the variable
+trim rall to 12
+set rback ?yave
+incr rback by 0.0
+trim rback to 12
+
+coor stat sele ires @i .and. type CB end
+set rside ?zave
+if ?NSEL eq 0 set rside 0.0
+incr rside by 0.0
+trim rside to 12
+set r @n
+format (I6)
+incr r by 0.0
+trim r to 6
+write title unit 21
+* @r @rall @rback @rside
+*
+incr n by 1
+incr i by 1
+if i le ?NRES goto loop
+
+format ! best to reset to default ....
+! restore main coordinates
+scalar x = sca3
+scalar y = sca4
+scalar z = sca5
+scalar wmain = sca6
+
+return

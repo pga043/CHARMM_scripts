@@ -1,0 +1,61 @@
+*FILENAME: interaction-energy.inp
+*PURPOSE: compute interaction energies from trajectory
+*AUTHOR: Lennart Nilsson, Karolinska Institutet, October 2003
+*
+
+!===================================================================
+set toppar = /net/orinoco/pga043/simulations/hne-mol53/namd/toppar 
+set str =  /net/orinoco/pga043/simulations/hne-mol53/ligand
+
+! read topology and parameter files
+read rtf card name @toppar/top_all36_prot.rtf
+read param card flex name @toppar/par_all36_prot.prm
+stream @toppar/toppar_water_ions.str
+read rtf card name @toppar/top_all36_cgenff.rtf append
+bomlev -2
+read param card flex name @toppar/par_all36_cgenff.prm append
+bomlev 0
+stream @str/@lig.str
+!=================================================================
+
+read psf card name @toppar/../../@prot-@lig-neutralized.psf
+read coor card name @toppar/../../@prot-@lig-finalmini.crd
+coor copy comp
+
+define S1 select segid LIG .and. (type C9 .or. type C14 .or. type H13 .or. type C13 .or. type H12 .or. type C12 .or. type H11 -
+                                  .or. type C11 .or. type C15 .or. type F* .or. type C10 .or. type H10 ) show end ! Trifluoromethybenzene
+
+define S2 select segid LIG .and. (type C16 .or. type C21 .or. type H17 .or. type C20 .or. type H16 .or. type C19 .or. type C22 -
+                                  .or. type N7 .or. type C18 .or. type H15 .or. type C17 .or. type H14 ) show end ! CYANOBENZENE
+
+
+open unit 51 read unform name ../@prot-@lig-oriented.dcd
+
+! specify how we are going to read the trajectory
+traj firstu 51 nunit 1 skip 1000 ! use whole trajectory, skip = saving frequency generally
+
+open write unit 21 form name S1_S2.dat
+write title unit 21
+* time @prot-S1-@lig @prot-S2-@lig
+*
+set t 0.0  ! keep track of time, traj is from 0 to @time ps
+
+label loop
+! get next coordinate set according to specifications above
+traj read
+! we have to update lists every time, things can move a lot in 1 ps
+update cutnb 16.0 ctofnb 12.0 fshift vshift cdie
+
+! interaction between protein and ligand part in S1 pocket
+inte sele segid prot end sele S1 end
+set e1 ?ener
+
+! interaction between protein and ligand part in S2 pocket
+inte sele segid prot end sele S2 end
+set e2 ?ener
+write title unit 21
+* @t @e1 @e2
+*
+  
+incr t by 100.0 ! time is in ps
+if t le @time goto loop

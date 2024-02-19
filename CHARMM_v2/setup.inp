@@ -1,0 +1,49 @@
+* Run Segment Through CHARMM
+*
+
+read rtf card name toppar/top_all36_prot.rtf
+read param card flex name toppar/par_all36m_prot.prm
+
+read sequ pdb name @prot.pdb
+
+! now generate the PSF and also the IC table (SETU keyword), proa is SEGID defined by user
+generate setu proa first NTER last CTER
+
+! Handle disulfide patching!
+
+!change protonation state of ASP (ASPP is present in top_all36_prot.rtf)
+
+!change protonation state of GLU (GLUP is present in top_all36_prot.rtf)
+
+!! Be careful if the sequence in the pdb file doesn't start from 1
+!! use offset -xxx, xxx - start of sequence in pdb file
+!! or use "resi" while reading coordinates
+
+! set bomlev to -1 to avois sying on lack of hydrogen coordinates
+bomlev -1
+read coor pdb resi name @prot.pdb 
+! them put bomlev back up to 0
+bomlev 0
+
+! prints out number of atoms that still have undefined coordinates.
+define test select segid prot .and. ( .not. hydrogen ) .and. ( .not. init ) show end
+
+ic para
+ic fill preserve
+ic build
+hbuild sele all end
+
+! check if there are unknown coordinate
+define XXX sele .not. INIT show end
+if ?nsel .gt. 0 stop ! ABNORMAL TERMINATION: Undefined coordinates
+
+write psf card name @prot.psf
+write coor card name @prot.crd
+write coor pdb name @prot_charmm.pdb
+
+!coor stat sele all end
+
+calc cgtot = int ( ?cgtot )
+
+stop
+

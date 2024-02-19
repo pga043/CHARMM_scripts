@@ -1,0 +1,56 @@
+*FILENAME: interaction-energy.inp
+*PURPOSE: compute interaction energies from trajectory
+*AUTHOR: Lennart Nilsson, Karolinska Institutet, October 2003
+*
+
+!===================================================================
+set toppar = /net/orinoco/pga043/simulations/hne-mol45/namd/toppar 
+set str =  /net/orinoco/pga043/simulations/hne-mol45/ligand
+
+! read topology and parameter files
+read rtf card name @toppar/top_all36_prot.rtf
+read param card flex name @toppar/par_all36_prot.prm
+stream @toppar/toppar_water_ions.str
+read rtf card name @toppar/top_all36_cgenff.rtf append
+bomlev -2
+read param card flex name @toppar/par_all36_cgenff.prm append
+bomlev 0
+stream @str/@lig.str
+!=================================================================
+
+read psf card name @toppar/../../@prot-@lig-neutralized.psf
+read coor card name @toppar/../../@prot-@lig-finalmini.crd
+coor copy comp
+
+open unit 51 read unform name @prot-@lig-oriented.dcd
+
+! specify how we are going to read the trajectory
+traj firstu 51 nunit 1 skip 1000 ! use whole trajectory, skip = saving frequency generally
+
+open write unit 21 form name series/inter_1_2.dat
+write title unit 21
+* time water-ligand prot-ligand
+*
+set t 0.0 ! keep track of time, traj is from 0 to @time ps
+
+label loop
+! get next coordinate set according to specifications above
+traj read
+! we have to update lists every time, things can move a lot in 1 ps
+update cutnb 16.0 ctofnb 12.0 fshift vshift cdie
+
+! first get interaction energy between water and the ligand
+inte sele segid bwat .or. segid cwat end sele segid LIG end
+! ?ener is total energy. other terms may also be extracted,
+! see energy.doc, section Substitution, for more details
+set e1 ?ener
+
+! and protein ligand interaction
+inte sele segid prot end sele segid LIG end
+set e2 ?ener
+write title unit 21
+* @t @e1 @e2
+*
+ 
+incr t by 100.0 ! time is in ps
+if t le @time goto loop

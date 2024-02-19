@@ -1,0 +1,39 @@
+* Compute RMSD for a MD trajectory: using CORREL tools
+*
+
+! read topology and parameter files
+read rtf card name ../../toppar/top_all36_prot.rtf
+read param card flex name ../../toppar/par_all36_prot.prm
+stream ../../toppar/toppar_water_ions.str
+
+!Read PSF and initial/reference coordinates
+read psf card name ../../trypsin-neutr.psf
+read coor card name ../../trypsin-finalmini.crd
+coor copy comp
+
+!Open file unit for trajectory
+!open read unit 13 file name ../../prod/trypsin-prod.dcd 
+!traj query unit 13
+
+define heavy sele .not. hydrogen end
+define backbone sele heavy .and. (type N .or. type c .or. type ca .or. type o ) .and. (.not. resname tip3) end
+
+
+! put reference coordinates into comparison set as well
+coor copy comp
+
+open unit 101 write form name rmsd-bb.dat
+write title unit 101
+*     time       rmsd-backbone    
+*
+open unit 51 read unform name  ../../prod/trypsin-prod.dcd
+correl maxtime 1000000
+enter v1 rms orient
+
+traj firstu 51 nunit 1 begin 10000 sele backbone end
+write v1 dumb time unit 101
+* this title is not used
+*
+
+end
+

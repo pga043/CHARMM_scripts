@@ -1,0 +1,43 @@
+* H-bond analysis of a single structure or a trajectory 
+* (based on Lennart Nilsson example)
+
+!===================================================================
+set toppar = /net/orinoco/pga043/simulations/hne-mol53/namd/toppar
+set str =  /net/orinoco/pga043/simulations/hne-mol53/ligand
+
+! read topology and parameter files
+read rtf card name @toppar/top_all36_prot.rtf
+read param card flex name @toppar/par_all36_prot.prm
+stream @toppar/toppar_water_ions.str
+read rtf card name @toppar/top_all36_cgenff.rtf append
+bomlev -2
+read param card flex name @toppar/par_all36_cgenff.prm append
+bomlev 0
+stream @str/@lig.str
+!=================================================================
+
+read psf card name @toppar/../../@prot-@lig-neutralized.psf
+read coor card name @toppar/../../@prot-@lig-finalmini.crd
+
+! for hbonds to the ligands we have to add information about
+! hbond donors/acceptors (paramchem does not provide this)
+donor add sele (resn LIG .and. (type N3 .or. type H1 )) show end 
+acceptor add sele (resn LIG .and. (type N* .or. type F* .or. type O* ) ) show end
+
+open unit 51 read unform name @prot-@lig-oriented.dcd
+traj query unit 51
+
+open unit 101 write form name series/junk.dat
+
+! protein - ligand
+coor hbond verbose cuthb 2.4 cutha 130 -
+    firstu 51 nunit 1 begin 0 skip 1000 iunit 101 -
+    select segid LIG end select segid PROT end -
+    
+
+! protein - water- ligand
+coor hbond verbose cuthb 2.4 cutha 130 -
+     select segid LIG end select segid PROT end -
+     bridge tip3 firstu 51 nunit 1 begin 0 skip 20000 iunit 101
+
+stop

@@ -1,0 +1,61 @@
+* Calculating rmsf for the ligands compared to minimized structure
+* during lambda dynamics simulation
+*FILENAME: rmsf-residue.str
+*PURPOSE: average atomic RMS fluctuations (around average structure from trajectory)
+* per residue for protein non hydrogen atoms
+*AUTHOR: Lennart Nilsson, Karolinska Institutet (October 8, 2003)
+*
+!ASSUMPTIONS:
+! Only the relevant segment is present (no solvent, ions,...)
+! A "COOR DYNA" COMMAND has been executed prior to running this script
+! in order to get the relevant fluctuations into the wmain array,
+! eg (where only the protein segment will be used, and we also orient to remove
+! unwanted overall rotation/translation):
+!! NB: Both selections are needed, and the orient has to be first!!
+! coor dyna <traj-spec> orient sele segid prot end sele segid prot end
+! dele atom sele .not. segid prot end ! this removes all but the protein
+! Unit 21 is open for formatted write to the file where the result is written
+! CHARMM variable R1 set to the (numerical!) resid of the first residue
+! NB: standard top_all22_na atom names are assumed for the backbone atoms
+!RESULT:
+! This file calculates nucleotide averaged RMS fluctuations
+! The average rmsf for the whole residue, backbone and sidechainis written to unit 21
+! N- and C-terminal atoms are included with the sidchains
+! Bomblev is set to -1 to avoid stopping on empty selections (Gly has no sidechain)
+!LOCAL VARIABLES:
+! R, RALL,RBACK,RSIDE,I,N
+! Uses scalar storage arrays 3,4,5,6
+! Defines selections HEAVY and BACKBONE
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+!! Read in toppar stream file
+stream toppar.str
+
+bomlev -1
+read psf card name @dir/@lig-solvated.psf
+read coor card name @dir/@lig-finalmini.crd 
+coor copy comp
+bomlev 0
+
+define ligand sele .not. (hydrogen .or. resname tip3) end
+
+open unit 13 read unform name @run/@lig-oriented.dcd
+traj query unit 13
+
+!!=========================================================
+coor dyna firstu 13 nunit 1 
+bomlev -1
+delete atom sele .not. (ligand) end ! we don't want rmsd for the waters or protein
+bomlev 0
+
+write coor card name @run/rmsf.crd
+* RMSF is in WMAIN column
+*
+
+write coor pdb card name @run/rmsf.pdb
+* RMSF is in WMAIN column
+*
+
+
+stop
