@@ -1,0 +1,32 @@
+* Run Segment Through CHARMM
+*
+
+read rtf card name parm14sb_all.rtf
+read param card flex name parm14sb_all.prm
+
+read sequ pdb name test.pdb
+
+bomlev -1
+! now generate the PSF and also the IC table (SETU keyword), prot is SEGID defined by me
+generate setu prot first NILE last CARG
+
+! set bomlev to -1 to avois sying on lack of hydrogen coordinates
+bomlev -1
+read coor pdb name test.pdb
+! them put bomlev back up to 0
+bomlev 0
+
+
+! prints out number of atoms that still have undefined coordinates.
+define test select segid prot .and. ( .not. hydrogen ) .and. ( .not. init ) show end
+
+ic para
+ic fill preserve
+ic build
+hbuild sele all end
+
+write psf card name test.psf
+write coor card name test.crd
+
+stop
+
