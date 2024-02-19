@@ -16,7 +16,7 @@ Reference: https://doi.org/10.1021/acs.jctc.3c00139
 and,
 modified by: 
 Parveen Gartan
-Dept. Of chemistry
+Dept. Of Chemistry
 University of Bergen, Norway
 """
 ##----------------------
