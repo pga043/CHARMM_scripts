@@ -1,0 +1,3137 @@
+* POSITIONAL RESTRAINT POTENTIALS FOR HMMM LIPID BILAYER
+*
+
+! keep the lipid carbonyl carbon atoms close to target values
+
+calc NLipid = @nliptop + @nlipbot
+
+set i 1
+calc ntop = 0
+calc nbot = 0
+label DOMMFP
+
+   coor stat sele segid MEMB .and. resid @i end
+   set lipid = ?selresn
+
+   define CCAT sele none end
+
+   if lipid .eq. CHL1 then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O3 ) end
+   endif
+   if lipid .eq. ERG then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O3 ) end
+   endif
+   if lipid .eq. DPOP then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O3 ) end
+   endif
+   if lipid .eq. SITO then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O3 ) end
+   endif
+   if lipid .eq. STIG then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O3 ) end
+   endif
+   if lipid .eq. CHSD then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O3 ) end
+   endif
+   if lipid .eq. CHSP then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O3 ) end
+   endif
+   if lipid .eq. CAMP then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O3 ) end
+   endif
+   if lipid .eq. GCAMP then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type 2O1 ) end
+   endif
+   if lipid .eq. GSITO then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type 2O1 ) end
+   endif
+   if lipid .eq. GSTIG then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type 2O1 ) end
+   endif
+   if lipid .eq. LANO then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O3 ) end
+   endif
+   if lipid .eq. PGCAMP then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type 2O1 ) end
+   endif
+   if lipid .eq. PGSITO then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type 2O1 ) end
+   endif
+   if lipid .eq. PGSTIG then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type 2O1 ) end
+   endif
+   if lipid .eq. DLPA then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPA then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DPPA then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PSPA then
+      calc zpos = 15
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DSPA then
+      calc zpos = 17.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPA then
+      calc zpos = 15.3
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPA then
+      calc zpos = 15.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SOPA then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SLPA then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DYPA then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. YOPA then
+      calc zpos = 13.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DOPA then
+      calc zpos = 14.8
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DGPA then
+      calc zpos = 16.3
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DEPA then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DNPA then
+      calc zpos = 21.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DDPC then
+      calc zpos = 9.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DCPC then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DLPC then
+      calc zpos = 11.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPC then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DPPC then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DSPC then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PYPC then
+      calc zpos = 15.8
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPC then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPC then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PILPC then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PDOPC then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SOPC then
+      calc zpos = 15.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SLPC then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DRPC then
+      calc zpos = 12.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DYPC then
+      calc zpos = 12.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. YOPC then
+      calc zpos = 13.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DOPC then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DUPC then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DGPC then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DEPC then
+      calc zpos = 18.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DDOPC then
+      calc zpos = 18.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DNPC then
+      calc zpos = 20.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DLIPC then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. LLPC then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DLPE then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPE then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DPPE then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PSPE then
+      calc zpos = 15
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DSPE then
+      calc zpos = 16.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PYPE then
+      calc zpos = 15.8
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPE then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPE then
+      calc zpos = 15.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PDOPE then
+      calc zpos = 15.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SOPE then
+      calc zpos = 17.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SLPE then
+      calc zpos = 16.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DYPE then
+      calc zpos = 13.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. YOPE then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. OYPE then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DOPE then
+      calc zpos = 15.4
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DGPE then
+      calc zpos = 17.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DEPE then
+      calc zpos = 19.3
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DDOPE then
+      calc zpos = 19.3
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DNPE then
+      calc zpos = 22.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DLIPE then
+      calc zpos = 16.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. LLPE then
+      calc zpos = 16.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DLPG then
+      calc zpos = 10.4
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPG then
+      calc zpos = 12.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DPPG then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PSPG then
+      calc zpos = 15
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DSPG then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PYPG then
+      calc zpos = 13.3
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. YPPG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPG then
+      calc zpos = 13.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. OPPG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPG then
+      calc zpos = 12.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SOPG then
+      calc zpos = 14.4
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SLPG then
+      calc zpos = 13.4
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DYPG then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DOPG then
+      calc zpos = 13.4
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DGPG then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DEPG then
+      calc zpos = 17.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DNPG then
+      calc zpos = 18.8
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DLPS then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPS then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DPPS then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PSPS then
+      calc zpos = 15
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DSPS then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPS then
+      calc zpos = 15.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PSPC then
+      calc zpos = 15
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PAPC then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPS then
+      calc zpos = 14.8
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SOPS then
+      calc zpos = 16.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SLPS then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. OLPS then
+      calc zpos = 16.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DYPS then
+      calc zpos = 13.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. YOPS then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DOPS then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DGPS then
+      calc zpos = 17.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DEPS then
+      calc zpos = 19.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DDOPS then
+      calc zpos = 19.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DNPS then
+      calc zpos = 21.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. LLPS then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPP1 then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPP2 then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPP3 then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DOPP1 then
+      calc zpos = 14.8
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DOPP2 then
+      calc zpos = 14.8
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DOPP3 then
+      calc zpos = 14.8
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPI then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPI13 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPI14 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPI15 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPI24 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPI25 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPI2A then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPI2B then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPI2C then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPI2D then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPI33 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPI34 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPI35 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DPPI then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PYPI then
+      calc zpos = 14.3
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PSPI then
+      calc zpos = 15
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPI then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPI13 then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPI14 then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPI15 then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPI24 then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPI25 then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPI2A then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPI2B then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPI2C then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPI2D then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPI33 then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPI34 then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPI35 then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPI then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPI13 then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPI14 then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPI15 then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPI24 then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPI25 then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPI2A then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPI2B then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPI2C then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPI2D then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPI33 then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPI34 then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLPI35 then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PNPI then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PNPI13 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PNPI14 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PNPI15 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PNPI24 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PNPI25 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PNPI2A then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PNPI2B then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PNPI2C then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PNPI2D then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PNPI33 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PNPI34 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PNPI35 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SLPI then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPI then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPI13 then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPI14 then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPI15 then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPI24 then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPI25 then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPI2A then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPI2B then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPI2C then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPI2D then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPI33 then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPI34 then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPI35 then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SDPI then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DLIPI then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. LINPI then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. TMCL1 then
+      calc zpos = 12.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. TMCL2 then
+      calc zpos = 12.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. PMCL1 then
+      calc zpos = 12.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. PMCL2 then
+      calc zpos = 12.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. PAICL2 then
+      calc zpos = 12.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. PVCL2 then
+      calc zpos = 13.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. POCL1 then
+      calc zpos = 13.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. POCL2 then
+      calc zpos = 13.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. TYCL1 then
+      calc zpos = 12.3
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. TYCL2 then
+      calc zpos = 12.3
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. TOCL1 then
+      calc zpos = 13.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. TOCL2 then
+      calc zpos = 13.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. LOACL1 then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. LOACL2 then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. LOCCL1 then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. LOCCL2 then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. TLCL1 then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. TLCL2 then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. LNCCL1 then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. LNCCL2 then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. LNACL1 then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. LNACL2 then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. LNDCL1 then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. LNDCL2 then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. LNBCL1 then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. LNBCL2 then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. DLGL then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMGL then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DPGL then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DSGL then
+      calc zpos = 17.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POGL then
+      calc zpos = 15.3
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLGL then
+      calc zpos = 15.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SOGL then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SLGL then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAGL then
+      calc zpos = 14.9
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SDGL then
+      calc zpos = 15.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DYGL then
+      calc zpos = 12.6
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DOGL then
+      calc zpos = 14.8
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DGGL then
+      calc zpos = 16.3
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DEGL then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DNGL then
+      calc zpos = 21.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DTGL then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. TIGL then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DIGL then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. LLGL then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DAGL then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. LOSTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. OOOTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. OPOTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POOTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POSTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SOOTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SPOTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PPPTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. OOLTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POLTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PPLTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLLTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. OLLTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. LLLTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SOLTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SLLTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PSLTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. LLNTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLNTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. OLNTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PONTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. OONTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SNLTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SLNTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. ONNTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. LNNTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PPNTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PPOTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PNNTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PSOTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. NNNTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SONTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLATG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SLATG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. OLATG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. ONATG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. LLATG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. LLGTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SLGTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SNGTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. OLGTG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPA then
+      calc zpos = 14.9
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPC then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPE then
+      calc zpos = 15.3
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPG then
+      calc zpos = 13.4
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SAPS then
+      calc zpos = 15.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SDPA then
+      calc zpos = 15.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SDPC then
+      calc zpos = 14.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SDPE then
+      calc zpos = 16.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SDPG then
+      calc zpos = 13.9
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SDPS then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DAPA then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DAPC then
+      calc zpos = 13.3
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DAPE then
+      calc zpos = 14.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DAPG then
+      calc zpos = 12.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DAPS then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PEPS then
+      calc zpos = 19.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. OEPS then
+      calc zpos = 19.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. TSPC then
+      calc zpos = 14.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DTPA then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. TIPA then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DIPA then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. LLPA then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. LLPG then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLEPC then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLEPE then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLEPS then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLEPA then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLEPG then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PAPE then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PAPS then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PAPG then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PAPA then
+      calc zpos = 14.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. LYPG then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. YLIPG then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SLEPC then
+      calc zpos = 20.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SODPC then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. SEPPC then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. TSM then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. DSM then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. PSM then
+      calc zpos = 18.25
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. SSM then
+      calc zpos = 18.50
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. ASM then
+      calc zpos = 18.75
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. BSM then
+      calc zpos = 19.00
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. 23SM then
+      calc zpos = 19.00
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. LSM then
+      calc zpos = 19.00
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. OSM then
+      calc zpos = 17.00
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. NSM then
+      calc zpos = 17.00
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. CER160 then
+      calc zpos = 18.00
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. CER180 then
+      calc zpos = 19.00
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. CER181 then
+      calc zpos = 17.25
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. CER200 then
+      calc zpos = 19.25
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. CER220 then
+      calc zpos = 19.50
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. CER240 then
+      calc zpos = 19.50
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. CER241 then
+      calc zpos = 19.00
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. CER3E then
+      calc zpos = 18.00
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. CER6 then
+      calc zpos = 24.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. CER3 then
+      calc zpos = 24.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. CER1 then
+      calc zpos = 24.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3S .or. type C1F ) end
+   endif
+   if lipid .eq. MAIPC then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. MAIPG then
+      calc zpos = 12.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. MAIPE then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. AIPC then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. AIPG then
+      calc zpos = 12.2
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. AIPE then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. QMPE then
+      calc zpos = 15.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PAIPC then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PAIPG then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PAIPE then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. APPC then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. IPPC then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PMPE then
+      calc zpos = 15.3
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PMPG then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PHPC then
+      calc zpos = 13.9
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PPPE then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PVPE then
+      calc zpos = 15.4
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PVPG then
+      calc zpos = 13.4
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PEPC then
+      calc zpos = 18.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PEPE then
+      calc zpos = 19.3
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. OEPE then
+      calc zpos = 19.3
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. OEPC then
+      calc zpos = 18.1
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DPPGK then
+      calc zpos = 13.7
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PGMAR then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. AROL then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PGAR then
+      calc zpos = 12.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PEAR then
+      calc zpos = 12.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. MEN7 then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. MEN8 then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. MEN9 then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. MKOL8 then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. ARCL2 then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CA1 .or. type CB1 .or. type CC1 .or. type CD1 ) end
+   endif
+   if lipid .eq. UQ1 then
+      calc zpos = 4
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQ2 then
+      calc zpos = 8
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQ3 then
+      calc zpos = 12
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQ4 then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQ5 then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQ6 then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQ7 then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQ8 then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQ9 then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQ10 then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQOL1 then
+      calc zpos = 4
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQOL2 then
+      calc zpos = 8
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQOL3 then
+      calc zpos = 12
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQOL4 then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQOL5 then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQOL6 then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQOL7 then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQOL8 then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQOL9 then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. UQOL10 then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 ) end
+   endif
+   if lipid .eq. LAU then
+      calc zpos = 12
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. MYR then
+      calc zpos = 14
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. PAL then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. STE then
+      calc zpos = 18
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. ARA then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. BEH then
+      calc zpos = 22
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. TRI then
+      calc zpos = 23
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. LIGN then
+      calc zpos = 24
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. MYRO then
+      calc zpos = 14
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. PALO then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. HTA then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. OLE then
+      calc zpos = 18
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. LIN then
+      calc zpos = 18
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. ALIN then
+      calc zpos = 18
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. SDA then
+      calc zpos = 18
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. GLA then
+      calc zpos = 18
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. EICO then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. EDA then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. MEA then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. DGLA then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. ETE then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. ETA then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. EPA then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. ARAN then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. HPA then
+      calc zpos = 21
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. ERU then
+      calc zpos = 22
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. DDA then
+      calc zpos = 22
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. ADR then
+      calc zpos = 22
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. DPT then
+      calc zpos = 22
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. DPA then
+      calc zpos = 22
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. DHA then
+      calc zpos = 22
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. NER then
+      calc zpos = 24
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. TTA then
+      calc zpos = 24
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. TPT then
+      calc zpos = 24
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. TPA then
+      calc zpos = 24
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. THA then
+      calc zpos = 24
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. LAUP then
+      calc zpos = 12
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. MYRP then
+      calc zpos = 14
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. PALP then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. STEP then
+      calc zpos = 18
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. ARAP then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. BEHP then
+      calc zpos = 22
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. TRIP then
+      calc zpos = 23
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. LIGNP then
+      calc zpos = 24
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. MYROP then
+      calc zpos = 14
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. PALOP then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. HTAP then
+      calc zpos = 16
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. OLEP then
+      calc zpos = 18
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. LINP then
+      calc zpos = 18
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. ALINP then
+      calc zpos = 18
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. SDAP then
+      calc zpos = 18
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. GLAP then
+      calc zpos = 18
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. EICOP then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. EDAP then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. MEAP then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. DGLAP then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. ETEP then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. ETAP then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. EPAP then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. ARANP then
+      calc zpos = 20
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. HPAP then
+      calc zpos = 21
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. ERUP then
+      calc zpos = 22
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. DDAP then
+      calc zpos = 22
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. ADRP then
+      calc zpos = 22
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. DPTP then
+      calc zpos = 22
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. DPAP then
+      calc zpos = 22
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. DHAP then
+      calc zpos = 22
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. NERP then
+      calc zpos = 24
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. TTAP then
+      calc zpos = 24
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. TPTP then
+      calc zpos = 24
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. TPAP then
+      calc zpos = 24
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. THAP then
+      calc zpos = 24
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. CPS04C then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CPS04D then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CPS09C then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CPS09D then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CPS09A then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CPU08E then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CPU08F then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSU08I then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSU08J then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSU12I then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSU12J then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CPS05A then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CPS04A then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CPU12E then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CPU12F then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CPS05C then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CPS05D then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSU20P then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSU20H then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSU18H then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSU18P then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSU13L then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSU08L then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSU13A then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSU08B then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSU12B then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSS05A then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSS04A then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CQS09C then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CQS09D then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CSU12L then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. EPS04C then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. EPS04D then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. EPS09C then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. EPS09D then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. EPS09A then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. EPU08E then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. EPU08F then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESU08I then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESU08J then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESU12I then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESU12J then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. EPS05A then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. EPS04A then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. EPU12E then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. EPU12F then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. EPS05C then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. EPS05D then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESU20P then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESU20H then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESU18H then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESU18P then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESU13L then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESU08L then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESU13A then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESU08B then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESU12B then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESS05A then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESS04A then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. EQS09C then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. EQS09D then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. ESU12L then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CAS then
+      calc zpos = 
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. SB3-10 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. SB3-12 then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. SB3-14 then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. CHAPS then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C26 ) end
+   endif
+   if lipid .eq. CHAPSO then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C26 ) end
+   endif
+   if lipid .eq. DDMG then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. DOMG then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. DDAO then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. UDAO then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. LDAO then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. LAPAO then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1F ) end
+   endif
+   if lipid .eq. TRIPAO then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1F ) end
+   endif
+   if lipid .eq. FOS10 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. FOS12 then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. FOS13 then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. FOS14 then
+      calc zpos = 17.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. FOS15 then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. FOS16 then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. UFOS10 then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. LPC12 then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. LPC14 then
+      calc zpos = 17.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. LPC16 then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. FOIS9 then
+      calc zpos = 8.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. FOIS11 then
+      calc zpos = 9.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. C6DHPC then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. C7DHPC then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. CYFOS3 then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. CYFOS4 then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. CYFOS5 then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. CYFOS6 then
+      calc zpos = 11.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. CYFOS7 then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. SDS then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C3 ) end
+   endif
+   if lipid .eq. LMPG then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. LPPG then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. DDAOP then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. UDAOP then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. LDAOP then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. LAPAOP then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1F ) end
+   endif
+   if lipid .eq. TRPAOP then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1F ) end
+   endif
+   if lipid .eq. C6EG3 then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. C6EG4 then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. C6EG5 then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. C7EG4 then
+      calc zpos = 11.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. C7EG5 then
+      calc zpos = 11.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. C8EG4 then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. C8EG5 then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. C8EG6 then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. C10EG5 then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. C10EG6 then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. C10EG9 then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. C12EG7 then
+      calc zpos = 17.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. C12EG8 then
+      calc zpos = 20.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. C12EG9 then
+      calc zpos = 20.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. C12DEG then
+      calc zpos = 20.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. C13EG8 then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. NIDP40 then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CZ ) end
+   endif
+   if lipid .eq. TX100 then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CZ ) end
+   endif
+   if lipid .eq. TX114 then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CZ ) end
+   endif
+   if lipid .eq. AOG then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BOG then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ANG then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BNG then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ADG then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BDG then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ADDG then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BDDG then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ACY3G then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BCY3G then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. AMHCG then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C2 ) end
+   endif
+   if lipid .eq. BMHCG then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C2 ) end
+   endif
+   if lipid .eq. AOM then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BOM then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ANM then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BNM then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ADM then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BDM then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. AUDM then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BUDM then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. A2UDM then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. B2UDM then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ADDM then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BDDM then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ADMHM then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BDMHM then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. APPM then
+      calc zpos = 7.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BPPM then
+      calc zpos = 7.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ATM then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BTM then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ACY3M then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BCY3M then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ACY4M then
+      calc zpos = 11.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BCY4M then
+      calc zpos = 11.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ACY5M then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BCY5M then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ACY6M then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BCY6M then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ACY7M then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BCY7M then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. NHEG then
+      calc zpos = 11.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1F ) end
+   endif
+   if lipid .eq. DHEG then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1F ) end
+   endif
+   if lipid .eq. NMG then
+      calc zpos = 11.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1F ) end
+   endif
+   if lipid .eq. DMG then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1F ) end
+   endif
+   if lipid .eq. CTB10 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. CTB11 then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. CTB12 then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. CTB13 then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. CTB14 then
+      calc zpos = 17.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. CTB15 then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. CTB16 then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. GMS1 then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. GMS2 then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. MLN1 then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. MLN2 then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C31 ) end
+   endif
+   if lipid .eq. MGTM10 then
+      calc zpos = 30.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CC1 .or. type 3C2 .or. type 6C2 .or. type 9C2 ) end
+   endif
+   if lipid .eq. MGTM11 then
+      calc zpos = 31.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CC1 .or. type 3C2 .or. type 6C2 .or. type 9C2 ) end
+   endif
+   if lipid .eq. EGTM10 then
+      calc zpos = 30.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CC1 .or. type 3C2 .or. type 6C2 .or. type 9C2 ) end
+   endif
+   if lipid .eq. EGTM11 then
+      calc zpos = 31.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type CC1 .or. type 3C2 .or. type 6C2 .or. type 9C2 ) end
+   endif
+   if lipid .eq. TZMH9 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type  C21 .or. type  C31 .or. type  C41 ) end
+   endif
+   if lipid .eq. TZMH10 then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type  C21 .or. type  C31 .or. type  C41 ) end
+   endif
+   if lipid .eq. TZME9 then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type  C21 .or. type  C31 .or. type  C41 ) end
+   endif
+   if lipid .eq. TZME10 then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type  C21 .or. type  C31 .or. type  C41 ) end
+   endif
+   if lipid .eq. SMDD then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BBPHG then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1P .or. type C1Q ) end
+   endif
+   if lipid .eq. BBCYG then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1P .or. type C1Q ) end
+   endif
+   if lipid .eq. BOGNG then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type 3C1P .or. type 6C1P ) end
+   endif
+   if lipid .eq. BLMNG then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type 3C1P .or. type 6C1P ) end
+   endif
+   if lipid .eq. BDMNG then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type 3C1P .or. type 6C1P ) end
+   endif
+   if lipid .eq. C5MNG then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type 3C1P .or. type 6C1P ) end
+   endif
+   if lipid .eq. C6MNG then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type 3C1P .or. type 6C1P ) end
+   endif
+   if lipid .eq. BOTGNG then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type 3C1P .or. type 6C1P ) end
+   endif
+   if lipid .eq. BOING then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type 3C1P .or. type 6C1P ) end
+   endif
+   if lipid .eq. AHTG then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BHTG then
+      calc zpos = 10.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. AOTG then
+      calc zpos = 11.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BOTG then
+      calc zpos = 11.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. AOTM then
+      calc zpos = 11.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BOTM then
+      calc zpos = 11.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ANTM then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BNTM then
+      calc zpos = 12.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ADTM then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BDTM then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. AUDTM then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BUDTM then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. ADDTM then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. BDDTM then
+      calc zpos = 15.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C1 ) end
+   endif
+   if lipid .eq. DHPCE then
+      calc zpos = 12
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPCE then
+      calc zpos = 15
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DOPCE then
+      calc zpos = 15
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPCE then
+      calc zpos = 13
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. POPEE then
+      calc zpos = 15
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DOPEE then
+      calc zpos = 15
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DPPEE then
+      calc zpos = 15
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMPEE then
+      calc zpos = 13
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLA20 then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLA18 then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLC22 then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLC20 then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PLC18 then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. BMGP then
+      calc zpos = 16.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMTAP then
+      calc zpos = 13.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DPTAP then
+      calc zpos = 14.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DOTAP then
+      calc zpos = 14.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DSTAP then
+      calc zpos = 16.5
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DLTAP then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMDAP then
+      calc zpos = 17.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMDAPH then
+      calc zpos = 17.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DPDAP then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DPDAPH then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DSDAP then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DSDAPH then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DODAP then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DODAPH then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DLDAP then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DLDAPH then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMDMA then
+      calc zpos = 17.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMDMAH then
+      calc zpos = 17.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DPDMA then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DPDMAH then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DSDMA then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DSDMAH then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DODMA then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DODMAH then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DLDMA then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DLDMAH then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. DMKC1 then
+      calc zpos = 17.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DMKC1H then
+      calc zpos = 17.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DPKC1 then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DPKC1H then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DSKC1 then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DSKC1H then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DOKC1 then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DOKC1H then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DLKC1 then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DLKC1H then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DMKC2 then
+      calc zpos = 17.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DMKC2H then
+      calc zpos = 17.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DPKC2 then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DPKC2H then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DSKC2 then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DSKC2H then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DOKC2 then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DOKC2H then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DLKC2 then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DLKC2H then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DMMC3 then
+      calc zpos = 17.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DMMC3H then
+      calc zpos = 17.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DPMC3 then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DPMC3H then
+      calc zpos = 19.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DSMC3 then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DSMC3H then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DOMC3 then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DOMC3H then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DLMC3 then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. DLMC3H then
+      calc zpos = 21.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C11 .or. type C21 ) end
+   endif
+   if lipid .eq. TDM then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C25 .or. type C26 ) end
+   endif
+   if lipid .eq. TMM then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C25 .or. type C26 ) end
+   endif
+   if lipid .eq. DAT then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O6 ) end
+   endif
+   if lipid .eq. PAT then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O6 ) end
+   endif
+   if lipid .eq. SGL then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O6 ) end
+   endif
+   if lipid .eq. AMC78 then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O1 .or. type O2 .or. type O3 ) end
+   endif
+   if lipid .eq. AMC80 then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O1 .or. type O2 .or. type O3 ) end
+   endif
+   if lipid .eq. CMMC84 then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O1 .or. type O2 .or. type O3 ) end
+   endif
+   if lipid .eq. CMMC86 then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O1 .or. type O2 .or. type O3 ) end
+   endif
+   if lipid .eq. TMMC85 then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O1 .or. type O2 .or. type O3 ) end
+   endif
+   if lipid .eq. TMMC87 then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O1 .or. type O2 .or. type O3 ) end
+   endif
+   if lipid .eq. CKMC84 then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O1 .or. type O2 .or. type O3 ) end
+   endif
+   if lipid .eq. TKMC85 then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O1 .or. type O2 .or. type O3 ) end
+   endif
+   if lipid .eq. TKMC87 then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O1 .or. type O2 .or. type O3 ) end
+   endif
+   if lipid .eq. TKMC89 then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O1 .or. type O2 .or. type O3 ) end
+   endif
+   if lipid .eq. PDIM then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O1 ) end
+   endif
+   if lipid .eq. PIMA then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O21 ) end
+   endif
+   if lipid .eq. PIMB then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O21 ) end
+   endif
+   if lipid .eq. PIMC then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O21 ) end
+   endif
+   if lipid .eq. PIMD then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O21 ) end
+   endif
+   if lipid .eq. PIME then
+      calc zpos = 27.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type O21 ) end
+   endif
+   if lipid .eq. ODOPC then
+      calc zpos = Array
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. MEPPC then
+      calc zpos = Array
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. PLEEA then
+      calc zpos = Array
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. PLEEEP then
+      calc zpos = Array
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. PLEPEP then
+      calc zpos = Array
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. PLESEP then
+      calc zpos = Array
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. LPE18 then
+      calc zpos = Array
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. LPCO then
+      calc zpos = Array
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. DMPGM then
+      calc zpos = Array
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. DPPGH then
+      calc zpos = Array
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. DPPGP then
+      calc zpos = Array
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. PHPGH then
+      calc zpos = Array
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. PHPGP then
+      calc zpos = Array
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. CER6X then
+      calc zpos = Array
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. MPCL2 then
+      calc zpos = Array
+      define CCAT sele segid MEMB .and. resid @i .and. (  ) end
+   endif
+   if lipid .eq. PMSPE then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+   if lipid .eq. PMSPG then
+      calc zpos = 18.0
+      define CCAT sele segid MEMB .and. resid @i .and. ( type C21 .or. type C31 ) end
+   endif
+
+   if ?nsel .eq. 0 stop ! selection is wrong
+
+   if ?zave gt 0 then
+      MMFP
+      GEO plane  RCM -
+          xref 0.0  yref 0.0  zref  @zpostop  zdir 1.0 -
+          force  @fccat   select CCAT end
+      END
+      calc ntop = @ntop + 1
+   endif
+   if ?zave le 0 then
+      MMFP
+      GEO plane  RCM -
+          xref 0.0  yref 0.0  zref -@zpostop  zdir 1.0 -
+          force  @fccat   select CCAT end
+      END
+      calc nbot = @nbot + 1
+   endif
+
+incr i by 1
+if i le @NLipid goto DOMMFP
+calc ntot = @nbot + @ntop
+

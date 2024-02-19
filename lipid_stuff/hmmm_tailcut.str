@@ -1,0 +1,581 @@
+* TRIM THE LIPID TAILS TO BUILD HMMM
+*
+
+calc nlipid = @nliptop + @nlipbot
+calc nchl = 0
+
+set i = 1
+label dotrim
+
+   coor stat sele segid MEMB .and. resid @i end
+   set lipid = ?selresn
+   if lipid .eq. CHL1   then
+      increase nchl by 1
+      goto nexttrim
+   endif
+   if lipid .eq. ERG    then
+      increase nchl by 1
+      goto nexttrim
+   endif
+   if lipid .eq. DPOP   then
+      increase nchl by 1
+      goto nexttrim
+   endif
+   if lipid .eq. SITO   then
+      increase nchl by 1
+      goto nexttrim
+   endif
+   if lipid .eq. STIG   then
+      increase nchl by 1
+      goto nexttrim
+   endif
+   if lipid .eq. CHSD   then
+      increase nchl by 1
+      goto nexttrim
+   endif
+   if lipid .eq. CHSP   then
+      increase nchl by 1
+      goto nexttrim
+   endif
+   if lipid .eq. CAMP   then
+      increase nchl by 1
+      goto nexttrim
+   endif
+   if lipid .eq. GCAMP  then
+      increase nchl by 1
+      goto nexttrim
+   endif
+   if lipid .eq. GSITO  then
+      increase nchl by 1
+      goto nexttrim
+   endif
+   if lipid .eq. GSTIG  then
+      increase nchl by 1
+      goto nexttrim
+   endif
+   if lipid .eq. LANO   then
+      increase nchl by 1
+      goto nexttrim
+   endif
+   if lipid .eq. PGCAMP then
+      increase nchl by 1
+      goto nexttrim
+   endif
+   if lipid .eq. PGSITO then
+      increase nchl by 1
+      goto nexttrim
+   endif
+   if lipid .eq. PGSTIG then
+      increase nchl by 1
+      goto nexttrim
+   endif
+
+!
+! General two-tail lipid types
+!
+
+   define XXX select segid memb .and. resid @i .and. chem CL   show end   ! selection of carbonyl carbon
+   set ntail = ?nsel
+
+   if ntail .eq. 2 then
+
+      define XXX select segid memb .and. resid @i .and. type C2@{ccut} show end
+      if ?nsel .eq. 0 goto nextchain
+      if ?selchem .eq. CTL3 goto nextchain
+      if ?selchem .eq. CTL2 calc iatom = ?selatom + 3
+      if ?selchem .eq. CEL1 then
+         calc icheck = ?selatom + 2
+         define YYY select bynum @icheck show end
+
+         if ?selchem .ne. CEL1 then
+            calc iatom  = ?selatom + 3
+            calc newcut = @ccut + 1
+
+            define XXX select segid memb .and. resid @i .and. chem CTL3 .and. ( .bonded. chem CTL2 ) .and. bynum 1:?natom  show end   ! selection of terminal carbon
+            calc jatom = ?selatom
+         else
+            calc iatom  = ?selatom - 2 
+            calc newcut = @ccut - 1
+
+            define XXX select segid memb .and. resid @i .and. chem CTL3 .and. ( .bonded. chem CTL2 ) .and. bynum 1:?natom  show end   ! selection of terminal carbon
+            calc jatom = ?selatom
+         endif
+
+         delete atom select .bygroup. bynum @iatom:@jatom show end
+
+         rename atom C2T select segid memb .and. resid @i .and. type C2@{newcut} end
+         rename atom HTR select segid memb .and. resid @i .and. type H@{newcut}R end
+         rename atom HTS select segid memb .and. resid @i .and. type H@{newcut}S end
+         patch C2TT memb @i setup warn
+
+      else
+         coor stat sele XXX end
+         define YYY select segid memb .and. resid @i .and. type C2* .and. .not. bynum 1:?selatom show end
+         delete atom select .bygroup. YYY show end
+
+         rename atom C2T select segid memb .and. resid @i .and. type C2@{ccut} end
+         rename atom HTR select segid memb .and. resid @i .and. type H@{ccut}R end
+         rename atom HTS select segid memb .and. resid @i .and. type H@{ccut}S end
+         patch C2TT memb @i setup warn
+      endif
+
+      label nextchain
+
+      define XXX select segid memb .and. resid @i .and. type C3@{ccut} show end
+      if ?nsel .eq. 0 goto nexttrim
+      if ?selchem .eq. CTL3 goto nexttrim
+      if ?selchem .eq. CTL2 calc iatom = ?selatom + 3
+      if ?selchem .eq. CEL1 then
+         calc icheck = ?selatom + 2
+         define YYY select bynum @icheck show end
+
+         if ?selchem .ne. CEL1 then
+            calc iatom  = ?selatom + 3
+            calc newcut = @ccut + 1
+            define XXX select segid memb .and. resid @i .and. chem CTL3 .and. ( .bonded. chem CTL2 ) .and. bynum @iatom:?natom  show end   ! selection of terminal carbon
+            calc jatom = ?selatom
+         else
+            calc iatom  = ?selatom - 2 
+            calc newcut = @ccut - 1
+            define XXX select segid memb .and. resid @i .and. chem CTL3 .and. ( .bonded. chem CTL2 ) .and. bynum @iatom:?natom  show end   ! selection of terminal carbon
+            calc jatom = ?selatom
+         endif
+
+         delete atom select .bygroup. bynum @iatom:@jatom show end
+
+         rename atom C3T select segid memb .and. resid @i .and. type C3@{newcut} end
+         rename atom HTX select segid memb .and. resid @i .and. type H@{newcut}X end
+         rename atom HTY select segid memb .and. resid @i .and. type H@{newcut}Y end
+         patch C3TT memb @i setup warn
+      else
+         coor stat sele XXX end
+         define YYY select segid memb .and. resid @i .and. type C3* .and. .not. bynum 1:?selatom show end
+         delete atom select .bygroup. YYY show end
+
+         rename atom C3T select segid memb .and. resid @i .and. type C3@{ccut} end
+         rename atom HTX select segid memb .and. resid @i .and. type H@{ccut}X end
+         rename atom HTY select segid memb .and. resid @i .and. type H@{ccut}Y end
+         patch C3TT memb @i setup warn
+      endif
+
+      goto nexttrim
+   endif
+
+!
+! sphingo lipids
+!
+   set issph = no
+   if lipid .eq.    TSM set issph = yes
+   if lipid .eq.    DSM set issph = yes
+   if lipid .eq.    PSM set issph = yes
+   if lipid .eq.    SSM set issph = yes
+   if lipid .eq.    ASM set issph = yes
+   if lipid .eq.    BSM set issph = yes
+   if lipid .eq.   23SM set issph = yes
+   if lipid .eq.    LSM set issph = yes
+   if lipid .eq.    OSM set issph = yes
+   if lipid .eq.    NSM set issph = yes
+   if lipid .eq. CER160 set issph = yes
+   if lipid .eq. CER180 set issph = yes
+   if lipid .eq. CER181 set issph = yes
+   if lipid .eq. CER200 set issph = yes
+   if lipid .eq. CER220 set issph = yes
+   if lipid .eq. CER240 set issph = yes
+   if lipid .eq. CER241 set issph = yes
+   if lipid .eq.  CER3E set issph = yes
+   if lipid .eq.   CER6 set issph = yes
+   if lipid .eq.   CER3 set issph = yes
+   if lipid .eq.   CER1 set issph = yes
+
+   if issph .eq. yes then
+
+      define XXX select segid memb .and. resid @i .and. type C6S show end  ! after trans double bond
+      calc iatom = ?selatom + 3
+
+      define XXX select segid memb .and. resid @i .and. chem CTL3 .and. bynum 1:?natom  show end   ! selection of terminal carbon
+      calc jatom = ?selatom
+
+      delete atom select .bygroup. bynum @iatom:@jatom show end
+
+      define XXX select segid memb .and. resid @i .and. type C3F show end
+      calc iatom = ?selatom + ( @ccut - 2 ) * 3
+
+      define XXX select segid memb .and. resid @i .and. chem CTL3 .and. bynum @iatom:?natom  show end   ! selection of terminal carbon
+      calc jatom = ?selatom
+
+      delete atom select .bygroup. bynum @iatom:@jatom show end
+
+      rename atom CST select segid memb .and. resid @i .and. type C6S end
+      rename atom HTS select segid memb .and. resid @i .and. type H6S end
+      rename atom HTT select segid memb .and. resid @i .and. type H6T end
+      patch CSTT memb @i setup warn
+
+      rename atom CFT select segid memb .and. resid @i .and. type C@{ccut}F end
+      rename atom HTF select segid memb .and. resid @i .and. type H@{ccut}F end
+      rename atom HTG select segid memb .and. resid @i .and. type H@{ccut}G end
+      patch CFTT memb @i setup warn
+
+      goto nexttrim
+   endif
+
+!
+! cardiolipin
+!
+
+   set iscl = no
+   if lipid .eq.  TMCL1 set iscl = ok
+   if lipid .eq.  TMCL2 set iscl = ok
+   if lipid .eq.  PMCL1 set iscl = ok
+   if lipid .eq.  PMCL2 set iscl = ok
+   if lipid .eq. PAICL2 set iscl = ok
+   if lipid .eq.  PVCL2 set iscl = ok
+   if lipid .eq.  POCL1 set iscl = ok
+   if lipid .eq.  POCL2 set iscl = ok
+   if lipid .eq.  TYCL1 set iscl = ok
+   if lipid .eq.  TYCL2 set iscl = ok
+   if lipid .eq.  TOCL1 set iscl = ok
+   if lipid .eq.  TOCL2 set iscl = ok
+   if lipid .eq. LOACL1 set iscl = ok
+   if lipid .eq. LOACL2 set iscl = ok
+   if lipid .eq. LOCCL1 set iscl = ok
+   if lipid .eq. LOCCL2 set iscl = ok
+   if lipid .eq.  TLCL1 set iscl = ok
+   if lipid .eq.  TLCL2 set iscl = ok
+   if lipid .eq. LNCCL1 set iscl = ok
+   if lipid .eq. LNCCL2 set iscl = ok
+   if lipid .eq. LNACL1 set iscl = ok
+   if lipid .eq. LNACL2 set iscl = ok
+   if lipid .eq. LNDCL1 set iscl = ok
+   if lipid .eq. LNDCL2 set iscl = ok
+   if lipid .eq. LNBCL1 set iscl = ok
+   if lipid .eq. LNBCL2 set iscl = ok
+   if lipid .eq.  ARCL2 set iscl = ok
+
+   if iscl .eq. ok then
+
+      define XXX select segid memb .and. resid @i .and. type CA3 show end
+      calc iatom = ?selatom + ( @ccut - 2 ) * 3
+
+      define XXX select segid memb .and. resid @i .and. chem CTL3 .and. bynum 1:?natom  show end   ! selection of terminal carbon
+      calc jatom = ?selatom
+
+      delete atom select .bygroup. bynum @iatom:@jatom show end
+
+      define XXX select segid memb .and. resid @i .and. type CB3 show end
+      calc iatom = ?selatom + ( @ccut - 2 ) * 3
+
+      define XXX select segid memb .and. resid @i .and. chem CTL3 .and. bynum @iatom:?natom  show end   ! selection of terminal carbon
+      calc jatom = ?selatom
+
+      delete atom select .bygroup. bynum @iatom:@jatom show end
+
+      define XXX select segid memb .and. resid @i .and. type CC3 show end
+      calc iatom = ?selatom + ( @ccut - 2 ) * 3
+
+      define XXX select segid memb .and. resid @i .and. chem CTL3 .and. bynum @iatom:?natom  show end   ! selection of terminal carbon
+      calc jatom = ?selatom
+
+      delete atom select .bygroup. bynum @iatom:@jatom show end
+
+      define XXX select segid memb .and. resid @i .and. type CD3 show end
+      calc iatom = ?selatom + ( @ccut - 2 ) * 3
+
+      define XXX select segid memb .and. resid @i .and. chem CTL3 .and. bynum @iatom:?natom  show end   ! selection of terminal carbon
+      calc jatom = ?selatom
+
+      delete atom select .bygroup. bynum @iatom:@jatom show end
+
+      rename atom CAT select segid memb .and. resid @i .and. type CA@{ccut} end
+      rename atom HTA select segid memb .and. resid @i .and. type H@{ccut}A end
+      rename atom HTB select segid memb .and. resid @i .and. type H@{ccut}B end
+      patch CATT memb @i setup warn
+
+      rename atom CBT select segid memb .and. resid @i .and. type CB@{ccut} end
+      rename atom HTD select segid memb .and. resid @i .and. type H@{ccut}D end
+      rename atom HTE select segid memb .and. resid @i .and. type H@{ccut}E end
+      patch CBTT memb @i setup warn
+
+      rename atom CCT select segid memb .and. resid @i .and. type CC@{ccut} end
+      rename atom HTR select segid memb .and. resid @i .and. type H@{ccut}R end
+      rename atom HTS select segid memb .and. resid @i .and. type H@{ccut}S end
+      patch CCTT memb @i setup warn
+
+      rename atom CDT select segid memb .and. resid @i .and. type CD@{ccut} end
+      rename atom HTX select segid memb .and. resid @i .and. type H@{ccut}X end
+      rename atom HTY select segid memb .and. resid @i .and. type H@{ccut}Y end
+      patch CDTT memb @i setup warn
+
+      goto nexttrim
+   endif
+
+!
+!detergent and fatty acid
+!
+   set isdetfat = no
+   if lipid .eq.    LAU set isdetfat = yes
+   if lipid .eq.    MYR set isdetfat = yes
+   if lipid .eq.    PAL set isdetfat = yes
+   if lipid .eq.    STE set isdetfat = yes
+   if lipid .eq.    ARA set isdetfat = yes
+   if lipid .eq.    BEH set isdetfat = yes
+   if lipid .eq.    TRI set isdetfat = yes
+   if lipid .eq.   LIGN set isdetfat = yes
+   if lipid .eq.   MYRO set isdetfat = yes
+   if lipid .eq.   PALO set isdetfat = yes
+   if lipid .eq.    HTA set isdetfat = yes
+   if lipid .eq.    OLE set isdetfat = yes
+   if lipid .eq.    LIN set isdetfat = yes
+   if lipid .eq.   ALIN set isdetfat = yes
+   if lipid .eq.    SDA set isdetfat = yes
+   if lipid .eq.    GLA set isdetfat = yes
+   if lipid .eq.   EICO set isdetfat = yes
+   if lipid .eq.    EDA set isdetfat = yes
+   if lipid .eq.    MEA set isdetfat = yes
+   if lipid .eq.   DGLA set isdetfat = yes
+   if lipid .eq.    ETE set isdetfat = yes
+   if lipid .eq.    ETA set isdetfat = yes
+   if lipid .eq.    EPA set isdetfat = yes
+   if lipid .eq.   ARAN set isdetfat = yes
+   if lipid .eq.    HPA set isdetfat = yes
+   if lipid .eq.    ERU set isdetfat = yes
+   if lipid .eq.    DDA set isdetfat = yes
+   if lipid .eq.    ADR set isdetfat = yes
+   if lipid .eq.    DPT set isdetfat = yes
+   if lipid .eq.    DPA set isdetfat = yes
+   if lipid .eq.    DHA set isdetfat = yes
+   if lipid .eq.    NER set isdetfat = yes
+   if lipid .eq.    TTA set isdetfat = yes
+   if lipid .eq.    TPT set isdetfat = yes
+   if lipid .eq.    TPA set isdetfat = yes
+   if lipid .eq.    THA set isdetfat = yes
+   if lipid .eq.   LAUP set isdetfat = yes
+   if lipid .eq.   MYRP set isdetfat = yes
+   if lipid .eq.   PALP set isdetfat = yes
+   if lipid .eq.   STEP set isdetfat = yes
+   if lipid .eq.   ARAP set isdetfat = yes
+   if lipid .eq.   BEHP set isdetfat = yes
+   if lipid .eq.   TRIP set isdetfat = yes
+   if lipid .eq.  LIGNP set isdetfat = yes
+   if lipid .eq.  MYROP set isdetfat = yes
+   if lipid .eq.  PALOP set isdetfat = yes
+   if lipid .eq.   HTAP set isdetfat = yes
+   if lipid .eq.   OLEP set isdetfat = yes
+   if lipid .eq.   LINP set isdetfat = yes
+   if lipid .eq.  ALINP set isdetfat = yes
+   if lipid .eq.   SDAP set isdetfat = yes
+   if lipid .eq.   GLAP set isdetfat = yes
+   if lipid .eq.  EICOP set isdetfat = yes
+   if lipid .eq.   EDAP set isdetfat = yes
+   if lipid .eq.   MEAP set isdetfat = yes
+   if lipid .eq.  DGLAP set isdetfat = yes
+   if lipid .eq.   ETEP set isdetfat = yes
+   if lipid .eq.   ETAP set isdetfat = yes
+   if lipid .eq.   EPAP set isdetfat = yes
+   if lipid .eq.  ARANP set isdetfat = yes
+   if lipid .eq.   HPAP set isdetfat = yes
+   if lipid .eq.   ERUP set isdetfat = yes
+   if lipid .eq.   DDAP set isdetfat = yes
+   if lipid .eq.   ADRP set isdetfat = yes
+   if lipid .eq.   DPTP set isdetfat = yes
+   if lipid .eq.   DPAP set isdetfat = yes
+   if lipid .eq.   DHAP set isdetfat = yes
+   if lipid .eq.   NERP set isdetfat = yes
+   if lipid .eq.   TTAP set isdetfat = yes
+   if lipid .eq.   TPTP set isdetfat = yes
+   if lipid .eq.   TPAP set isdetfat = yes
+   if lipid .eq.   THAP set isdetfat = yes
+   if lipid .eq. SB3-10 set isdetfat = yes
+   if lipid .eq. SB3-12 set isdetfat = yes
+   if lipid .eq. SB3-14 set isdetfat = yes
+   if lipid .eq.  CHAPS set isdetfat = yes
+   if lipid .eq. CHAPSO set isdetfat = yes
+   if lipid .eq.   DDMG set isdetfat = yes
+   if lipid .eq.   DOMG set isdetfat = yes
+   if lipid .eq.   DDAO set isdetfat = yes
+   if lipid .eq.   UDAO set isdetfat = yes
+   if lipid .eq.   LDAO set isdetfat = yes
+   if lipid .eq.  LAPAO set isdetfat = yes
+   if lipid .eq.  FOS10 set isdetfat = yes
+   if lipid .eq.  FOS12 set isdetfat = yes
+   if lipid .eq.  FOS13 set isdetfat = yes
+   if lipid .eq.  FOS14 set isdetfat = yes
+   if lipid .eq.  FOS15 set isdetfat = yes
+   if lipid .eq.  FOS16 set isdetfat = yes
+   if lipid .eq. UFOS10 set isdetfat = yes
+   if lipid .eq.  LPC12 set isdetfat = yes
+   if lipid .eq.  LPC14 set isdetfat = yes
+   if lipid .eq.  LPC16 set isdetfat = yes
+   if lipid .eq. CYFOS3 set isdetfat = yes
+   if lipid .eq. CYFOS4 set isdetfat = yes
+   if lipid .eq. CYFOS5 set isdetfat = yes
+   if lipid .eq. CYFOS6 set isdetfat = yes
+   if lipid .eq. CYFOS7 set isdetfat = yes
+   if lipid .eq.    SDS set isdetfat = yes
+   if lipid .eq.   LMPG set isdetfat = yes
+   if lipid .eq.   LPPG set isdetfat = yes
+   if lipid .eq.  DDAOP set isdetfat = yes
+   if lipid .eq.  UDAOP set isdetfat = yes
+   if lipid .eq.  LDAOP set isdetfat = yes
+   if lipid .eq. LAPAOP set isdetfat = yes
+   if lipid .eq.  C6EG3 set isdetfat = yes
+   if lipid .eq.  C6EG4 set isdetfat = yes
+   if lipid .eq.  C6EG5 set isdetfat = yes
+   if lipid .eq.  C7EG4 set isdetfat = yes
+   if lipid .eq.  C7EG5 set isdetfat = yes
+   if lipid .eq.  C8EG4 set isdetfat = yes
+   if lipid .eq.  C8EG5 set isdetfat = yes
+   if lipid .eq.  C8EG6 set isdetfat = yes
+   if lipid .eq. C10EG5 set isdetfat = yes
+   if lipid .eq. C10EG6 set isdetfat = yes
+   if lipid .eq. C10EG9 set isdetfat = yes
+   if lipid .eq. C12EG7 set isdetfat = yes
+   if lipid .eq. C12EG8 set isdetfat = yes
+   if lipid .eq. C12EG9 set isdetfat = yes
+   if lipid .eq. C12DEG set isdetfat = yes
+   if lipid .eq. C13EG8 set isdetfat = yes
+   if lipid .eq. NIDP40 set isdetfat = yes
+   if lipid .eq.  TX100 set isdetfat = yes
+   if lipid .eq.  TX114 set isdetfat = yes
+   if lipid .eq.    AOG set isdetfat = yes
+   if lipid .eq.    BOG set isdetfat = yes
+   if lipid .eq.    ANG set isdetfat = yes
+   if lipid .eq.    BNG set isdetfat = yes
+   if lipid .eq.    ADG set isdetfat = yes
+   if lipid .eq.    BDG set isdetfat = yes
+   if lipid .eq.   ADDG set isdetfat = yes
+   if lipid .eq.   BDDG set isdetfat = yes
+   if lipid .eq.  ACY3G set isdetfat = yes
+   if lipid .eq.  BCY3G set isdetfat = yes
+   if lipid .eq.  AMHCG set isdetfat = yes
+   if lipid .eq.  BMHCG set isdetfat = yes
+   if lipid .eq.    AOM set isdetfat = yes
+   if lipid .eq.    BOM set isdetfat = yes
+   if lipid .eq.    ANM set isdetfat = yes
+   if lipid .eq.    BNM set isdetfat = yes
+   if lipid .eq.    ADM set isdetfat = yes
+   if lipid .eq.    BDM set isdetfat = yes
+   if lipid .eq.   AUDM set isdetfat = yes
+   if lipid .eq.   BUDM set isdetfat = yes
+   if lipid .eq.  A2UDM set isdetfat = yes
+   if lipid .eq.  B2UDM set isdetfat = yes
+   if lipid .eq.   ADDM set isdetfat = yes
+   if lipid .eq.   BDDM set isdetfat = yes
+   if lipid .eq.    ATM set isdetfat = yes
+   if lipid .eq.    BTM set isdetfat = yes
+   if lipid .eq.  ACY3M set isdetfat = yes
+   if lipid .eq.  BCY3M set isdetfat = yes
+   if lipid .eq.  ACY4M set isdetfat = yes
+   if lipid .eq.  BCY4M set isdetfat = yes
+   if lipid .eq.  ACY5M set isdetfat = yes
+   if lipid .eq.  BCY5M set isdetfat = yes
+   if lipid .eq.  ACY6M set isdetfat = yes
+   if lipid .eq.  BCY6M set isdetfat = yes
+   if lipid .eq.  ACY7M set isdetfat = yes
+   if lipid .eq.  BCY7M set isdetfat = yes
+   if lipid .eq.   NHEG set isdetfat = yes
+   if lipid .eq.   DHEG set isdetfat = yes
+   if lipid .eq.    NMG set isdetfat = yes
+   if lipid .eq.    DMG set isdetfat = yes
+   if lipid .eq.  CTB10 set isdetfat = yes
+   if lipid .eq.  CTB11 set isdetfat = yes
+   if lipid .eq.  CTB12 set isdetfat = yes
+   if lipid .eq.  CTB13 set isdetfat = yes
+   if lipid .eq.  CTB14 set isdetfat = yes
+   if lipid .eq.  CTB15 set isdetfat = yes
+   if lipid .eq.  CTB16 set isdetfat = yes
+   if lipid .eq.   GMS1 set isdetfat = yes
+   if lipid .eq.   GMS2 set isdetfat = yes
+   if lipid .eq.   MLN1 set isdetfat = yes
+   if lipid .eq.   MLN2 set isdetfat = yes
+   if lipid .eq. MGTM10 set isdetfat = yes
+   if lipid .eq. MGTM11 set isdetfat = yes
+   if lipid .eq. EGTM10 set isdetfat = yes
+   if lipid .eq. EGTM11 set isdetfat = yes
+   if lipid .eq.  TZMH9 set isdetfat = yes
+   if lipid .eq. TZMH10 set isdetfat = yes
+   if lipid .eq.  TZME9 set isdetfat = yes
+   if lipid .eq. TZME10 set isdetfat = yes
+   if lipid .eq.   SMDD set isdetfat = yes
+   if lipid .eq.  BBPHG set isdetfat = yes
+   if lipid .eq.  BBCYG set isdetfat = yes
+   if lipid .eq.  BOGNG set isdetfat = yes
+   if lipid .eq.  BLMNG set isdetfat = yes
+   if lipid .eq.  BDMNG set isdetfat = yes
+   if lipid .eq.  C5MNG set isdetfat = yes
+   if lipid .eq.  C6MNG set isdetfat = yes
+   if lipid .eq. BOTGNG set isdetfat = yes
+   if lipid .eq.  BOING set isdetfat = yes
+   if lipid .eq.   AHTG set isdetfat = yes
+   if lipid .eq.   BHTG set isdetfat = yes
+   if lipid .eq.   AOTG set isdetfat = yes
+   if lipid .eq.   BOTG set isdetfat = yes
+   if lipid .eq.   AOTM set isdetfat = yes
+   if lipid .eq.   BOTM set isdetfat = yes
+   if lipid .eq.   ANTM set isdetfat = yes
+   if lipid .eq.   BNTM set isdetfat = yes
+   if lipid .eq.   ADTM set isdetfat = yes
+   if lipid .eq.   BDTM set isdetfat = yes
+   if lipid .eq.  AUDTM set isdetfat = yes
+   if lipid .eq.  BUDTM set isdetfat = yes
+   if lipid .eq.  ADDTM set isdetfat = yes
+   if lipid .eq.  BDDTM set isdetfat = yes
+
+   if isdetfat .eq. yes then
+
+      define XXX select segid memb .and. resid @i .and. ( type C@{ccut} .or. type C3@{ccut} ) show end
+      if ?nsel .eq. 0 goto nexttrim
+      if ?nsel .gt. 1 stop
+
+      if ?selchem .eq. CTL3 goto nexttrim
+      if ?selchem .eq. CTL2 calc iatom = ?selatom + 3
+      if ?selchem .eq. CEL1 then !detergent does not have CEL1
+         calc icheck = ?selatom + 2
+         define YYY select bynum @icheck show end
+
+         if ?selchem .ne. CEL1 then
+            calc iatom  = ?selatom + 3
+            calc newcut = @ccut + 1
+
+            define XXX select segid memb .and. resid @i .and. chem CTL3 .and. ( .bonded. chem CTL2 ) .and. bynum 1:?natom  show end   ! selection of terminal carbon
+            calc jatom = ?selatom
+         else
+            calc iatom  = ?selatom - 2 
+            calc newcut = @ccut - 1
+
+            define XXX select segid memb .and. resid @i .and. chem CTL3 .and. ( .bonded. chem CTL2 ) .and. bynum 1:?natom  show end   ! selection of terminal carbon
+            calc jatom = ?selatom
+         endif
+
+         delete atom select .bygroup. bynum @iatom:@jatom show end
+
+         rename atom C2T select segid memb .and. resid @i .and. ( type C@{newcut} .or. type C3@{newcut} ) end
+         rename atom HTR select segid memb .and. resid @i .and. ( type H@{newcut}1 .or. type H@{newcut}X .or. type H@{newcut}R .or. type H@{newcut}A ) end
+         rename atom HTS select segid memb .and. resid @i .and. ( type H@{newcut}2 .or. type H@{newcut}Y .or. type H@{newcut}S .or. type H@{newcut}B ) end
+         patch C2TT memb @i setup warn
+      else
+         define XXX select segid memb .and. resid @i .and. chem CTL3 .and. ( .bonded. chem CTL2 ) .and. bynum 1:?natom  show end   ! selection of terminal carbon
+         calc jatom = ?selatom
+
+         delete atom select .bygroup. bynum @iatom:@jatom show end
+
+         rename atom C2T select segid memb .and. resid @i .and. ( type C@{ccut} .or. type C3@{ccut} ) end
+         rename atom HTR select segid memb .and. resid @i .and. ( type H@{ccut}1 .or. type H@{ccut}X .or. type H@{ccut}R .or. type H@{ccut}A ) end
+         rename atom HTS select segid memb .and. resid @i .and. ( type H@{ccut}2 .or. type H@{ccut}Y .or. type H@{ccut}S .or. type H@{ccut}B ) end
+         patch C2TT memb @i setup warn
+      endif
+
+      goto nexttrim
+   endif
+
+   stop  ! undefined lipid type
+
+   label nexttrim
+
+increase i by 1
+if i .le. @nlipid goto dotrim
+
+autogenerate angle dihe
+
+prnlev 0
+hbuild
+prnlev 5
