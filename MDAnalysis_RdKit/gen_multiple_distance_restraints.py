@@ -13,6 +13,11 @@ import time
 This code is taken from:
 https://github.com/michellab/Multiple-Distance-Restraints/tree/main
 Reference: https://doi.org/10.1021/acs.jctc.3c00139
+and,
+modified by: 
+Parveen Gartan
+Dept. Of chemistry
+University of Bergen, Norway
 """
 ##----------------------
 if len(sys.argv) !=3:
