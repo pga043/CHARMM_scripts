@@ -5,5 +5,13 @@ After that MD simulations can be run either with NAMD or CHARMM (including openM
 
 Note: water.crd is equilibrated water layer obtained from: https://www.charmm.org/wiki//index.php/CHARMM_Tutorial
 
-<!-- readme: contributors -start -->
-<!-- readme: contributors -end -->
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
