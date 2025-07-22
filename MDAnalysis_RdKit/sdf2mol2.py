@@ -24,3 +24,5 @@ def sdf2mol2(sdf, mol2):
         molh = Chem.AddHs(mol, addCoords = True)
 
     Mol2writer.MolToMol2File(molh, mol2, confId=-1)
+
+sdf2mol2(sys.argv[1], sys.argv[2])
