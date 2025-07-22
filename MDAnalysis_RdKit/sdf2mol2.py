@@ -16,3 +16,11 @@ mol = inp[0]
 Mol2writer.MolToMol2File(mol, str(out_mol) + '.mol2', confId=-1)
 
 quit()
+
+def sdf2mol2(sdf, mol2):
+    suppl = Chem.SDMolSupplier(sdf, removeHs=False)
+
+    for mol in suppl:
+        molh = Chem.AddHs(mol, addCoords = True)
+
+    Mol2writer.MolToMol2File(molh, mol2, confId=-1)
