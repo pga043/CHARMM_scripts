@@ -1,22 +1,32 @@
 import math
 
-'''
-nions = 25
-box = 73.926518
+check_conc = True
 
-avg = 6.023*10**23 # Avogadro's number
-molecules = nions      # number of molecules in simulation box
-num_moles = nions / avg # number of moles
-size = box # simulation cubic box size, angstroms
-vol = (size * size * size) # angstroms^3
+if check_conc == True:
+    nions = 29
+    box = 71.2973465
+    #wvol =
 
-## 1 angstroms^3 = 10^-27 liters
-angs_to_lt = vol * 10**-27 # liters
+    avg = 6.023*10**23 # Avogadro's number
+    molecules = nions      # number of molecules in simulation box
+    num_moles = nions / avg # number of moles
+    size = box # simulation cubic box size, angstroms
+    vol = (size * size * size) # angstroms^3
 
-conc = num_moles / angs_to_lt
+    ## 1 angstroms^3 = 10^-27 liters
+    angs_to_lt = vol * 10**-27 # liters
 
-#print(f'concentration: {round(conc, 5)} mol/L')
-#print(f'concentration: {round(conc * 1000, 2)} mmol/L')
+    conc = num_moles / angs_to_lt
+
+    print(f'concentration with box volume: {round(conc, 5)} mol/L')
+    print(f'concentration with box volume: {round(conc * 1000, 2)} mmol/L')
+
+    try:
+        conc = num_moles / (wvol * 10**-27)
+        print(f'concentration with water volume only: {round(conc, 5)} mol/L')
+    except NameError: None
+
+    quit()
 #=======================================================
 '''
 
