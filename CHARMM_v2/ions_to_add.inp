@@ -1,0 +1,77 @@
+*
+! https://blue11.bch.msu.edu/mmtsb/ions_to_add.inp
+! Usage: ! $CHARMMEXEC pdffile=1rnu psffile=1rnu boxsize=38.5 < ions_to_add.inp > ions_to_add.log &
+!
+! to use this script for other crystal types, modify XTLTYPE
+! and values of A, B, C, ALPHA, BETA, GAMMA
+!
+
+SET BOXTYPE = RECT
+SET XTLTYPE = CUBIC
+SET A = @boxsize
+SET B = @boxsize
+SET C = @boxsize
+SET ALPHA = 90.0
+SET BETA = 90.0
+SET GAMMA = 90.0
+
+open unit 10 read form name "$CHARMMDATA/top_all27_prot_na.rtf"
+read rtf card unit 10
+close unit 10
+open unit 10 read form name "$CHARMMDATA/par_all27_prot_na.prm"
+bomlev -1
+
+stream "$CHARMMDATA/stream/toppar_water_ions.str"
+
+! Read topology and parameter files
+
+!Read PSF & COOR
+open read card unit 10 name @psffile.psf
+read psf card unit 10
+
+open read card unit 10 name @pdbfile.pdb
+read coor pdb unit 10 resid
+
+! protein volume, calculation with a grid spacing of 0.5
+coor orient
+coor state
+
+calc dcel = 0.5
+calc xdim = int ( ( ?xmax - ?xmin + 5.0 ) / @dcel ) + 1
+calc ydim = int ( ( ?ymax - ?ymin + 5.0 ) / @dcel ) + 1
+calc zdim = int ( ( ?zmax - ?zmin + 5.0 ) / @dcel ) + 1
+calc space = @xdim * @ydim * @zdim
+
+scalar wmain = radius
+scalar wmain add 1.4 ! use solvent accessible surface for molecular volume
+scalar 1 = wmain
+scalar 2 set 6.0
+coor volume hole space @space
+
+set molvol = ?volume
+
+! system volume from parameters for water box
+
+if @XTLtype .eq. TETRagonal calc sysvol = @A * @B * @C
+if @XTLtype .eq. CUBIC calc sysvol = @A * @B * @C
+if @XTLtype .eq. ORTHorhombic calc sysvol = @A * @B * @C
+if @XTLtype .eq. HEXAgonal calc sysvol = sqrt( 0.75 ) * @C * @A * @A
+if @XTLtype .eq. OCTAhedral calc sysvol = 4.0 * sqrt( 3.0 ) / 9 * @A * @A * @A
+
+!
+! conc : concentration (M)
+! ionvol : ion accessible volume (Ang**3)
+! npos : number of positive ions
+! nneg : number of negative ions
+!
+
+calc conc = 0.15
+calc ionvol = @sysvol - @molvol
+
+calc nion = @conc * 6.021 * 0.0001 * @ionvol
+calc npos = int ( @nion - ?cgtot / 2 ) + 1
+calc nneg = @npos + ?cgtot
+
+calc nion = @npos + @nneg
+
+STOP
