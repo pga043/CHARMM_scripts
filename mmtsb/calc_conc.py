@@ -43,6 +43,7 @@ charge = 2
 box = 67.4743642
 
 # volumes in angstroms**3
+# you need to run your protein with CHARMM to get this value.
 # CHARMM>    coor volume space @volspace select .not. segid BWAT end
 # CHARMM>    show ?VOLUME
 prot_vol =  26638.31
