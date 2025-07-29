@@ -14,9 +14,13 @@ read coor pdb resid name solvent_wt0@i.pdb !offset 1
 incr i by 1
 if i lt @n goto loop
 
-read sequ pdb name ions.pdb
-generate HETA first none last none setup noangl nodihe
-read coor pdb resid name ions.pdb !offset 1
+read sequ pdb name pot.pdb
+generate POS first none last none setup noangl nodihe
+read coor pdb resid name pot.pdb !offset 1
+
+read sequ pdb name cla.pdb
+generate NEG first none last none setup noangl nodihe
+read coor pdb resid name cla.pdb !offset 1
 
 define fixed sele (.not. INIT) .and. (.not. hydrogen) end
 
