@@ -27,11 +27,12 @@ export n=`awk '{print $NF}'  solvent_segs.pdb | head -n -2 | sort -u | wc -l`
 
 #convpdb.pl -ions POT:`grep -i pot sys_info.str  | awk '{print $NF}'`=CLA:`grep -i cla sys_info.str  | awk '{print $NF}'` solvated.pdb > neutralized.pdb
 
-#convpdb.pl -segnames -nsel POT neutralized.pdb > ions.pdb
-#convpdb.pl -segnames -nsel CLA neutralized.pdb >> ions.pdb
-#sed -i "s/HETATM/ATOM  /g" ions.pdb
+#grep -i HETATM neutralized.pdb | sed "s/HETATM/ATOM  /g" > ions_tmp.pdb
+#convpdb.pl -segnames -nsel POT ions_tmp.pdb -setseg POS > pot.pdb
+#convpdb.pl -segnames -nsel CLA ions_tmp.pdb -setseg NEG > cla.pdb
 
 $charmm n=$n -i build.inp
+#rm solvent_tmp.pdb solvent_segs.pdb solvent_wt*.pdb
 #---------------------------------------------------------------------
 ## TEST
 
