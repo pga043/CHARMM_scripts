@@ -1,0 +1,109 @@
+* read multiple segments
+*
+
+stream toppar.str
+
+read psf card name @prot.psf
+read coor card name @prot.crd
+
+!! the solvent is from MMTSB centered around origin so, 
+!! we need to center protein as well
+coor orient
+
+set i = 0
+label loop
+
+read sequ pdb name solvent_wt0@i.pdb
+generate WT0@i first none last none setup noangl nodihe 
+read coor pdb resid name solvent_wt0@i.pdb !offset 1 
+
+incr i by 1
+if i lt @n goto loop
+
+!!=======================================================
+!!*********** neutralization ****************************
+!!=======================================================
+
+! Setup coor volume scalar arrays
+scalar radi store 1
+scalar wmain set 0.5
+scalar wmain store 2
+
+! determine the net charge on the system
+scalar charge stat sele all end
+set chrg = ?stot
+
+! Compute volume of entire box
+calc volspace ?NATO * 160
+coor volume space @volspace select all end
+show ?VOLUME
+show ?FREEVOL
+calc tvol ?VOLUME + ?FREEVOL
+
+! Compute volume of just the protein
+define tmp select .not. resname tip3 end
+show ?NSEL
+calc volspace ?NSEL * 160
+coor volume space @volspace select .not. resname tip3 end
+show ?VOLUME
+show ?FREEVOL
+calc protvol ?VOLUME + ?FREEVOL
+
+! Compute just the volume of the water
+calc wvol @tvol - @protvol
+
+! Compute how many K+/Cl- are needed for 0.15M concentration
+set concentration 0.15
+calc volconv 1 * 0.000000000000000000000001
+calc wvoll ( ( @wvol * @volconv ) / 1000 )
+calc avog 1 * 602213670000000000000000
+
+FORMat (I5)
+if @chrg gt 0 then
+   calc totions ( @wvoll * @avog * @concentration )
+   calc nions ( @wvoll * @avog * @concentration ) - @chrg
+else
+   calc totions ( @wvoll * @avog * @concentration )
+   calc nions ( @wvoll * @avog * @concentration ) + @chrg
+endif
+
+! Make sure that an even number of charges are added
+calc tmpb int(@nions / 2) * 2
+calc tmpc @nions - @tmpb
+if @tmpc eq 1 then
+   if @chrg .gt. 0 then
+      calc nions @nions + 1
+   else
+      calc nions @nions - 1
+   endif
+endif
+
+! Setup number of charges
+if @chrg gt 0 then
+   calc ineg ( @nions / 2 ) + @chrg        ! no. negative ions (i.e. chlorides)
+   calc ipos ( @nions / 2 )                ! no. positive ions (i.e. potassiums)
+else
+   calc ineg ( @nions / 2 )                ! no. negative ions (i.e. chlorides)
+   calc ipos ( @nions / 2 ) - @chrg        ! no. positive ions (i.e. potassiums)
+endif
+
+format                   
+
+calc final_conc = (@totions / @avog) / @wvoll ! mol/L or M
+echo @{final_conc}  mol/L
+
+calc cgtot = int ( ?cgtot )
+
+coor stat
+
+open write unit 90 card name sys_info.str
+write title unit 90
+* set ncharge = @cgtot
+* set POT = @ipos
+* set CLA = @ineg
+* set conc = @{final_conc}
+*
+
+!write coor pdb name junk.pdb
+
+stop
