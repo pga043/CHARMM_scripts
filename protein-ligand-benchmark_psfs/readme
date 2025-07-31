@@ -1,0 +1,22 @@
+Taken from: https://github.com/openforcefield/protein-ligand-benchmark
+Systems: 
+-------------------
+| Name |  Comment | Reference |
+| ----------  | --------   |
+| cdk2  |  |
+| cdk8  |  |
+| cmet  |  | 
+| eg5  |  |
+| hif2a  |  |
+| mcl1 |  |
+| p38  |  |
+| pde2  |  |
+| pfkfb3  |  |
+| ptp1b |  |
+| shp2 |  |
+| syk | |
+| thrombin | |
+| tnks2 | | 
+| tyk2 | |
+| era | |
+
