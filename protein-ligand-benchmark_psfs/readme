@@ -2,7 +2,7 @@ Taken from: https://github.com/openforcefield/protein-ligand-benchmark
 Systems: 
 
 -------------------
-| Name |  Comment | Reference |
+| Name | CHARMM | OPLS-AA |
 | :----------  | :--------   | :----------- |
 | cdk2  |  |
 | cdk8  |  |
@@ -18,5 +18,33 @@ Systems:
 | syk | |
 | thrombin | |
 | tnks2 | | 
-| tyk2 | |
+| tyk2 | | first ACP last CT3
 | era | |
+
+TYK2:
+CHARMM
+  HSD:
+  HSE:
+OPLS-AA
+  sequence: 2 - 289
+  crystal waters: no
+  NTER: ACP
+  CTER: CT3
+  HSD: 105, 130, 164, 285, 70
+  HSE: 127, 133, 209, 258, 5, 52, 68
+  HSP: 19
+
+ERA: 
+auxiliary_restr_2021/SI_content_rev/acyc/era/protein.pdb
+used PDB2PQR
+Protonation state of Histidine in the active site discussed in: 10.1021/acs.jctc.3c00282
+CHARMM
+  HSD:
+  HSE:
+OPLS-AA
+  sequence: 1 - 244
+  crystal waters: yes, 245 - 270
+  NTER: ACP
+  CTER: CT3
+  HSD: 51, 68, 93, 171, 183, 196, 208, 211, 219, 242
+  HSE: 72, 169
