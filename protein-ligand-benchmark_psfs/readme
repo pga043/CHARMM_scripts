@@ -1,25 +1,8 @@
-Taken from: https://github.com/openforcefield/protein-ligand-benchmark
-Systems: 
+Raw data (protein and ligand coordinates) taken from: https://github.com/openforcefield/protein-ligand-benchmark
 
--------------------
-| Name | CHARMM | OPLS-AA |
-| :----------  | :--------   | :----------- |
-| cdk2  |  |
-| cdk8  |  |
-| cmet  |  | 
-| eg5  |  |
-| hif2a  |  |
-| mcl1 |  |
-| p38  |  |
-| pde2  |  |
-| pfkfb3  |  |
-| ptp1b |  |
-| shp2 |  |
-| syk | |
-| thrombin | |
-| tnks2 | | 
-| tyk2 | | first ACP last CT3
-| era | |
+CDK2:
+  CHARMM:
+    patch THPB PROA 160 setup warn
 
 TYK2:
 CHARMM
@@ -33,6 +16,7 @@ OPLS-AA
   HSD: 105, 130, 164, 285, 70
   HSE: 127, 133, 209, 258, 5, 52, 68
   HSP: 19
+  charge = -3
 
 ERA: 
 auxiliary_restr_2021/SI_content_rev/acyc/era/protein.pdb
@@ -48,3 +32,4 @@ OPLS-AA
   CTER: CT3
   HSD: 51, 68, 93, 171, 183, 196, 208, 211, 219, 242
   HSE: 72, 169
+  charge = -6
