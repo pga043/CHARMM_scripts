@@ -4,11 +4,15 @@ CDK2:
   CHARMM:
     patch THPB PROA 160 setup warn
 
+CDK8:
+- ligands with different net charges
+  CHARMM:
+    
+
+
 TYK2:
-CHARMM
-  HSD:
-  HSE:
-OPLS-AA
+CHARMM:
+OPLS-AA:
   sequence: 2 - 289
   crystal waters: no
   NTER: ACP
@@ -19,13 +23,11 @@ OPLS-AA
   charge = -3
 
 ERA: 
-auxiliary_restr_2021/SI_content_rev/acyc/era/protein.pdb
-used PDB2PQR
-Protonation state of Histidine in the active site discussed in: 10.1021/acs.jctc.3c00282
-CHARMM
-  HSD:
-  HSE:
-OPLS-AA
+- auxiliary_restr_2021/SI_content_rev/acyc/era/protein.pdb
+- used PDB2PQR
+- Protonation state of Histidine in the active site discussed in: 10.1021/acs.jctc.3c00282
+CHARMM:
+OPLS-AA:
   sequence: 1 - 244
   crystal waters: yes, 245 - 270
   NTER: ACP
