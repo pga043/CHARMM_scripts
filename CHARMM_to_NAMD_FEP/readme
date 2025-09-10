@@ -1,1 +1,3 @@
-Preparing NAMD protein mutation files using CHARMM and [alchemify](https://github.com/jhenin/alchemify).
+#!/bin/bash
+
+Preparing NAMD protein mutation files for running FEP calculation using CHARMM and [alchemify](https://github.com/jhenin/alchemify).
