@@ -1,5 +1,7 @@
 #!/bin/bash
 
+Add mutations (RESI) from top_all36_hybrid.inp to top_all36_prot_hybrid.rtf
+
 # Step 1. 
 # extract protein segment where the point mutation will be defined
 # and extract everything else seperately
