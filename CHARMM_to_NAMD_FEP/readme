@@ -20,8 +20,7 @@ charmm -i complex.inp
 
 # Step 4. 
 # add exclusion lists
-alchemify solvent.psf solvent.fep.psf solvent.pdb
-
+alchemify complex.psf complex.fep.psf complex.pdb 
 
 exit 0
 
