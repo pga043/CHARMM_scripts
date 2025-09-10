@@ -32,6 +32,9 @@ maybe there are more of such mistakes and maybe that's why the mutator plugin in
 
 Enjoy!
 
+NAMD:
+FEPcol : B => A value of -1 in the specified column indicates the atom will vanish during the FEP calculation, 
+                whereas a value of 1 indicates that the atom will grow. 
 
 See FEP tutorials here:
 http://pmx.mpibpc.mpg.de/tripep.pl
