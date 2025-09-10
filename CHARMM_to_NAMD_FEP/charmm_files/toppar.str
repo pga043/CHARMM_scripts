@@ -1,0 +1,13 @@
+* Stream file for topology and parameter reading
+* 
+
+! protein topology and parameter
+open read card unit 10 name top_all36_prot_hybrid.rtf !../../toppar/top_all36_prot.rtf 
+read  rtf card unit 10
+
+open read card unit 20 name ../../toppar/par_all36m_prot.prm 
+read para card unit 20 flex
+
+! Additional topologies and parameters for water and ions
+stream ../../toppar/toppar_water_ions.str
+

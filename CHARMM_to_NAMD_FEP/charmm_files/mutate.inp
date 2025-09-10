@@ -1,0 +1,77 @@
+* mutating a residue using NAMD/VMD naming scheme
+* 
+
+set segid = PROA
+set resno = 6
+set new = w2f
+
+! read topology and parameter files
+stream toppar.str
+
+read psf card name proa.psf
+read coor card name proa.crd
+
+! Change name of residue to be mutated.
+rename resname @new select segid PROA .AND. resid @resno end
+
+! So CHARMM won't complain about nonintegral net charge.
+bomb -1
+
+! Delete side chain atoms.
+delete atom select segid @segid .and. resid @resno .and. -
+ .not. (type n .or. type ca .or. type c .or. type o .or. type ha .or. type hn) end
+
+
+ic fill preserve
+ic parameter
+ic build
+hbuild
+
+! Store the mutated protein that lacks the mutated side chain
+open write card name temp.pdb unit 14
+write coordinates pdb select all end unit 14
+*Temporary 
+*
+close unit 14
+
+! Remove all memory from CHARMM of the protein
+delete atom select all end
+
+! Read in the protein (missing side chain atoms on the residue
+!  to be mutated and with this residue given the new name).
+read sequ pdb name temp.pdb
+
+! now generate the PSF and also the IC table (SETU keyword), proa is SEGID defined by user
+generate setu @segid first NTER last CTER
+
+! set bomlev to -1 to avoid saying on lack of hydrogen coordinates
+bomlev -1
+read coor pdb resi name temp.pdb
+! them put bomlev back up to 0
+bomlev 0
+
+! Adds the side chain atoms to mutated residue.
+ic fill preserve
+ic parameter
+ic build
+hbuild
+
+define bb sele type N .or. type HN .or. type CA .or. type HA .or. type C .or. type O end
+
+scalar wmain set 0.0 sele .not. resname @new end
+scalar wmain set 0.0 sele resname @new .and. (type N .or. type HN .or. type CA .or. type HA .or. type C .or. type O) show end
+scalar wmain set -1.0 sele resname @new .and. .not. (bb .or. type *B) end
+scalar wmain set 1.0 sele resname @new .and. (type *B) show end
+
+open write card name proa_mut.pdb unit 14 
+write coordinates pdb select all end unit 14
+
+write psf card name proa_mut.psf
+write coor card name proa_mut.crd
+
+! Delete the temporary coordinates with this system command
+system "rm temp.pdb"
+system "rm proa.*"
+
+stop
+

@@ -1,0 +1,27 @@
+* extract different segments to be used for MSLD
+* 
+
+set dir = ..
+set prot = true
+
+! read topology and parameter files
+stream toppar.str
+
+read psf card name ../8qer_complex-neutralized.psf
+read coor card name ../8qer_complex-finalmini.crd
+
+set s 0
+label loop
+calc r = @S + 500
+RENAme RESId @R sele IRES @S end
+incr s by 1
+if s le 412 goto loop
+
+write psf card name 8qer_complex_renumbered.psf
+
+write coor card name 8qer_complex_renumbered.crd
+
+write coor pdb name 8qer_complex_renumbered.pdb
+
+stop
+

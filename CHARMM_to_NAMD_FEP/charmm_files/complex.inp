@@ -1,0 +1,29 @@
+* mutated protein and environment files for NAMD
+* NAMD: FEPcol : B 
+* -1 = atom will vanish during the FEP calculation
+* +1 = atom will grow
+*
+
+set dir = ..
+
+! read topology and parameter files
+stream toppar.str
+
+read psf card name proa_mut.psf
+read coor card name proa_mut.crd
+
+set pout = no_proa
+
+read psf card name @{pout}.psf append
+read coor card name @{pout}.crd append
+
+set out = complex
+scalar wmain set 0.0 sele resname tip3 .or. resname pot .or. resname cla end
+
+write psf card name @{out}.psf
+write coor card name @{out}.crd
+write coor pdb name @{out}.pdb
+
+
+stop
+

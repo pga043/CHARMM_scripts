@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Step 1. 
+# extract protein segment where the point mutation will be defined
+# and extract everything else seperately
+charmm -i extract_segs.inp
+
+# Step 2.
+# mutate the residue
+# NAMD:
+# FEPcol : B => A value of -1 in the specified column indicates the atom will vanish during the FEP calculation, 
+#                whereas a value of 1 indicates that the atom will grow. 
+
+charmm -i mutate.inp
+
+# Step 3.
+# merge all the segments and then we can go to NAMD
+charmm -i complex.inp
+
+# Step 4. 
+# add exclusion lists
+alchemify complex.psf complex.fep.psf complex.pdb 
+
+exit 0
+
+Issues: /Home/siv32/pga043/Software/vmd-1.9.4a57/lib/vmd/plugins/noarch/tcl/readcharmmtop1.2/top_all36_hybrid.inp
+top_all36_hybrid.inp => 
+
+	ATOM HA   HB => this is wrong, it should be HB1 since there is no atom-type HB (as far as I understand).
+
+maybe there are more of such mistakes and maybe that's why the mutator plugin in VMD fails for W2F mutation.
+	confirmed, I just changed the atom type and it worked!!
+
+Enjoy!
+#=======================

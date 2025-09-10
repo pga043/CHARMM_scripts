@@ -1,0 +1,48 @@
+* extract different segments to be used for MSLD
+* or NAMD FEP
+* 
+
+set dir = ..
+set prot = false
+
+! read topology and parameter files
+stream toppar.str
+
+read psf card name ../step3_pbcsetup.psf
+read coor card name ../step3_pbcsetup.crd
+
+define protein sele segid PROA end
+define heta sele resname tip3 .or. resname pot .or. resname cla end
+
+if @prot .eq. true then
+bomlev -1
+delete atom sele .not. protein end
+bomlev 0
+
+write psf card name proa.psf
+write coor card name proa.crd
+write coor pdb name proa.pdb
+
+else
+
+bomlev -1
+delete atom sele protein end
+bomlev 0
+
+set out = no_proa
+!set out = no_proa_liga
+
+if @out .eq. no_proa_liga then
+! remove a randomly chosen counter ion
+! in this case LIGA has -1 so, it has to be a POT ion
+delete atom sele segid POT .and. resid 40 show end
+endif
+
+write psf card name @{out}.psf
+write coor card name @{out}.crd
+write coor pdb name @{out}.pdb
+
+endif
+
+stop
+
