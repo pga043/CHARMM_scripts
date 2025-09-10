@@ -9,6 +9,9 @@ charmm -i extract_segs.inp
 
 # Step 2.
 # mutate the residue
+# NAMD: FEPcol : B 
+# A value of -1 in the specified column indicates the atom will vanish during the FEP calculation, 
+# whereas a value of 1 indicates that the atom will grow. 
 charmm -i mutate.inp
 
 # Step 3.
@@ -31,10 +34,6 @@ maybe there are more of such mistakes and maybe that's why the mutator plugin in
     confirmed, I just changed the atom type and it worked!!
 
 Enjoy!
-
-NAMD:
-FEPcol : B => A value of -1 in the specified column indicates the atom will vanish during the FEP calculation, 
-                whereas a value of 1 indicates that the atom will grow. 
 
 See FEP tutorials here:
 http://pmx.mpibpc.mpg.de/tripep.pl
