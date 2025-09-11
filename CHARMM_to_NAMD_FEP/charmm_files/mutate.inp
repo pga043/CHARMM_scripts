@@ -2,8 +2,8 @@
 * 
 
 set segid = PROA
-set resno = 6
-set new = w2f
+set resno = 304
+set new = x2z ! HSE to HSP
 
 ! read topology and parameter files
 stream toppar.str

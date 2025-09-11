@@ -12,13 +12,19 @@ stream toppar.str
 read psf card name proa_mut.psf
 read coor card name proa_mut.crd
 
+!set pout = no_proa_liga
 set pout = no_proa
 
 read psf card name @{pout}.psf append
 read coor card name @{pout}.crd append
 
 set out = complex
+!set out = solvent
 scalar wmain set 0.0 sele resname tip3 .or. resname pot .or. resname cla end
+
+!! coupling a positive ion to wild-type HSE
+!! or do without this and then add an analytical correction
+!scalar wmain set -1.0 sele resname pot .and. resid 48 end 
 
 write psf card name @{out}.psf
 write coor card name @{out}.crd

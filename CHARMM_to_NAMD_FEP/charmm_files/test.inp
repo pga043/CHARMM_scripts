@@ -1,0 +1,13 @@
+* test to read alchemified psf file in CHARMM
+*
+
+set dir = ..
+
+! read topology and parameter files
+stream toppar.str
+
+read psf card name complex.fep.psf
+read coor card name complex.crd
+
+stop
+

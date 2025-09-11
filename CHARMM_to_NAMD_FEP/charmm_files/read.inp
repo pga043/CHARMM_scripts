@@ -1,0 +1,21 @@
+* read hybrid rtf and prm
+* 
+
+read rtf card name top_all36_prot_hybrid.rtf
+read param card flex name ../../toppar/par_all36m_prot.prm !par_all36m_prot_hybrid.prm
+
+stop
+
+! protein topology and parameter
+open read card unit 10 name ../../toppar/top_all36_prot.rtf
+read  rtf card unit 10
+
+open read card unit 20 name ../../toppar/par_all36m_prot.prm
+read para card unit 20 flex
+
+read rtf card name top_all36_hybrid.inp append
+
+! Additional topologies and parameters for water and ions
+stream ../../toppar/toppar_water_ions.str
+
+stop
