@@ -1,0 +1,212 @@
+* Test the randomly picked orientation restraint points
+*
+
+stream tmp_restraint_geo.prm
+
+! Use dummy atoms to represent the positions used for the restraints
+! dummy atoms will be deleted later
+
+Read sequence DUM 6
+Generate DUM ignorePSFSUM
+
+coor stat mass sele receptor .and. pres1 end
+coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 1 end
+set prot1 ?selatom
+
+coor stat mass sele receptor .and. pres2 end
+coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 2 end
+set prot2 ?selatom
+
+coor stat mass sele receptor .and. pres3 end
+coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 3 end
+set prot3 ?selatom
+
+coor stat mass sele ligand .and. lres1 end
+coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 4 end
+set lig1 ?selatom
+
+coor stat mass sele ligand .and. lres2 end
+coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 5 end
+set lig2 ?selatom
+
+coor stat mass sele ligand .and. lres3 end
+coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 6 end
+set lig3 ?selatom
+
+quick @prot1 @lig1
+set dist = ?dist
+
+quick @prot2 @prot1 @lig1
+set theta = ?thet
+
+quick @prot3 @prot2 @prot1 @lig1
+set phi = ?phi
+
+quick @lig2 @lig1 @prot1
+set alpha = ?thet
+
+quick @lig2 @lig1 @prot1 @prot2
+set beta = ?phi
+
+quick @lig3 @lig2 @lig1 @prot1
+set gamma = ?phi
+
+delete atom sele segid DUM end ignorePSFSUM
+
+read sequence sod 3
+generate dum ignorepsfsum
+scalar charge = zero sele segid dum end
+
+coor stat sele pres1 end
+coor set xdir ?xave ydir ?yave zdir ?zave sele segid dum .and. resid 1 end
+set pres1 = ?selatom
+
+coor stat sele pres2 end
+coor set xdir ?xave ydir ?yave zdir ?zave sele segid dum .and. resid 2 end
+set pres2 = ?selatom
+
+coor stat sele pres3 end
+coor set xdir ?xave ydir ?yave zdir ?zave sele segid dum .and. resid 3 end
+set pres3 = ?selatom
+
+delete atom sele .not. ( ligand .or. segid dum ) end
+
+define ligand sele segid @ligseg end
+define pres1 sele segid dum .and. resi 1 end
+define pres2 sele segid dum .and. resi 2 end
+define pres3 sele segid dum .and. resi 3 end
+define lres1 sele ligand .and. ( @lstr1 .or. .bonded. @lstr1 ) .and. .not. hydr end
+define lres2 sele ligand .and. ( @lstr2 .or. .bonded. @lstr2 ) .and. .not. hydr end
+define lres3 sele ligand .and. ( @lstr3 .or. .bonded. @lstr3 ) .and. .not. hydr end
+
+cons fix sele segid dum end
+
+coor copy comp
+
+! RMSD restraint setup
+set rforce = 10.0
+cons rmsd mass offset 0.0 force @rforce comp -
+               select ligand .and. .not. type H* end
+cons rmsd show
+
+!
+! The 3 atoms on the protein and the 3 atoms on the ligand can be used to
+! setup the reference position and orientation
+!
+!             (C.M.)
+!  prot3      prot1        lig2
+!    \         / \         / \
+!     \       /   \       /   \
+!      \     /     \     /     \
+!       \   /       \   /       \
+!        \ /         \ /         \
+!       prot2       lig1        lig3
+!                  (C.M.)
+
+set distforce =  10.0
+set tangforce = 200.0
+set  angforce = 200.0
+
+MMFP
+
+! setup MMFP geo restraint for the position of the CM of the ligand
+! ligand position (dist, theta, phi)
+
+  geo maxgeo 50000 sphere dist RCM harm symm force @distforce droff @dist -
+  select pres1 end select lres1 end
+
+  geo sphere angle RCM harm symm force @tangforce droff @theta -
+  select pres2 end -
+  select pres1 end  -
+  select lres1 end
+
+  geo sphere dihe RCM harm symm force @tangforce droff @phi -
+  select pres3 end -
+  select pres2 end  -
+  select pres1 end  -
+  select lres1 end
+
+! setup MMFP geo restraint for the orientation of the ligand
+! ligand orientation  (alpha, beta, gamma)
+
+  GEO sphere angle RCM -
+     harmonic symmetric force @angforce droff @alpha -
+     select lres2 end -
+     select lres1 end -
+     select pres1 end
+
+  GEO sphere dihedral RCM  -
+     harmonic symmetric force @angforce droff @beta -
+     select lres2 end -
+     select lres1 end -
+     select pres1 end -
+     select pres2 end
+
+  GEO sphere dihedral RCM  -
+     harmonic symmetric force @angforce droff @gamma -
+     select lres3 end -
+     select lres2 end -
+     select lres1 end -
+     select pres1 end
+
+END
+
+!nbond inbfrq -1 imgfrq -1 atom vatom cdie eps 1.0 -
+!    elec ewald pmew fftx @fft ffty @fft fftz @fft  kappa .34 spline order 6 -
+!    vdw vswitch cutnb 16.0 cutim 16.0 ctofnb 12. ctonnb 10. wmin 1.0
+
+nbond inbfrq -1 elec fswitch vdw vswitch cutnb 16. ctofnb 12. ctonnb 10.0
+
+open write file unit 53 name tmp_restraint_geotest.dcd
+coor copy comp second ! comp coordinate set rewritten during dynamics
+
+scalar fbeta set 1.0 sele .not. type H* end
+shake bonh param fast
+
+!domdec gpu only dlb on ndir 1 1 1
+
+set nstep = 50000
+
+DYNAMICS start nstep @nstep  timestp  0.002  iprfrq   1000  -
+          nprint  1000  echeck     -1  iseed    @seed @seed @seed @seed -
+          iasvel     1  firstt    300  finalt     300  tstruc    300  -
+          langevin      tbath     300  rbuf       0.0  -
+          inbfrq   -1  imgfrq    100  ihbfrq       0  ilbfrq      0  -
+          iunread   -1  iunwrite   -1  iuncrd      53  nsavc      10
+
+open read unformatted unit 20 name tmp_restraint_geotest.dcd
+
+coor copy second
+coor copy comp
+
+set pickresult = ok
+correl maxtime @nstep maxseries 10
+   enter 1 iner sele ligand .and. .not. hydrogen end all
+   enter 2 rms
+   traj firstu 20 nunit 1 begin 100 sele ligand .and. .not. hydrogen end
+   show 1
+   show 2
+
+   set averms = ?aver
+   if averms .gt. 1.5 set pickresult = notok
+
+   set avefluct = 0
+   set maxfluct = 0
+   set i 1
+   label docheck
+      edit 1 index 1 veccod 1 name t
+      calc fluc = ?fluc
+      calc avefluct = @avefluct + @fluc
+      if maxfluct .lt. @fluc set maxfluct = @fluc
+   incr i by 1
+   if i .le. 9 goto docheck
+   set maxfluct = @maxfluct
+end
+
+cons rmsd clear
+mmfp
+  geo reset
+end
+close unit 20
+delete atom sele all end
+

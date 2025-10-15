@@ -1,0 +1,327 @@
+* Pick the atoms for the constraints on the ligand.
+* Calculate the rmsd of the receptor and the ligand,
+* and also calculate the rotational and translational fluctuations
+* of the ligand. Then we calculate the average value of these parameters.
+* Finally save all reference values in a stream file.
+*
+
+open read unformatted unit 20 name @equilibration.dcd
+traj query unit 20
+trajectory firstu 20 nunit 1 skip ?skip
+
+! these values have to be optimized later
+set skipstep  = ?skip   ! Use the coordinate at every 200 steps
+set startstep = ?start  ! the average structure and values will start after @startstep steps
+
+! The factor is used to time the value in each coordinate and then caculate the sum
+calc totcount   = ?nstep / @skipstep
+calc startcount = @startstep / @skipstep + 1
+calc frames     = ( ?nstep - @startstep ) / @skipstep - 1
+calc factor     = 1.0 / @frames
+
+! The equilibration started from the minimized coordinate
+open read card unit 1 name @minimized.crd
+read coor card unit 1
+close unit 1
+
+coor copy comp
+
+!
+! Calculate the RMSD and the fluctuation of the system
+!
+
+open write card unit 80 name tmp_restraint_ref.rmsd
+write title unit 80
+*#t pronoh lignoh ligcm
+*
+
+open write card unit 81 name tmp_restraint_ref.times
+!write title unit 81
+!*#t r t p a b c
+!*
+!column header
+!#t r t p a b c 
+calc dt = @skipstep * 0.002    ! Use the coordinate at each "dt" ps
+calc tend = ?nstep * 0.002
+calc t = @dt
+set count   = 0       ! count the real frames used. 
+
+label read_trj
+trajectory read
+
+  ! Use dummy atoms to represent the real atoms used in the constraints
+  ! dummy atoms will be deleted later
+  set ndihe = 0 ! symmetric groups
+  calc totdum = @ndihe * 4 + 6
+  Read sequence DUM @totdum
+  Generate DUM ignorepsf
+  
+  ! ---------------------------------------------------------------------
+  ! Define the dummy atoms
+  coor stat mass select pres1 end
+  coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 1 end
+  set prot1 = ?SELATOM  
+  coor stat mass select pres2 end
+  coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 2 end
+  set prot2 = ?SELATOM  
+  coor stat mass select pres3 end
+  coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 3 end
+  set prot3 = ?SELATOM  
+  
+  coor stat mass select ligand .and. lres1 end
+  coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 4 end
+  set lig1 = ?SELATOM  
+  coor stat mass select ligand .and. lres2 end
+  coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 5 end
+  set lig2 = ?SELATOM  
+  coor stat mass select ligand .and. lres3 end
+  coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 6 end
+  set lig3 = ?SELATOM  
+
+  ! ----------------------------------------------------------
+  ! caculate the rmsd or fluctuations
+  
+  ! rms deviation of the protein 
+  coor orient rms mass select RECEPTOR .and. .not. type H* end
+  set rmsdpronoh = ?rms
+  
+  ! flucligcm
+  coor stat comp mass select LIGAND end
+  set x0 = ?xave
+  set y0 = ?yave
+  set z0 = ?zave
+  
+  coor stat mass select LIGAND end
+  set x1 = ?xave
+  set y1 = ?yave
+  set z1 = ?zave
+  
+  calc dx2 = (@x1 - @x0)*(@x1 - @x0)
+  calc dy2 = (@y1 - @y0)*(@y1 - @y0)
+  calc dz2 = (@z1 - @z0)*(@z1 - @z0)
+  
+  calc flucligcm = @dx2 + @dy2 + @dz2
+  calc flucligcm = sqrt(@flucligcm)
+  
+  ! rms deviation of the ligand 
+  coor orient rms mass select LIGAND .and. .not. type H* end
+  set rmsdlignoh = ?rms
+  
+  ! ---------------------------------------------------------
+  ! reference values for the virtual bond constraints
+  
+  quick @prot1 @lig1 
+  set dist = ?dist
+  
+  quick @prot2 @prot1 @lig1
+  set theta = ?thet
+  
+  quick @prot3 @prot2 @prot1 @lig1
+  set phi = ?phi
+  
+  quick @lig2 @lig1 @prot1
+  set alpha = ?thet
+  
+  quick @lig2 @lig1 @prot1 @prot2
+  set beta = ?phi
+  
+  quick @lig3 @lig2 @lig1 @prot1
+  set gamma = ?phi
+  
+  !-----------------------------------------------------------
+  ! reference values for the flat-bottom dihedral constraints
+  ! writes out rmsd data
+  write title unit 80
+  *@t @rmsdpronoh @rmsdlignoh @flucligcm
+  *
+
+  ! writes out rmsd data
+  write title unit 81
+  *@t @dist @theta @phi @alpha @beta @gamma   
+  *
+  
+  delete atom select segid DUM end ignorepsf
+
+incr count by 1
+
+incr t by @dt
+if @t le @tend goto read_trj
+
+close unit 80
+close unit 81
+
+!
+! calculate the average
+!
+calc maxseries = 8 +  + 2 ! 6 + # of sym. groups + 2 more extra series
+
+correl maxtime @count maxseries @maxseries maxatom 40
+
+  open read unit 21 card name tmp_restraint_ref.times
+  enter dist zero
+  read dist unit 21 dumb colu 2
+
+  open read unit 21 card name tmp_restraint_ref.times
+  enter thet zero
+  read thet unit 21 dumb colu 3
+
+  open read unit 21 card name tmp_restraint_ref.times
+  enter phi zero
+  read phi unit 21 dumb colu 4
+
+  open read unit 21 card name tmp_restraint_ref.times
+  enter alph zero
+  read alph unit 21 dumb colu 5
+
+  open read unit 21 card name tmp_restraint_ref.times
+  enter beta zero
+  read beta unit 21 dumb colu 6
+
+  open read unit 21 card name tmp_restraint_ref.times
+  enter gamm zero
+  read gamm unit 21 dumb colu 7
+
+  show dist
+  set avedist = ?aver
+
+  show thet
+  set avethet = ?aver
+
+  show alph
+  set avealph = ?aver
+
+  !
+  ! calculate average of torsion angles
+  !
+
+  ! phi
+  enter deno dupl phi
+  enter nume dupl phi
+
+  mantime deno cos
+  set deno = ?aver
+
+  mantime nume mult -1    ! charmm correl does not have sine function for time series
+  mantime nume shift 90
+  mantime nume cos
+  set nume = ?aver
+
+  calc avephi = atan( @nume / @deno ) * 180 / ?pi
+  if nume .lt. 0 if deno .lt. 0 calc avephi = @avephi - 180
+  if nume .ge. 0 if deno .lt. 0 calc avephi = @avephi + 180
+
+  ! beta
+  mantime deno zero
+  mantime nume zero
+  mantime deno add beta
+  mantime nume add beta
+
+  mantime deno cos
+  set deno = ?aver
+
+  mantime nume mult -1    ! charmm correl does not have sine function for time series
+  mantime nume shift 90
+  mantime nume cos
+  set nume = ?aver
+
+  calc avebeta = atan( @nume / @deno ) * 180 / ?pi
+  if nume .lt. 0 if deno .lt. 0 calc avebeta = @avebeta - 180
+  if nume .ge. 0 if deno .lt. 0 calc avebeta = @avebeta + 180
+
+  ! gamm
+  mantime deno zero
+  mantime nume zero
+  mantime deno add gamm
+  mantime nume add gamm
+
+  mantime deno cos
+  set deno = ?aver
+
+  mantime nume mult -1    ! charmm correl does not have sine function for time series
+  mantime nume shift 90
+  mantime nume cos
+  set nume = ?aver
+
+  calc avegamm = atan( @nume / @deno ) * 180 / ?pi
+  if nume .lt. 0 if deno .lt. 0 calc avegamm = @avegamm - 180
+  if nume .ge. 0 if deno .lt. 0 calc avegamm = @avegamm + 180
+
+end
+
+open write card unit 10 name tmp_restraint_ref.prm
+write title unit 10
+** Stream file for the reference values of the virtual bond constraint
+** and the flat-bottom dihedral constraints 
+**
+* set dist  = @avedist
+* set theta = @avethet
+* set phi   = @avephi
+* set alpha = @avealph
+* set beta  = @avebeta
+* set gamma = @avegamm
+*
+
+close unit 10
+close unit 20
+
+!
+! Calculate the average structure of the ligand after @startstep steps
+!
+open read unformatted unit 20 name @equilibration.dcd
+
+calc start = @startcount * @skipstep
+trajectory firstu 20 nunit 1 skip @skipstep BEGIN @start
+
+trajectory read
+coor copy comp
+scalar xref = x select ligand end
+scalar yref = y select ligand end
+scalar zref = z select ligand end
+
+set count = 1
+calc dt = @skipstep * 0.002    ! Use the coordinate at each "dt" ps
+calc tend = ?nstep * 0.002
+calc t = @startstep * 0.002 + 2 * @dt
+
+label read_trj2
+trajectory read
+
+  ! rms deviation of the ligand 
+  coor orient rms mass select LIGAND .and. .not. type H* end
+  
+  scalar xref SUM x select ligand end
+  scalar yref SUM y select ligand end
+  scalar zref SUM z select ligand end
+
+incr count by 1
+incr t by @dt
+if @t le @tend goto read_trj2
+
+close unit 20
+
+scalar xref DIVI @count select ligand end
+scalar yref DIVI @count select ligand end
+scalar zref DIVI @count select ligand end
+
+scalar x = xref select ligand end
+scalar y = yref select ligand end
+scalar z = zref select ligand end
+
+delete atom sele resn tip3 end ignorepsf
+shake off
+
+mini sd nstep 10
+mini abnr nstep 10
+
+! Write the average structure of the ligand
+write coor card name tmp_restraint_compave.crd
+* average structure of the ligand in the binding complex, 
+* count = @count, frames = @frames
+* 
+
+write coor card name tmp_restraint_ligave.crd select segid @ligseg end
+* average structure of the ligand, 
+* count = @count, frames = @frames
+* 
+
+return

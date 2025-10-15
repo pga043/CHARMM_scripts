@@ -1,0 +1,36 @@
+* picking restraint atoms - Boresch restraints
+*
+
+! Read topology and parameter files
+stream toppar.str
+
+!! Read PSF and Coordinates
+read psf card name ../@run/tyk2-@lig-neutralized.psf
+read coor card name ../@run/tyk2-@lig-finalmini.crd
+
+!
+! Define six positions to setup translational and rotational restraints
+!
+set maxtest = 100 ! to prevent inf. loop
+set testcnt = 1
+label dopick
+
+define RECEPTOR select segid PROT end
+define LIGAND   select segid @seg end
+set ligseg = @seg
+
+!! pick the atom pairs for restraints
+stream restraint_geo.str
+
+!! test the atom pairs for fluctutation based
+stream restraint_geotest.str
+
+!! Read PSF and Coordinates
+!read psf card name @dir/@prot-@lig-neutralized.psf
+!read coor card name @dir/@prot-@lig-heat.crd
+
+incr testcnt by 1
+if pickresult .eq. notok if testcnt .le. @maxtest goto dopick
+if pickresult .eq. notok if testcnt .gt. @maxtest stop
+
+stop

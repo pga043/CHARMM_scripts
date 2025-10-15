@@ -1,0 +1,382 @@
+* Define six positions to set up translational and rotational restraints
+* The residues or atom groups are randomly chosen
+* 
+
+! need an input iseed
+RAND UNIFORM ISEED @seed 
+
+! the first random number is predictable
+set cnt = 1
+label randloop
+   set randnum = ?rand      
+   incr cnt by 1
+if @cnt lt 10 goto randloop
+
+! Use dummy atoms to represent the positions used for the restraints
+! dummy atoms will be deleted later
+
+Read sequence DUM 6
+Generate DUM ignorePSFSUM
+
+! center of mass of protein and ligand
+coor stat mass select RECEPTOR end
+set pcomx = ?xave
+set pcomy = ?yave
+set pcomz = ?zave
+
+coor stat mass select LIGAND end
+set lcomx = ?xave
+set lcomy = ?yave
+set lcomz = ?zave
+
+!
+! first random atom on the ligand
+! close to the ligand center of mass
+!
+define lpicks sele LIGAND .and. .not. hydrogen end
+coor maxdist sele lpicks end sele lpicks end
+calc maxd = ?maxd
+define excluded sele none end
+
+! to ensure uniform random picking
+scalar sca1 = zero
+scalar sca1 = wmain
+scalar wmain set 0.0 sele all end
+scalar wmain set 1.0 sele lpicks end
+
+set imax = ?nsel
+set i = 1
+set rcut = 1
+label lpick1
+   set pickresult = ok
+   define lpick1 sele none end
+   define lpick1 sele ( prop wmain .eq. 1.0 ) .and. ( point @lcomx @lcomy @lcomz cut @rcut ) end
+   if ?nsel .eq. 0 then
+      incr rcut by 1
+      if rcut .gt. @maxd stop
+      goto lpick1
+   endif
+
+   scalar wmain set 0.0 sele bynu ?selatom end
+
+   set lstr1 = type ?seltype
+   set lan1  = ?seltype
+   define lres1 sele ligand .and. ( @lstr1 .or. .bonded. @lstr1 ) .and. .not. hydr end
+   coor stat mass sele lres1 end
+   if ?nsel .lt. 3 then 
+      set pickresult = notok
+   else
+      coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 4 end
+      set lig1 = ?selatom
+      set l1x = ?xave
+      set l1y = ?yave
+      set l1z = ?zave
+   endif
+
+incr i by 1
+if @i gt @imax stop
+if @pickresult eq notok goto lpick1
+scalar wmain = sca1
+
+
+!
+! first random atom on the protein
+! residue close to the center of mass of the protein
+! if too close (< 1 A) or too far (> 8A) from the ligand center of mass,
+! pick random residue that is with in such distance
+!
+
+set pickresult = ok
+define BB sele RECEPTOR .and. type CA end
+!( type C .or. type CA .or. type N .or. type O ) end
+
+coor maxdist sele BB end sele BB end
+calc maxd = 10
+set mind = 5
+define rpicks sele .byres. BB .and. point @l1x @l1y @l1z cut @maxd -
+                              .and. .not. point @l1x @l1y @l1z cut @mind end
+
+! to ensure uniform random picking
+scalar sca1 = zero
+scalar sca1 = wmain
+scalar wmain set 0.0 sele all end
+scalar wmain set 1.0 sele rpicks .and. type ca end
+
+set imax = ?nsel
+set i = 1
+set rcut = 1
+label rpick1
+   set pickresult = ok
+   define rpick1 sele none end
+   define rpick1 sele ( prop wmain .eq. 1.0 ) .and. ( point @pcomx @pcomy @pcomz cut @rcut ) end
+   if ?nsel .eq. 0 then
+      incr rcut by 1
+      goto rpick1
+   endif
+
+   scalar wmain set 0.0 sele bynu ?selatom end
+
+   set rpick1 = ?selresi
+   set rpickseg1 = ?selsegi
+   set rpickresn1 = ?selresn
+   set rpickan1 = ?seltype
+   define pres1 sele segid @rpickseg1 .and. resid @rpick1 .and. BB end
+   coor stat mass sele pres1 end
+   set r1x = ?xave
+   set r1y = ?yave
+   set r1z = ?zave
+
+   coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 1 end
+   set prot1 = ?selatom
+
+   q @prot1 @lig1
+   if ?dist .gt. @maxd set pickresult = notok
+   if ?dist .lt. @mind set pickresult = notok
+
+incr i by 1
+if @i gt @imax stop
+if @pickresult eq notok goto rpick1
+scalar wmain = sca1
+
+
+!
+! second random atom
+! angle between lpick1 - rpick1 - rpick2 will be .gt. 60 and .lt. 120
+!
+define rpicks sele .byres. BB .and. .not. point @r1x @r1y @r1z cut @mind -
+                              .and. point @r1x @r1y @r1z cut @maxd end
+
+! to ensure uniform random picking
+scalar sca1 = zero
+scalar sca1 = wmain
+scalar wmain set 0.0 sele all end
+scalar wmain set 1.0 sele rpicks .and. type ca end
+
+set imax = ?nsel
+set i = 1
+label rpick2
+   set pickresult = ok
+   calc rand = int( ?rand * ( @imax - @i ) ) + 1
+   coor stat sele .byres. ( ( prop wmain .eq. 1.0 ) .subset. @rand ) end
+
+   scalar wmain set 0.0 sele segid ?selsegi .and. resi ?selresi end
+
+   set rpick2 = ?selresi
+   set rpickseg2 = ?selsegi
+   set rpickresn2 = ?selresn
+   set rpickan2 = ?seltype
+   define pres2 sele segid @rpickseg2 .and. resid @rpick2 .and. BB end
+   coor stat mass sele pres2 end
+
+   coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 2 end
+   set prot2 = ?selatom
+   set r2x = ?xave
+   set r2y = ?yave
+   set r2z = ?zave
+
+   q @lig1 @prot1 @prot2
+   if ?thet .lt. 60  set pickresult = notok
+   if ?thet .gt. 120 set pickresult = notok
+
+incr i by 1
+if @i gt @imax stop
+if @pickresult eq notok goto rpick2
+scalar wmain = sca1
+
+
+!
+! third random atom
+! angle between rpick1 - rpick2 - rpick3 will be .gt. 60 and .lt. 120
+!
+define rpicks sele .byres. BB .and. .not. point @r2x @r2y @r2z cut @mind -
+                              .and. point @r2x @r2y @r2z cut @maxd end
+
+! to ensure uniform random picking
+scalar sca1 = zero
+scalar sca1 = wmain
+scalar wmain set 0.0 sele all end
+scalar wmain set 1.0 sele rpicks .and. type ca end
+
+set imax = ?nsel
+set i = 1
+label rpick3
+   set pickresult = ok
+   calc rand = int( ?rand * ( @imax - @i ) ) + 1 
+   coor stat sele .byres. ( prop wmain .eq. 1.0  .subset. @rand ) end
+   
+   scalar wmain set 0.0 sele segid ?selsegi .and. resi ?selresi end
+   
+   set rpick3 = ?selresi
+   set rpickseg3 = ?selsegi
+   set rpickresn3 = ?selresn
+   set rpickan3 = ?seltype
+   define pres3 sele segid @rpickseg3 .and. resid @rpick3 .and. BB end
+   coor stat mass sele pres3 end
+   
+   coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 3 end
+   set prot3 = ?selatom
+   set r3x = ?xave
+   set r3y = ?yave
+   set r3z = ?zave
+   
+   q @prot1 @prot2 @prot3
+   if ?thet .lt. 60  set pickresult = notok
+   if ?thet .gt. 120 set pickresult = notok
+
+incr i by 1
+if @i gt @imax stop
+if @pickresult eq notok goto rpick3
+scalar wmain = sca1
+
+
+! 
+! pick ligand atom
+!
+
+set pickresult = ok
+define BB sele LIGAND .and. .not. hydrogen end
+
+coor maxdist sele BB end sele BB end
+calc maxd = 5
+calc mind = ?maxd * 0.2
+if mind .gt. 3 set mind = 3
+
+label lpick
+!
+! second random atom on the ligand
+!
+define lpicks sele BB .and. .not. point @l1x @l1y @l1z cut @mind -
+                      .and. point @l1x @l1y @l1z cut @maxd -
+                      .and. .not. excluded end
+
+! to ensure uniform random picking 
+! prefers @prot1 - @lig1 - @lig2 = 90
+scalar sca1 = zero
+scalar sca1 = wmain
+scalar wmain set 0.0 sele all end
+scalar wmain set 1.0 sele lpicks end
+
+set imax = ?nsel
+set i = 1
+label lpick2
+   set pickresult = ok
+   calc rand = int( ?rand * ( @imax - @i ) ) + 1
+   coor stat sele ( prop wmain .eq. 1.0  .subset. @rand ) end
+   
+   scalar wmain set 0.0 sele bynu ?selatom end
+   
+   set lstr2 = type ?seltype
+   set lan2  = ?seltype
+   define lres2 sele ligand .and. ( @lstr2 .or. .bonded. @lstr2 ) end
+   coor stat mass sele lres2 end
+   coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 5 end
+   set lig2 = ?selatom
+   set l2x = ?xave
+   set l2y = ?yave
+   set l2z = ?zave
+      
+   q @prot1 @lig1 @lig2
+   if ?thet .lt. 30  set pickresult = notok
+   if ?thet .gt. 150 set pickresult = notok
+
+incr i by 1
+if @i gt @imax goto lpick
+if @pickresult eq notok goto lpick2
+scalar wmain = sca1
+
+! third random atom on the ligand
+define lpicks sele BB .and. .not. point @l1x @l1y @l1z cut @mind -
+                      .and. .not. point @l2x @l2y @l2z cut @mind -
+                      .and. point @l2x @l2y @l2z cut @maxd -
+                      .and. .not. excluded end
+
+! to ensure uniform random picking
+scalar sca1 = zero
+scalar sca1 = wmain
+scalar wmain set 0.0 sele all end
+scalar wmain set 1.0 sele lpicks end
+
+set imax = ?nsel
+set i = 1
+label lpick3
+   set pickresult = ok
+   calc rand = int( ?rand * ( @imax - @i ) ) + 1
+   coor stat sele ( prop wmain .eq. 1.0  .subset. @rand ) end
+   
+   scalar wmain set 0.0 sele bynu ?selatom end
+   
+   set lstr3 = type ?seltype
+   set lan3  = ?seltype
+   define lres3 sele ligand .and. ( @lstr3 .or. .bonded. @lstr3 ) end
+   coor stat mass sele lres3 end
+   coor set xdir ?xave ydir ?yave zdir ?zave select segid DUM .and. resid 6 end
+   set lig3 = ?selatom
+   set l3x = ?xave
+   set l3y = ?yave
+   set l3z = ?zave
+      
+   q @lig1 @lig2 @lig3
+   if ?thet .lt. 30  set pickresult = notok
+   if ?thet .gt. 150 set pickresult = notok
+
+incr i by 1
+if @i gt @imax goto lpick
+if @pickresult eq notok goto lpick3
+scalar wmain = sca1
+
+open write card unit 10 name tmp_restraint_geo.pdb
+write coor unit 10 pdb 
+
+quick @prot1 @lig1
+set dist = ?dist
+
+quick @prot2 @prot1 @lig1
+set theta = ?thet
+
+quick @prot3 @prot2 @prot1 @lig1
+set phi = ?phi
+
+quick @lig2 @lig1 @prot1
+set alpha = ?thet
+
+quick @lig2 @lig1 @prot1 @prot2
+set beta = ?phi
+
+quick @lig3 @lig2 @lig1 @prot1
+set gamma = ?phi
+
+delete atom sele segid DUM end ignorePSFSUM
+
+open write card unit 10 name tmp_restraint_geo.prm
+write title unit 10
+** Define six positions to set up translational and rotational restraints
+** The residues or atom groups are randomly chosen 
+** The initial values are r = @dist, theta = @theta, 
+** phi = @phi, alpha = @alpha, beta = @beta, gamma = @gamma
+**
+* define RECEPTOR select segid PROT end
+* define LIGAND   select segid @ligseg end
+* define BB    sele ( type N .or. type C .or. type CA .or. type O ) end
+* define pres1 sele segid @rpickseg1 .and. resid @rpick1 .and. BB end
+* define pres2 sele segid @rpickseg2 .and. resid @rpick2 .and. BB end
+* define pres3 sele segid @rpickseg3 .and. resid @rpick3 .and. BB end
+* SET P1RESID = @rpick1
+* SET P1RESNUM = @rpickresn1
+* SET P1NAME = @rpickan1
+* SET P2RESID = @rpick2
+* SET P2RESNUM = @rpickresn2
+* SET P2NAME = @rpickan2
+* SET P3RESID = @rpick3
+* SET P3RESNUM = @rpickresn3
+* SET P3NAME = @rpickan3
+* set lan1 = @lan1
+* set lan2 = @lan2
+* set lan3 = @lan3
+* define lres1 sele ( @lstr1 .or. .bonded. @lstr1 ) .and. .not. hydr end
+* define lres2 sele ( @lstr2 .or. .bonded. @lstr2 ) .and. .not. hydr end
+* define lres3 sele ( @lstr3 .or. .bonded. @lstr3 ) .and. .not. hydr end
+* return
+*
+close unit 10
+
+return

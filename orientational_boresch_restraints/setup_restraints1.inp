@@ -1,0 +1,29 @@
+* picking restraint atoms - Boresch restraints
+*
+
+! Read topology and parameter files
+stream toppar.str
+
+!! Read PSF and Coordinates
+read psf card name ../@run/tyk2-@lig-neutralized.psf
+read coor card name ../@run/tyk2-@lig-finalmini.crd
+
+define RECEPTOR select segid PROT end
+define LIGAND   select segid @seg end
+set ligseg = @seg
+
+!
+! Calculate (1) the rmsd of the receptor and the ligand and
+!           (2) the rotational and translational fluctuations
+!
+
+! read the final restraints
+stream tmp_restraint_geo.prm
+
+set equilibration = ../@run/tyk2-@lig-equil-oriented
+set minimized = ../@run/tyk2-@lig-finalmini
+
+! print the avergae values of final restraints - to be used in the analytical expression of boresch restraints.
+stream restraint_ref.str
+
+stop

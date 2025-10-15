@@ -1,0 +1,127 @@
+* picking restraint atoms - Boresch restraints
+*
+
+! Read topology and parameter files
+stream toppar.str
+
+!! Read PSF and Coordinates
+read psf card name ../@run/tyk2-@lig-neutralized.psf
+read coor card name ../@run/tyk2-@lig-finalmini.crd
+
+define RECEPTOR select segid PROT end
+define LIGAND   select segid @seg end
+set ligseg = @seg
+
+! read the restraints
+stream tmp_restraint_geo.prm
+
+! read the averaged value of restraints
+stream tmp_restraint_ref.prm 
+
+open write card unit 10 name boresch_@ligseg.str
+write title unit 10
+** Boresch orientational restraints from CHARMM scripts
+**
+* SET LIGSEGID = @seg
+* SET L1NAME = @LAN1
+* SET L2NAME = @LAN2
+* SET L3NAME = @LAN3
+* SET PROTSEGID = PROT
+* SET P1RESID = @P1RESNUM
+* SET P1RESNUM = @P1RESID
+* SET P1NAME = @P1NAME
+* SET P2RESID = @P2RESNUM
+* SET P2RESNUM = @P2RESID
+* SET P2NAME = @P2NAME
+* SET P3RESID = @P3RESNUM
+* SET P3RESNUM = @P3RESID
+* SET P3NAME = @P3NAME
+* SET DISTANCEL1P1 = @dist
+* SET THETA1 = @theta
+* SET THETA2 = @alpha
+* SET PHI1 = @phi
+* SET PHI2 = @beta
+* SET PHI3 = @gamma
+* SET DISTANCEK = 10.0
+* SET THETA1K = 200
+* SET THETA2K = 200
+* SET PHI1K = 200
+* SET PHI2K = 200
+* SET PHI3K = 200
+* return
+*
+close unit 10 
+
+stop
+!====================================================
+!====================================================
+open write card unit 10 name boresch_@ligseg.str
+write title unit 10
+* setup virtual bond constraints for the position and orientation of the ligand
+*
+
+! The 3 atoms on the protein and the 3 atoms on the ligand can be used to
+! setup the reference position and orientation
+!
+!!             (C.M.)
+!  prot3      prot1        lig2
+!    \         / \         / \
+!     \       /   \       /   \
+!      \     /     \     /     \
+!       \   /       \   /       \
+!        \ /         \ /         \
+!       prot2       lig1        lig3
+!!                  (C.M.)
+
+set distforce =  10.0
+set tangforce = 200.0
+set  angforce = 200.0
+
+MMFP
+! setup MMFP geo restraint for the position of the CM of the ligand
+! ligand position (dist, theta, phi)
+
+  geo maxgeo 50000 sphere dist RCM harm symm force @distforce droff @dist -
+  select receptor .and. pres1 end select ligand .and. lres1 end
+
+  geo sphere angle RCM harm symm force @tangforce droff @theta -
+  select receptor .and. pres2 end -
+  select receptor .and. pres1 end  -
+  select ligand .and. lres1 end
+
+  geo sphere dihe RCM harm symm force @tangforce droff @phi -
+  select receptor .and. pres3 end -
+  select receptor .and. pres2 end  -
+  select receptor .and. pres1 end  -
+  select ligand .and. lres1 end
+
+! setup MMFP geo restraint for the orientation of the ligand
+! ligand orientation  (alpha, beta, gamma)
+
+  GEO sphere angle RCM -
+     harmonic symmetric force @angforce droff @alpha -
+     select ligand .and. lres2 end -
+     select ligand .and. lres1 end -
+     select receptor .and. pres1 end
+
+  GEO sphere dihedral RCM  -
+     harmonic symmetric force @angforce droff @beta -
+     select ligand .and. lres2 end -
+     select ligand .and. lres1 end -
+     select receptor .and. pres1 end -
+     select receptor .and. pres2 end
+
+  GEO sphere dihedral RCM  -
+     harmonic symmetric force @angforce droff @gamma -
+     select ligand .and. lres3 end -
+     select ligand .and. lres2 end -
+     select ligand .and. lres1 end -
+     select receptor .and. pres1 end
+
+END
+
+return
+
+close unit 10 
+
+stop
