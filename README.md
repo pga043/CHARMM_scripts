@@ -30,7 +30,7 @@ For someone not familiar with CHARMM, I think the two important files/directorie
 | Restraint  | Domdec | BLaDE | OpenMM |
 | ------------- | ------------- | ------------ | ------------ |
 | NOE  | Supported  | Supported | No |
-| MMFP  | on CPU  | only pair of atoms | Some by Charlie and Argo |
+| MMFP  | on CPU  | only pair of atoms (Boresch type supported) | Some by Charlie and Argo |
 | RESD  | -  | - | Supported |
 | IC  | -  | - | - |
 | RMSD  | No  | No | No |
