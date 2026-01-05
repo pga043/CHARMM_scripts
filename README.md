@@ -27,7 +27,7 @@ For someone not familiar with CHARMM, I think the two important files/directorie
 
 
 # Restraints and Engine compatability
-| Restraint  | Domdec | BLaDE | OpenMM |
+| Restraint  | Domdec | BLaDE | CHARMM/OpenMM |
 | ------------- | ------------- | ------------ | ------------ |
 | NOE  | Supported  | Supported | No |
 | MMFP  | on CPU  | only pair of atoms (Boresch type supported) | Some by Charlie and Argo |
@@ -38,7 +38,7 @@ For someone not familiar with CHARMM, I think the two important files/directorie
 | CATS  | Supported  | Supported | Not sure |
 
 # Soft-core potentials and other FF related stuff
-| Feature  | Domdec | BLaDE | OpenMM |
+| Feature  | Domdec | BLaDE | CHARMM/OpenMM |
 | ------------- | ------------- | ------------ | ------------ |
 | non-integer e14fac  | Supported  | Supported | Supported |
 | Geometric combination rules | Supported  | Supported | ask Charlie |
