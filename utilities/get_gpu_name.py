@@ -15,3 +15,12 @@ def get_gpu():
 		print(f'No GPUs detected on computer: {hostname}')
 
 get_gpu()
+
+quit()
+
+def get_gpu():
+    gpu_info = subprocess.check_output("nvidia-smi -L", shell=True)
+    #print(gpu_info.decode("ascii"))
+    gpu_name = gpu_info.decode("ascii").split(':')[1].split('(')[0]
+    #print(gpu_name)
+    return gpu_name
