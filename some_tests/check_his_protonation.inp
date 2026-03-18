@@ -1,0 +1,141 @@
+* hydrogen bonds between HSD and protein
+* hydrogen bonds between HSE and protein
+* then decide HIS protonation state
+*
+
+! read topology and parameter files
+stream toppar.str
+
+read sequ pdb name "6SER.pdb"
+
+! now generate the PSF and also the IC table (SETU keyword), prot is SEGID defined by me
+generate setu prot first PROP last CTER
+
+! Handle disulfide patching!
+
+! set bomlev to -1 to avois sying on lack of hydrogen coordinates
+bomlev -1
+read coor pdb name prot.pdb
+! them put bomlev back up to 0
+bomlev 0
+
+! prints out number of atoms that still have undefined coordinates.
+define test select segid prot .and. ( .not. hydrogen ) .and. ( .not. init ) show end
+
+ic para
+ic fill preserve
+ic build
+hbuild sele all end
+
+set r1 = 152
+set r2 = 229
+set r3 = 232
+set r4 = 238
+set r5 = 256
+set r6 = 66
+set r7 = 87
+
+define heavy sele .not. hydrogen end
+define backbone sele heavy .and. (type N .or. type c .or. type ca .or. type o ) end
+
+open unit 101 write form name junk_hsd.dat
+
+!define his sele resname HSD show end
+!set i = ?selresi
+
+set i = 1
+label hbond_loop
+
+coor hbond cuthb 2.4 cutha 130 -
+select resi @r@@i .and. .not. backbone end select segid PROT end
+
+set e1 ?nhbond
+
+write title unit 101
+* HSD @r@@i @e1
+*
+
+incr i by 1
+if @i .le. 7 then 
+goto hbond_loop
+endif
+
+
+set new = HSE
+
+set i = 1
+label mut_loop
+
+! Change name of residue to be mutated.
+rename resname @new select segid PROT .AND. resid @r@@i end
+
+! So CHARMM won't complain about nonintegral net charge.
+bomb -1
+
+! Delete side chain atoms.
+delete atom select segid @segid .and. resid @r@@i .and. -
+ .not. (type n .or. type ca .or. type c .or. type o .or. type ha .or. type hn) end
+
+incr i by 1
+if @i .le. 7 then
+goto mut_loop
+endif
+
+ic fill preserve
+ic parameter
+ic build
+hbuild
+
+! Store the mutated protein that lacks the mutated side chain
+open write card name temp.pdb unit 14
+write coordinates pdb select all end unit 14
+*Temporary 
+*
+close unit 14
+
+! Remove all memory from CHARMM of the protein
+delete atom select all end
+
+! Read in the protein (missing side chain atoms on the residue
+!  to be mutated and with this residue given the new name).
+read sequ pdb name temp.pdb
+
+! now generate the PSF and also the IC table (SETU keyword), proa is SEGID defined by user
+generate setu PROT first PROP last CTER
+
+! set bomlev to -1 to avoid saying on lack of hydrogen coordinates
+bomlev -1
+read coor pdb resi name temp.pdb
+! them put bomlev back up to 0
+bomlev 0
+
+! Adds the side chain atoms to mutated residue.
+ic fill preserve
+ic parameter
+ic build
+hbuild
+
+open unit 102 write form name junk_hse.dat
+
+set i = 1
+label hbond2_loop
+
+coor hbond cuthb 2.4 cutha 130 -
+select resi @r@@i .and. .not. backbone end select segid PROT end
+
+set e2 ?nhbond
+
+write title unit 102
+* HSE @r@@i @e2
+*
+
+incr i by 1
+if @i .le. 7 then
+goto hbond2_loop
+endif
+
+! Delete the temporary coordinates with this system command
+system "rm temp.pdb"
+
+stop
+
