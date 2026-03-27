@@ -6,6 +6,8 @@ stream toppar.str
 read psf card name "@{DIR}/@{PROT}-@{LIG}-solvated.psf"
 read coor card name "@{DIR}/@{PROT}-@{LIG}-solvated.crd" 
 
+set seg = P01* ! segid of your protein
+
 ! Determine what type of ions being used
 set nneg CLA                     ! set segid of neg. ion
 set negion CL                    ! set atom type of neg. ion
@@ -29,10 +31,10 @@ show ?FREEVOL
 calc tvol ?VOLUME + ?FREEVOL
 
 ! Compute volume of just the protein
-define tmp select segid P01* end !.not. (resname tip3 .or. resname CLA .or. resname POT .or. resname SOD) end
+define tmp select segid @seg end !.not. (resname tip3 .or. resname CLA .or. resname POT .or. resname SOD) end
 show ?NSEL
 calc volspace ?NSEL * 160
-coor volume space @volspace select segid P01* end !.not. segid BWAT end
+coor volume space @volspace select segid @seg end !.not. segid BWAT end
 show ?VOLUME
 show ?FREEVOL
 calc protvol ?VOLUME + ?FREEVOL
