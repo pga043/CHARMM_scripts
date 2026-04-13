@@ -1,0 +1,52 @@
+* This file is rotadjust.inp. 
+* Usage, charmm resid=int atom1=atomname atom2=atomname atom3=atomname 
+*  atom4=atomname chi=value <rotadjust.inp >rotadjust.out, 
+*  where resid is the residue number being modified and
+*  atom1 through atom4 give the names of the atoms defining the dihedral angle.
+* Produces an output pdb with dihedral set to value of chi.
+*
+
+! Open and read amino acid topology and parameter files.
+open read card name "top_all27_prot_na.rtf" unit 20
+read rtf card unit 20
+close unit 20
+
+open read card name "par_all27_prot_na.prm" unit 20
+read parameter card unit 20
+close unit 20
+
+! Read sequences and coordinates from the coordinate files.
+open read card name "protein.pdb" unit 21
+read sequence pdb unit 21
+generate pept setup
+rewind unit 21
+
+read coordinate pdb unit 21
+close unit 21
+
+! Add missing atoms.
+ic fill preserve
+ic parameter
+ic build
+hbuild
+
+! Adjust dihedral with ic edit using the passed variables.
+ic edit 
+dihedral pept @resid @atom1 pept @resid @atom2 pept @resid @atom3 -
+ pept @resid @atom4 @chi
+end
+
+! Erase coordinates of the side chain in coordinate array.
+coordinate initialize select segid pept .and. resid @resid .and. -
+ .not. (type n .or. type ca .or. type c .or. type o .or. type ha .or. type hn) end
+
+! Rebuild the rotated side chain in coordinate space 
+ic build
+
+! Write output
+open write card unit 17 name out.pdb
+write coordinate pdb unit 17
+*Chi of resid @resid defined by @atom1 @atom2 @atom3 @atom4 set to @chi
+*
+
+stop

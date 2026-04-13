@@ -1,0 +1,73 @@
+* This file is counter.inp.
+* Useage, charmm <counter.inp >counter.out.
+* Adds sodium ion halfway between O1P and O2P oxygen atoms on phosphates of DNA.
+* 
+
+! Open and read amino acid topology file
+open read card unit 20 name "top_all27_prot_dna.rtf" 
+read rtf card unit 20
+close unit 20
+
+! Open and read protein parameter file
+open read card unit 21 name "par_all27_prot_na.prm" 
+read parameter card unit 21
+close unit 21
+
+! Read sequence and coord of DNA strands a and b and of a sodium ion.
+open read card unit 22 name 1bna.pdb
+read sequence pdb unit 22
+generate dnaa setup first 5ter last 3ter
+rewind unit 22
+
+read sequence card
+* Sequence of Na+
+*
+1
+sod
+generate sod first none last none
+
+read coordinate pdb unit 22 
+close unit 22
+
+ic build
+hbuild
+
+
+! Unit 5 is script currently being read by CHARMM
+read coordinate append card unit 5  
+* This is the title line followed by a blank line
+*
+    1
+    1    1 SOD  SOD     .00000    .00000    .00000 SOD  1 .00000
+
+print coordinate
+
+! Count phosphates
+coordinate copy comp select segid dnaa  .and. type P end
+
+calculate start = ?SELRESI
+calculate loopno = ?NSEL
+
+coordinate axis select resid 2 .and. type O1P  end select resid 2 .and. type O2P end
+
+read sequence card
+* Sequence of Na+
+*
+1
+sod
+
+! Generate the segid "sod1"
+generate sod1 setup first none last none noangle nodihedral
+
+! Assign the coordinates of the first sodium to a new sodium.
+coordinate duplicate select segid sod end select segid sod1 end
+
+! Add midpoint of vector between phosphate oxygens to sodium coordinates
+! Use @ in front of d to ensure that the value of d is used
+scalar x add ?XCEN select segid sod1 end
+scalar y add ?YCEN select segid sod1 end
+scalar z add ?ZCEN select segid sod1 end
+
+print coordinates 
+
+

@@ -1,0 +1,38 @@
+* This file is rotate.inp.
+* Usage, charmm <rotate.inp >rotate.out.
+* Testing need for setup
+*
+
+! Open and read amino acid topology and parameter files in the same directory
+open read card name "top_all27_prot_na.rtf" unit 20
+read rtf card unit 20
+close unit 20
+
+open read card name "par_all27_prot_na.prm" unit 20
+read parameter card unit 20
+close unit 20
+
+! Read sequence and coordinates 
+open read card name "protein.pdb" unit 21
+read sequence pdb unit 21
+generate prot setup
+rewind unit 21
+
+
+read coordinate pdb offset -6 unit 21
+close unit 21
+
+coordinate rotate matrix select all end
+1 0 0
+0 1 0
+0 0 -1
+
+open write card name rotated.pdb unit 40
+write coordinates pdb select all end unit 40
+* Coordinates after simulation of all atoms in protein, pdb format
+*
+
+system "echo didn"'"t crash > /dev/tty"
+
+stop
+

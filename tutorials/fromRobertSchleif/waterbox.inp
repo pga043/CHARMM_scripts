@@ -1,0 +1,131 @@
+* This file is waterbox.inp.
+* Usage, charmm <waterbox.inp >waterbox.out.
+* Create a box of water 21 x 21 x 21 molecules containing 9261 molecules
+*  centered at origin.
+* Adjust size as needed by changing ** portions of script.
+* X=Y=Z=65.19082 Angstroms.
+* 
+
+! Open and read amino acid topology file
+open read card unit 20 name "top_all27_prot_na.rtf" 
+read rtf card unit 20
+close unit 20
+
+! Open and read protein parameter file
+open read card unit 21 name "par_all27_prot_na.prm" 
+read parameter card unit 21
+close unit 21
+
+! Read sequence and coordinates of one molecule from this input script.
+read sequence TIP3 1
+generate box setup first none last none noangle nodihedral
+
+! Unit 5 is script currently being read by CHARMM
+read coordinate card unit 5  
+* This is the required title line followed by a blank line
+*
+    3
+    1    1 TIP3 OH2     .00000    .06577    .00000 BOX  1 .00000
+    2    1 TIP3 H1      .75902   -.52198    .00000 BOX  1 .00000
+    3    1 TIP3 H2     -.75907   -.52195    .00000 BOX  1 .00000
+
+coordinate orient mass
+
+! Build a row of molecules in the x direction
+! Initialize distance d the molecule is to be moved and the loop counter i
+set d 0
+set i 1
+
+! This is the top of the x construction loop
+label looptop
+
+! Separation in x, y, and z directions of the centers of the water molecules
+increment d by 3.10432
+increment i by 1
+read sequence TIP3 1
+
+! Generate the segid "new"
+generate new setup first none last none noangle nodihedral
+
+! Assign the coordinates of the first molecule to the new molecule
+coordinate duplicate select resid 1 .and. segid box end select segid new end
+
+! To the x coordinates of everything in segid new, add the current value of d
+! Use @ in front of d to ensure that the value of d is used
+scalar x add @d select segid new end
+
+! Add the new molecule to the existing molecules
+join box new renumber
+	
+! This line specifies **21** molecules to be built along the x axis
+if i lt 21 goto looptop
+
+! Replicate the row of molecules in the y direction 
+set d 0
+set i 1
+
+label loop2
+
+increment d by 3.10432
+increment i by 1
+
+! Adjust the number molecules below according to size of x loop, **
+read sequence TIP3 21
+
+generate new setup first none last none noangle nodihedral
+
+! Assign the coordinates of the first row of old molecules to the new molecules
+! Adjust residue range to be duplicated 1:**21**
+coordinate duplicate select resid 1:21 .and. segid box end select segid new end
+
+! To the y coordinates of everything in segid new, add the current value of d
+scalar y add @d select segid new end
+
+! Add the new row of molecules to the existing molecules
+join box new renumber
+
+! This line specifies 21 rows molecules to be built along the y axis **21**
+if i lt 21 goto loop2
+
+! Replicate the layer of molecules in the z direction
+set d 0
+set i 1
+
+label loop3
+
+increment d by 3.10432
+increment i by 1
+
+! Adjust number molecules according to sizes of x and y loops **441**
+read sequence TIP3 441
+
+generate new setup first none last none noan nodi
+
+! Assign the coordinates of the first layer of molecules to the new molecules
+! Adjust residue range to be duplicated **441**
+coordinate duplicate select resid 1:441 .and. segid box end select segid new end
+
+! To the z coordinates of everything in segid new, add the current value of d
+scalar z add @d sele segid new end
+
+! Add the new molecule to the existing molecules
+join box new renumber
+
+! This line specifies 21 layers molecules to be built along the z axis
+if i lt 21 goto loop3
+
+! Center the box at the origin.
+coordinate orient
+
+open write unit 23 card name box.pdb
+write coordinates pdb select all end unit 23
+* Water box 65.19082 Angstroms on a side
+*
+
+open write unit 24 card name box.crd
+write coordinates sele all end card unit 24 
+* Water box 49.6692 Angstroms on a side
+*
+
+stop
+

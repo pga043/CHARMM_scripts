@@ -1,0 +1,145 @@
+* This file is mindyn.inp.
+* Usage, charmm <mindyn.inp >mindyn.out.
+* For putting a protein and its crystallographic waters in a water drop
+*  energy minimizing, heating, equilibrating, and performing a dynamics run.
+* Takes nonbonded parameters from parameter table.
+*
+
+! Open and read amino acid topology and parameter files
+open read card name "top_all27_prot_na.rtf" unit 20
+read rtf card unit 20
+close unit 20
+
+open read card name "par_all27_prot_na.prm" unit 20
+read parameter card unit 20
+close unit 20
+
+! Read sequences and coordinates from the pdb and crd files
+open read card name "protein.pdb" unit 21
+read sequence pdb unit 21
+generate prot setup
+rewind unit 21
+
+open read card name "xwater.pdb" unit 22
+read sequence pdb unit 22
+! Could also be read sequence TIP3 n unit 22 where n is number of waters in file.
+generate xwat setup first none last none noangle nodihedral
+rewind unit 22
+
+open read card name "box.crd" unit 23
+read sequence TIP3 4096 unit 23
+generate box setup first none last none noangle nodihedral
+rewind unit 23
+
+read coordinate pdb offset -6 unit 21
+close unit 21
+
+read coordinate pdb append unit 22
+close unit 22 
+
+read coordinate card append unit 23
+close unit 23
+
+! Add missing atoms
+ic fill preserve
+ic parameter
+ic build
+hbuild
+
+!system -
+!"echo Finished adding atoms  > /dev/tty"
+
+! Delete crystallographic waters more than 8 Angstroms from the protein
+delete atom select ( .byres. ( .not. ( segid prot .around. 8 ) .and. -
+  (segid xwat .and. type OH2 ) ) ) end
+
+! Center the protein and its crystallographic waters at origin. Note, use .or., not .and.
+coordinate orient select segid prot .or. segid xwat end 
+
+! Reverse rotating effect of coordinate orient on the water box
+coordinate rotate XDIR ?XAXI YDIR ?YAXI ZDIR ?ZAXI PHI -?THET select segid box end 
+
+! Reverse translation effect of coordinate orient on the water box
+coordinate translate select segid box end XDIR -?XMOV YDIR -?YMOV ZDIR -?ZMOV 
+
+! Delete waters of box that overlap the protein
+delete atom select ( .byres. ( (segid prot .around. 2.5 ) .and. -
+  (segid box .and. type OH2 ))) end 
+
+! Delete waters of box too far from the protein
+delete atom select ( .byres. ( .not. (segid prot .around. 10 ) .and. -
+  (segid box .and. type OH2 ))) end
+
+! Delete waters of box that overlap crystallographic waters
+delete atom select ( .byres. ((segid xwat .around. 2.5 ) .and. -
+  (segid box .and. type OH2 ))) end
+
+! Change the segid of all water molecules to solv
+join xwat box renumber
+rename segid solv select segid xwat end
+
+open write card name ready.pdb unit 40
+write coordinates pdb select all end unit 40
+* Coordinates after centering of all atoms in protein, pdb format
+*
+
+!system -
+!"echo Starting minimization  > /dev/tty"
+
+minimize abnr nstep 1000 nprint 100
+
+!shake bonh
+
+open write card name "heat.rst" unit 31
+open write file name "heat.dcd" unit 32
+
+!system -
+!"echo Started heating  > /dev/tty"
+
+! Heating dynamics
+dynamics leap verlet strt -
+ nstep 6000 timestep 0.002 nprint 1000 nsavc 1000 -
+ nsavv 0 inbfrq -1 iprfrq 1000 ihtfrq 200 -
+ iunrea -1 iunwri 31 iuncrd 32 iunvel -1 kunit -1 -
+ firstt 0.000000 finalt 300.0 teminc 10.0 -
+ iasors 1 iasvel 1 iscvel 0 ichecw 0 
+
+open read card name "heat.rst" unit 30
+open write card name "equil.rst" unit 31
+open write file name "equil.dcd" unit 32
+
+!system -
+!"echo Starting equilibration  > /dev/tty"
+
+! Equilibration dynamics
+dynamics leap verlet rest -
+ nstep 6000 time 0.002 nprint 1000 nsavc 1000 -
+ nsavv 0 inbfrq -1 iprfrq 1000 ihtfrq 0 -
+ ieqfrq 100 ntrfrq 100 -
+ iunread 30 iunwrite 31 iuncrd 32 invel -1 kunit -1 -
+ finalt 300.0 -
+ iasors 1 iasvel 1 iscvel 0 ichecw 0 
+
+open write card name "equil2.pdb" unit 41
+write coordinate pdb select all end unit 41
+* Coordinates after equilibration dynamics
+*
+
+open read card name "equil.rst" unit 30
+open write card name "sim.rst" unit 31
+open write unit 32 file name "sim.dcd"
+
+system -
+"echo Starting simulation  > /dev/tty"
+
+! Simulation dynamics
+dynamic leap verlet rest -
+ nstep 200000 time 0.002 nprint 1000 nsavc 1000 -
+ nsavv 0 inbfrq -1 iprfrq 1000 ihtfrq 0 -
+ ieqfrq 0 ntrfrq 0 -
+ iunread 30 iunwrite 31 iuncrd 32 iunvel -1 kunit -1 -
+ isvfrq 50000 finalt 300.0 -
+ ichecw 0 
+
+stop
+

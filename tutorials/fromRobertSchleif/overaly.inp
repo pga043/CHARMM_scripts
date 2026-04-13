@@ -1,0 +1,71 @@
+* This file is overlay.inp
+* Useage, charmm <overlay.inp > overlay.out 
+* Uses "cleaned" pdb files prot1.pdb and prot2.pdb with segnames pro1 and pro2
+* Hardcode into the script below corresponding regions of two proteins to be
+*  RMS overlaid.  Use residue numbering as in the pdb files. 
+* Translated and rotated coordinates of pro2 are output in overlay2.pdb
+* Color2.pdb contains backbone with B values proportional to separation 
+*  between pro2 and pro1 at that position
+*
+
+! Open and read topology and parameter files
+open read card unit 20 name top_all22_prot.inp 
+read rtf card unit 20
+close unit 20
+
+open read card unit 20 name "par_prot_sugar.inp" 
+read param card unit 20
+close unit 20
+
+! Read in the two proteins
+open read unit 12 card name prot1.pdb 
+read sequence pdb unit 12
+generate PRO1 setup 
+rewind unit 12
+
+open read unit 13 card name prot2.pdb
+read sequence pdb unit 13
+generate PRO2 setup
+rewind unit 13
+
+read coord pdb unit 12
+close unit 12
+
+read coord pdb appe unit 13
+close unit 13
+
+! Build missing atoms
+ic fill preserve
+ic build
+ic para
+ic build
+
+coordinate copy comparison select all end
+
+! Hardcode regions to be rms overlaid below
+! Atom types HN and HA are intentionally omitted
+coordinate comparison duplicate select segid pro1 .and. resid 13 : 111 -
+  .and. (type n .or. type ca .or. type c .or. type o) end  -
+  select segid pro2 .and. resid 7 : 105 -
+  .and. (type n .or. type ca .or. type c .or. type o) end
+
+! Perform the RMS overlaying operation
+coordinate orient rms select segid pro2 .and. resid 7 :105 -
+  .and. (type n .or. type ca .or. type c .or. type o) end
+
+open write unit 12 card name "overlay2.pdb"
+write coordinate select segid pro2 end pdb unit 12
+* Translated and rotated for RMS overlay on prot1.pdb
+*
+
+coordinate comparison difference
+coordinate comparison distance weight
+coordinate copy weight
+
+open write unit 13 card name "color.pdb"
+write coordinate select segid pro2 .and. resid 7 : 105 -
+ .and. (type n .or. type ca .or. type c .or. type o ) end pdb unit 13
+* Backbone of prot2 with B value proportional to distance from prot1
+*
+
+stop

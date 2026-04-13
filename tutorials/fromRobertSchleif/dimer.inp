@@ -1,0 +1,49 @@
+* This file is dimer.inp.
+* Usage, charmm <dimer.inp >dimer.out.
+* Input files, top_all27_prot_na.rtf, par_all27_prot_na.prm, subunit1.pdb, 
+*  subunit2.pdb from fixpdb.awk.
+* Reads proteins, adds H atoms, adds missing side chain atoms, determines atoms 
+*  of subunit 1 that line within 4 Angstroms of any atom of subunit 2.
+* 
+
+! Open and read topology and parameter files
+open read card unit 20 name "top_all27_prot_na.rtf" 
+read rtf card unit 20
+close unit 20
+
+open read card unit 20 name "par_all27_prot_na.prm" 
+read parameter card unit 20
+close unit 20
+
+! Read in the subunits
+open read unit 21 card name "subunit1.pdb" 
+read sequence pdb unit 21
+
+generate pro1 setup 
+rewind unit 21
+
+open read unit 22 card name "subunit2.pdb"
+read sequence pdb unit 22
+
+generate pro2 setup
+rewind unit 22
+
+read coordinate pdb offset -6 unit 21
+close unit 21
+
+read coordinate pdb append offset -6 unit 22
+close unit 22
+
+! Build missing atoms
+ic fill preserve
+ic parameter
+ic build
+hbuild
+
+open write unit 30 card name interface.pdb
+write coordinates pdb select segid pro2 .and. (segid pro1 .around. 4) show end unit 30
+* Coordinates of all atoms in protein, pdb format
+*
+
+stop
+

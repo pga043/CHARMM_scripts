@@ -1,0 +1,44 @@
+* This file is mini.inp
+* Energy minimization script 
+* Uses combined protein sugars parameter file, amino and ARA RTF's
+* Nonbonded parameters from proteins parameters file
+*
+
+!open and read protein and ligand RTF files
+open read card unit 20 name "top_all22_prot.inp" 
+read rtf card unit 20
+close unit 20
+
+open read card unit 21 name "LIGAND.RTF"
+read rtf card unit 21 appe
+close unit 21
+
+!open and read combined protein carbohydrate parameter file
+open read card unit 20 name "par_prot_sugar.inp" 
+read param card unit 20
+close unit 20
+
+!open and read psf file
+open read unit 20 card name "cplw.psf"
+read psf unit 20 card
+close unit 20
+
+ 
+!open and read coordinates file
+open read unit 20 card name "cplw.crd"
+read coor card unit 20
+close unit 20
+
+!update cdie shift vshift cutnb 16.0 inbfrq 10 ihbfrq 0
+
+update nbxmod  5 atom cdiel shift vatom vdistance vswitch -
+cutnb 14.0 ctofnb 12.0 ctonnb 10.0 eps 1.0 e14fac 1.0 wmin 1.5 
+
+mini abnr nstep 1000 nprint 20
+
+open write unit 20 card name cplwmin.crd
+write coor card unit 20
+*Minimized coordinates protein, ligand, water, nbonded parameters
+*
+
+stop

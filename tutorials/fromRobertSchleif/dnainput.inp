@@ -1,0 +1,45 @@
+* This file is dnainput.inp.
+* Usage, charmm <dnainput.inp >dnainput.out.
+* Generates coordinate and psf files from pdb file of DNA coordinates.
+* Input of DNA with pdb file fixed with fixpdbdna.awk and using top_all27_prot_na.rtf 
+*  modified so ADE, CYT, GUA, THY are deoxyribonucleotides in top_all27_prot_dna.rtf. 
+* Adjust segment identifier in generate statement to match segid in input file.
+*
+
+! Open and read modified rtf and unaltered parameter file.
+open read card unit 20 name "top_all27_prot_dna.rtf" 
+read rtf card unit 20
+close unit 20
+
+open read card unit 20 name "par_all27_prot_na.prm" 
+read param card unit 20
+close unit 20
+
+! Read sequence from pdb file, generate segment, and read coordinates.
+open read card name "1bna.pdb" unit 12
+read sequence pdb unit 12
+generate DNAA setup first 5ter last 3ter 
+rewind unit 12
+
+read coordinate pdb unit 12
+close unit 12
+
+! Construct any missing coordinates using ic table. ic table, while preserving ic 
+ic fill preserve
+ic parameter
+ic build
+hbuild
+
+! Wite out coordinate and psf files.
+open write unit 15 card name 1bnadna.pdb
+write coordinates pdb select all end unit 15
+* One strand of DNA
+*
+
+open write unit 16 card name 1bnadna.psf
+write psf card unit 16
+* PSF for one strand of DNA
+*
+
+stop
+

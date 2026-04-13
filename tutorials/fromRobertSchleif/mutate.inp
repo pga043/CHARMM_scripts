@@ -1,0 +1,77 @@
+* This file is mutate.inp.
+* Usage, charmm segid=wxyz resno=n new=abc <mutate.inp >mutate.out
+*  where wxyz is the segid of the protein, n is the resnumber, and abc is 
+*  the three letter abbreviation of the new residue at position n.
+* Output is mprotein.pdb, which will have the residue changed and segname prot.
+* Creates, and should delete, temporary file, temp.pdb.
+*
+
+! Open and read amino acid topology and parameter files.
+open read card name top_all27_prot_na.rtf unit 20
+read rtf card unit 20
+close unit 20
+
+open read card name par_all27_prot_na.prm unit 20
+read parameter card unit 20
+close unit 20
+
+! Read sequences and coordinates from the coordinate files.
+open read card name mprotein2.pdb unit 21
+read sequence pdb unit 21
+generate @segid setup
+rewind unit 21
+
+read coordinate pdb unit 21
+close unit 21
+
+! Add any missing atoms.
+ic fill preserve
+ic parameter
+ic build
+hbuild
+
+! Change name of residue to be mutated.
+rename resname @new select segid @segid .AND. resid @resno end
+
+! So CHARMM won't complain about nonintegral net charge.
+bomb -1
+
+! Delete side chain atoms.
+delete atom select segid @segid .and. resid @resno .and. -
+ .not. (type n .or. type ca .or. type c .or. type o .or. type ha .or. type hn) end 
+
+! Store the mutated protein that lacks the mutated side chain
+open write card name temp.pdb unit 14
+write coordinates pdb select all end unit 14
+*Temporary 
+*
+close unit 14
+
+! Remove all memory from CHARMM of the protein
+delete atom select all end
+
+! Read in the protein (missing side chain atoms on the residue
+!  to be mutated and with this residue given the new name).
+open read card name temp.pdb unit 14
+read sequence pdb unit 14
+generate @segid setup 
+rewind unit 14
+
+read coordinate pdb unit 14
+close unit 14
+
+! Adds the side chain atoms to mutated residue.
+ic fill preserve
+ic parameter
+ic build
+hbuild
+
+open write card name mprotein3.pdb unit 14
+write coordinates pdb select all end unit 14
+*Coordinates of mutated protein. Residue @resno changed to @new
+*
+
+! Delete the temporary coordinates with this system command
+system "rm temp.pdb"
+
+stop

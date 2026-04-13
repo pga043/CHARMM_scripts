@@ -1,0 +1,88 @@
+* This file is phipsi.inp.
+* Usage, charmm <phipsi.inp >phipsi.out.
+* Input files, top_all27_prot_na.rtf, par_all27_prot_na.prm, protein.pdb from
+*  fixpdb.awk.
+* Reads protein.pdb, adds H atoms, adds missing side chain atoms.
+* Output files, prot.pdb, prot.crd, prot.psf, prot.ic.
+* Seg-id's in generate commands must match segids in columns 73-76
+*  of input files.
+* 
+
+! Open and read amino acid topology file
+open read card unit 20 name "top_all27_prot_na.rtf" 
+read rtf card unit 20
+close unit 20
+
+! Open and read protein parameter file
+open read card unit 20 name "par_all27_prot_na.prm" 
+read parameter card unit 20
+close unit 20
+
+! Read sequence from the pdb coordinate file
+open read unit 21 card name "protein.pdb" 
+read sequence pdb unit 21
+
+! Generate segment prot and add internal coordinate entries from rtf to ic table 
+generate prot setup 
+rewind unit 21
+
+! Read coordinates and close the units. If the first residue in pdb
+!  is numbered, for example, 7 rather than 1, we need the offset -6 option
+!  Presumably, could use the resid option if we were reading crd files. 
+read coordinate pdb offset -6 unit 21
+close unit 21
+
+! Transfer all existing coord. to ic table, while preserving ic entries for
+!  missing atoms
+ic fill preserve
+
+! Obtain any ic values still needed from parameter table.
+ic parameter
+
+! Retain existing coordinates and build the rest from ic table.
+ic build
+
+! Place any H's that are still missing.
+hbuild
+
+open write unit 30 card name prot.pdb
+write coordinates pdb select all end unit 30
+* Coordinates of all atoms in protein, pdb format
+*
+
+open write unit 31 card name prot.crd
+write coordinates card unit 31
+* Coordinates of all atoms in protein, crd format 
+*
+
+open write unit 32 card name prot.psf
+write psf unit 32 card
+* psf of the protein
+*
+
+open write unit 33 card name prot.ic
+write ic unit 33 card
+* internal coordinates of the protein
+*
+
+scalar wmain = radius
+scalar wmain add 1.6
+scalar wmain mult 0.85
+
+coordinate search select segid prot .and. resid 18 : 167 end holes -
+  XMIN -20 XMAX 70  XGRID 91 -
+  YMIN -20 YMAX 70  YGRID 91 -
+  ZMIN -20 ZMAX 70  ZGRId 91 -
+  create solv chem OT noprint
+  
+open write unit 32 card name prothole.psf
+write psf unit 32 card
+* psf of the protein with dummy atoms for holes
+*
+
+open write unit 30 card name prothole.pdb
+write coordinates pdb select all end unit 30
+* Coordinates of all atoms in protein dummy atoms in holes, pdb format
+*
+stop
+

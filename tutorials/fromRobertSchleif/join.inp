@@ -1,0 +1,61 @@
+* This file is join.inp. 
+* Usage, charmm Final=n First=m <join.inp >join.out
+* Joins N- and C-terminal fragments in peptide bond where Final is
+*  resid of final residue of N-terminal fragment and First is
+*  resid if first residue of C-terminal fragment.
+* Requires pres named join in residue topology file.
+*
+
+! Open and read amino acid topology and parameter files.
+open read card name top_all27_prot_na.rtf unit 20
+read rtf card unit 20
+close unit 20
+
+open read card name par_all27_prot_na.prm unit 20
+read parameter card unit 20
+close unit 20
+
+! Read sequences and coordinates from the coordinate files.
+open read card name peptide.pdb unit 21
+read sequence pdb unit 21
+generate nter setup
+rewind unit 21
+
+open read card name altered.pdb unit 22
+read sequence pdb unit 22
+generate cter setup
+rewind unit 22
+
+read coordinate pdb unit 21
+close unit 21
+
+read coordinate pdb append unit 22
+close unit 22
+
+! Add any missing atoms.
+ic fill preserve
+ic parameter
+ic build
+hbuild
+
+! The patch named join must be in topology file.
+! Execute the patch and add the needed new atoms.
+patch join nter @Final cter @First setup 
+ic fill preserve
+ic parameter
+ic build
+hbuild
+
+print ic
+
+! Clean up.
+join nter cter renumber
+rename segid prot select segid nter end
+
+! Write out the joined polypeptide.
+open write card unit 17 name joined.pdb
+write coordinate pdb unit 17
+* Joined polypeptide 
+*
+
+stop

@@ -1,0 +1,112 @@
+* This file is periodic.inp.
+* Usage, charmm <periodic.inp >periodic.out.
+* For energy minimizing, heating, equilibrating, and performing
+*  dynamics with periodic boundary conditions.
+*
+! Open and read amino acid topology and parameter files
+open read card name "top_all27_prot_na.rtf" unit 20
+read rtf card unit 20
+close unit 20
+
+open read card name "par_all27_prot_na.prm" unit 20
+read parameter card unit 20
+close unit 20
+
+! Read sequences and coordinates from the pdb and crd files
+open read card name "arm.pdb" unit 21
+read sequence pdb unit 21
+generate prot setup
+rewind unit 21
+
+open read card name "xwater.pdb" unit 22
+read sequence pdb unit 22
+generate xwat setup first none last none noangle nodihedral
+rewind unit 22
+
+open read card name "box.crd" unit 23
+read sequence TIP3 4096 unit 23
+generate box setup first none last none noangle nodihedral
+rewind unit 23
+
+read coordinate pdb offset -6 unit 21
+close unit 21
+
+read coordinate pdb append unit 22
+close unit 22 
+
+read coordinate card append unit 23
+close unit 23
+
+! Add missing atoms
+ic fill preserve
+ic parameter
+ic build
+hbuild
+
+system -
+"echo Finished adding atoms  > /dev/tty"
+
+! Delete crystallographic waters more than 4 Angstroms from the protein
+delete atom select ( .byres. ( .not. ( segid prot .around. 4 ) .and. -
+  (segid xwat .and. type OH2 ) ) ) end
+
+! ! Center protein & crystal. waters at origin.
+coordinate orient select segid prot .or. segid xwat end 
+
+! Reverse rotating effect of coordinate orient on the water box
+coordinate rotate XDIR ?XAXI YDIR ?YAXI ZDIR ?ZAXI PHI -?THET select segid box end 
+
+! Reverse translation effect of coordinate orient on the water box
+coordinate translate select segid box end XDIR -?XMOV YDIR -?YMOV ZDIR -?ZMOV 
+
+! Delete waters of box that overlap the protein
+delete atom select ( .byres. ( (segid prot .around. 2.5 ) .and. -
+  (segid box .and. type OH2 ))) end 
+
+! Delete waters of box that overlap crystallographic waters
+delete atom select ( .byres. ((segid xwat .around. 2.5 ) .and. -
+  (segid box .and. type OH2 ))) end
+
+! Change the segid of all water molecules to solv
+join xwat box renumber
+rename segid solv select segid xwat end
+
+open write card name ready.pdb unit 40
+write coordinates pdb select all end unit 40
+* Coordinates after centering of all atoms in protein, pdb format
+*
+
+system -
+"echo Starting minimization  > /dev/tty"
+
+! Use SHAKE for TIP3 only
+shake bonh
+
+! Set up the periodic boundary conditions, crystal dim from water box.
+crystal define orthorhombic 62.0864 49.66912 49.66912 90. 90. 90.
+crystal build cutoff 7.0 noperations 0
+!image byseg xcen 0.0 ycen 0.0 zcen 0.0 select .not. resname tip3 end
+!image centering of protein usually is not necessary
+image byres xcen 0.0 ycen 0.0 zcen 0.0 select resname tip3 end
+
+update nbxmod  5 atom cdiel shift vatom vdistance vswitch -
+ cutnb 14.0 ctofnb 12.0 ctonnb 10.0 eps 1.0 e14fac 1.0 wmin 1.5 -
+ cutimg 14  
+
+minimize abnr nstep 1000 nprint 100
+
+open write card name "heat.rst" unit 31
+open write file name "heat.dcd" unit 32
+
+system -
+"echo Started heating  > /dev/tty"
+
+! Heating dynamics
+dynamics leap verlet strt -
+ nstep 6000 timestep 0.001 nprint 500 nsavc 100 -
+ nsavv 0 inbfrq -1 imgfrq 50 iprfrq 100 ihtfrq 200 -
+ iunrea -1 iunwri 31 iuncrd 32 iunvel -1 kunit -1 -
+ firstt 0.000000 finalt 300.0 teminc 10.0 -
+ iasors 1 iasvel 1 iscvel 0 ichecw 0 
+
+stop

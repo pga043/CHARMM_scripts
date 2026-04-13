@@ -1,0 +1,43 @@
+* This file is inten.inp.
+* Calculates interaction energy between residues 7-20 and 24-167. 
+* Usage, charmm <inten.inp >inten.out. 
+*
+
+! Open and read amino acid topology and parameter files
+open read card name "top_all27_prot_na.rtf" unit 20
+read rtf card unit 20
+close unit 20
+
+open read card name "par_all27_prot_na.prm" unit 20
+read parameter card unit 20
+close unit 20
+
+!open and read psf file
+open read card name "fullprot.psf" unit 20
+read psf card unit 20
+close unit 20
+
+open write card name "energy.tst" unit 52
+
+open read file name sim.dcd unit 51
+
+trajectory query unit 51
+trajectory iread 51 begin ?start skip ?skip
+
+set i 1
+label loop
+
+trajectory read
+!update
+!interaction select segid prot .and. resid 7 : 20 end -
+! select segid prot .and. resid 24 : 167 end unit 52
+
+open write card name dyn@{i}.pdb unit 15
+write coordinate pdb select all end unit 15
+* Coordinates of protein 
+*
+
+increment i
+!if i le ?nfile goto loop
+if i le 11 goto loop
+stop

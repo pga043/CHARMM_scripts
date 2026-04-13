@@ -1,0 +1,34 @@
+* This file is correl.inp.
+* Usage, charmm <correl.inp >correl.out.
+* Generates the chi1 and chi2 rotamer angle distributions in a trajectory.
+* Requires on the order of 380 KB of memory.
+*
+
+! Open and read amino acid topology and parameter files
+open read card name "top_all27_prot_na.rtf" unit 20
+read rtf card unit 20
+close unit 20
+
+open read card name "par_all27_prot_na.prm" unit 20
+read parameter card unit 20
+close unit 20
+
+! Open and read psf file
+open read card name "fullprot.psf" unit 20
+read psf card unit 20
+close unit 20
+
+open read unit 51 file name sim.dcd
+trajectory query unit 51
+open write unit 52 card name rotamer.tst
+
+correl maxtime ?nfile maxseries 2 maxatoms 10 
+enter chi1 dihe PROT 7 N PROT 7 CA PROT 7 CB PROT 7 CG geom
+enter chi2 dihe PROT 7 CA PROT 7 CB PROT 7 CG PROT 7 OD1 geom
+trajectory firstu 51 nunit 1 begin ?start stop ?nstep skip ?skip
+
+write all unit 52 card
+*angles
+*
+
+stop

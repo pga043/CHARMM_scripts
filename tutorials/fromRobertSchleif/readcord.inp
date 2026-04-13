@@ -1,0 +1,75 @@
+* This file is readcord.inp.
+* Usage, charmm <readcord.inp >readcord.out.
+* Input files, top_all27_prot_na.rtf, par_all27_prot_na.prm, protein.pdb from
+*  fixpdb.awk.
+* Reads protein.pdb, adds H atoms, adds missing side chain atoms, centers at 
+*  origin and orients major axis along x axis.
+* Output files, fullprot.pdb, fullprot.crd, fullprot.psf.
+* Seg-id's in generate commands must match segids in columns 73-76
+*  of input files.
+* 
+
+! Open and read amino acid topology file
+open read card unit 20 name "top_all27_prot_na.rtf" 
+read rtf card unit 20
+close unit 20
+
+! Open and read protein parameter file
+open read card unit 20 name "par_all27_prot_na.prm" 
+read parameter card unit 20
+close unit 20
+
+! Read sequence from the pdb coordinate file
+open read unit 21 card name "protein.pdb" 
+read sequence pdb unit 21
+
+! Generate segment prot and add internal coordinate entries from rtf to ic table 
+generate prot setup 
+rewind unit 21
+
+! Read coordinates and close the units. If the first residue in pdb
+!  is numbered, for example, 7 rather than 1, we need the offset -6 option
+!  Presumably, could use the resid option if we were reading crd files. 
+read coordinate pdb offset -6 unit 21
+close unit 21
+
+! Transfer all existing coord. to ic table, while preserving ic entries for
+!  missing atoms
+ic fill preserve
+
+! Obtain any ic values still needed from parameter table.
+ic parameter
+
+! Retain existing coordinates and build the rest from ic table.
+ic build
+
+! Place any H's that are still missing.
+hbuild
+
+! Center at the origin
+coordinate orient
+
+! Write outputs
+open write unit 30 card name prot.pdb
+write coordinates pdb select all end unit 30
+* Coordinates of all atoms in protein, pdb format
+*
+
+open write unit 31 card name prot.crd
+write coordinates card unit 31
+* Coordinates of all atoms in protein, crd format 
+*
+
+open write unit 32 card name prot.psf
+write psf unit 32 card
+* psf of the protein
+*
+
+coor stat select all end
+system -
+"echo Xmin=?XMIN Xmax=?XMAX $'\n'YMin=?YMIN Ymax=?YMAX $'\n'Zmin=?ZMIN Zmax=?ZMAX  > /dev/tty" 
+
+
+
+stop
+

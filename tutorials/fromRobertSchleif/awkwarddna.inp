@@ -1,0 +1,88 @@
+* This file is awkwarddna.inp.
+* Usage, charmm <awkwarddna.inp >awkwarddna.out.
+* Uses pdb file of a DNA strand in pdb format and uses standard
+*  protein-nucleic acid topology and parameter files.
+* Script is sequence dependent.
+*
+
+! Open and read standard protein-nucleic acid topology and parameter files.
+open read card unit 20 name "top_all27_prot_na.rtf" 
+read rtf card unit 20
+close unit 20
+
+open read card unit 20 name "par_all27_prot_na.prm" 
+read param card unit 20
+close unit 20
+
+! Sequence is read from the script and not from a file. 
+! Adjust the following accordingly. This example uses CRD format.
+read sequence card
+* Sequence of strand A of pdbdna.pdb. Will be given segid dnaa
+*
+12
+cyt gua cyt gua ade ade thy thy cyt gua cyt gua
+
+! Generate psf for a strand of "RNA" of the sequence just read
+generate dnaa setup first 5ter last 3ter
+
+! Apply patches to convert to DNA, deo1 for pyrimidines C, T, deo2 for purines A, G.
+patch deo1 dnaa 1
+patch deo2 dnaa 2
+patch deo1 dnaa 3
+patch deo2 dnaa 4
+patch deo2 dnaa 5
+patch deo2 dnaa 6
+patch deo1 dnaa 7
+patch deo1 dnaa 8
+patch deo1 dnaa 9
+patch deo2 dnaa 10
+patch deo1 dnaa 11
+patch deo2 dnaa 12
+
+! Change residue names from ADE to A etc. so pdb can be read.
+rename resname c select resname cyt end
+rename resname a select resname ade end
+rename resname t select resname thy end
+rename resname g select resname gua end
+
+! Change atom names so coordinates of ribose atoms in pdb can be read.
+rename atom C1* select type C1' end
+rename atom C2* select type C2' end
+rename atom C3* select type C3' end
+rename atom C4* select type C4' end
+rename atom C5* select type C5' end
+rename atom O3* select type O3' end
+rename atom O4* select type O4' end
+rename atom O5* select type O5' end
+
+! At last, read the coordinates!
+open read card name pdbdna.pdb unit 21 
+read coordinate pdb unit 21
+
+! Change resnames back to three letter.
+rename resname cyt select resname c end
+rename resname ade select resname a end
+rename resname thy select resname t end
+rename resname gua select resname g end
+
+! Change atom names back to CHARMM names
+! Because * is a wildcard in select, must specifically exclude
+!  atom types that are accidently included with CX*.
+rename atom C1' select type C1* end
+rename atom C2' select type C2* .and. .not. type C2 end
+rename atom C3' select type C3* end
+rename atom C4' select type C4* .and. .not. type C4 end
+rename atom C5' select type C5* .and. .not. type C5 .and. .not. type C5M end
+rename atom O3' select type O3* end
+rename atom O4' select type O4* .and. .not. type O4 end
+rename atom O5' select type O5* end
+
+hbuild
+
+open write card name dnaout.pdb unit 31
+write coordinate select all end pdb unit 31
+* Output of roundabout way of handling DNA nomenclature
+*
+
+stop
+
