@@ -1,0 +1,12 @@
+* angle restraint using CHARMM MMFP
+* using with CHARMM or DOMDEC
+
+
+MMFP
+GEO sphere angle -
+     harmonic symmetric force 80.0 tref 112 dtoff 0.0 -
+     select resname LIG .and. type C10 end -
+     select segid PROT .and. resid 173 .and. type OG end -
+     select segid PROT .and. resid 41 .and. type NE2 end
+GEO PRINT
+END

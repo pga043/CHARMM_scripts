@@ -1,0 +1,25 @@
+* distance restraints
+* 
+
+set atom1 = C10 ! LIG carbonyl carbon
+set atom2 = O1 ! LIG carbonyl oxygen
+
+!! (distance from docking)
+set dist1 = 3.0 ! LIG_C - SER_O
+set dist2 = 3.5 ! LIG_O - SER_N
+set dist3 = 3.5 ! LIG_O - GLY_N
+
+RESDistance kval @kmax rval 3.5    eval 2 1.0  PROT 41 ND1 PROT 88 OD1
+
+RESDistance kval @kmax rval 3.5    eval 2 1.0  PROT 41 ND1 PROT 88 OD2
+
+RESDistance kval @kmax rval 3.5    eval 2 1.0  PROT 41 NE2 PROT 173 OG 
+
+!RESDistance kval @kmax rval @dist1 eval 2 1.0  LIG 1 @atom1 PROT 173 OG
+
+RESDistance kval @kmax rval @dist2 eval 2 1.0  LIG 1 @atom2 PROT 173 N
+
+RESDistance kval @kmax rval @dist3 eval 2 1.0  LIG 1 @atom2 PROT 171 N 
+
+print resdistances
+

@@ -1,0 +1,31 @@
+* restraining an angle and distances using IC 
+* 
+
+set atom1 = C10 ! LIG carbonyl carbon
+set atom2 = O1 ! LIG carbonyl oxygen
+
+set dist1 = 2.8 ! LIG_C - SER_O
+set dist2 = 4.2 ! LIG_O - SER_N
+set dist3 = 4.2 ! LIG_O - GLY_N
+
+ic delete sele all end
+
+ic edit
+	DISTance PROT 41 ND1 PROT 88 OD1 3.5
+	DISTance PROT 41 ND1 PROT 88 OD2 3.5
+	DISTance PROT 41 NE2 PROT 173 OG 3.5
+	DISTance LIG 1 @atom1 PROT 173 OG @dist1
+	DISTance LIG 1 @atom2 PROT 173 N  @dist2
+	DISTance LIG 1 @atom2 PROT 171 N  @dist3
+
+        ANGLe LIG 1 C10 PROT 173 OG PROT 41 NE2 112
+end
+
+!ic generate
+!ic param
+ic build
+!ic save
+ic print
+
+CONStraint IC bond @kmax angle 1000
+

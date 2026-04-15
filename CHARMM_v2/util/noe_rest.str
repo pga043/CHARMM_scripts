@@ -1,0 +1,43 @@
+* distance restraints
+* 
+
+set atom1 = C10 ! LIG carbonyl carbon
+set atom2 = O1 ! LIG carbonyl oxygen
+
+!! (distance from docking + 0.5)
+set dist1 = 3.0 ! LIG_C - SER_O
+set dist2 = 4.4 ! LIG_O - SER_N
+set dist3 = 4.4 ! LIG_O - GLY_N
+
+NOE
+  RESET
+END
+
+NOE
+!------------- HSD - ASP
+   assign sele atom PROT 41 ND1 end sele atom PROT 88 OD1 end -
+   kmin @kmax rmin 2.0 kmax @kmax rmax 3.5 fmax 2.0 rswitch 2.0 sexp 1.0
+
+   assign sele atom PROT 41 ND1 end sele atom PROT 88 OD2 end -
+   kmin @kmax rmin 2.0 kmax @kmax rmax 3.5 fmax 2.0 rswitch 2.0 sexp 1.0
+
+!-------------- HSD - SER
+   assign sele atom PROT 41 NE2 end sele atom PROT 173 OG end -
+   kmin @kmax rmin 1.0 kmax @kmax rmax 3.5 fmax 2.0 rswitch 2.0 sexp 1.0
+
+!!------------------------------------------------------
+!-------------- LIG - SER
+!   assign sele atom LIG 1 @atom1 end sele atom PROT 173 OG end -
+!   kmin @kmax rmin 1.0 kmax @kmax rmax @dist1 fmax 2.0 rswitch 2.0 sexp 1.0
+
+! LIG - SER and GLY, oxyanion hole
+   assign sele atom LIG 1 @atom2 end sele atom PROT 173 N end -
+   kmin @kmax rmin 1.0 kmax @kmax rmax @dist2 fmax 2.0 rswitch 2.0 sexp 1.0
+
+   assign sele atom LIG 1 @atom2 end sele atom PROT 171 N end -
+   kmin @kmax rmin 1.0 kmax @kmax rmax @dist3 fmax 2.0 rswitch 2.0 sexp 1.0
+
+  print
+  print anal
+
+END
