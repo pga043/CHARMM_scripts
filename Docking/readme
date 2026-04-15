@@ -8,6 +8,12 @@ open protein pdb in MGLTools
                      site-specific: center on named atom: PDB_name:CHAIN:HIS57:ND1
 ** skip step 2 if using a CHARMM pdb file
 
+#===================================================================================#
+#===================================================================================#
 
 convert pdbqt to sdf:
 python rdkit_pdbqt2sdf.py original.sdf docked.pdbqt docked.sdf
+
+align all molecules to a reference:
+python align_sdfs.py reference.sdf target.sdf target_to_reference.sdf
+
