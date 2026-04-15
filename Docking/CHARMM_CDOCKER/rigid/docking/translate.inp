@@ -1,0 +1,28 @@
+* translating ligand coordinates based on protein center 
+*
+
+! read topology and parameter files
+stream toppar.str
+stream "@{DIR}/@{LIG}.str" 
+
+read psf card name "@{DIR}/@{LIG}.psf"
+read coor card name "@{DIR}/@{LIG}.crd"
+
+coor stat mass sele resname LIG END
+set ligx ?XAVE
+set ligy ?YAVE
+set ligz ?ZAVE
+
+calc xaxis @xcen - @ligx
+calc yaxis @ycen - @ligy
+calc zaxis @zcen - @ligz
+
+coor tran xdir @xaxis ydir @yaxis zdir @zaxis -
+     sele resname LIG end
+
+!coor print
+
+write coor card name "@{DIR}/@{LIG}_trans.crd"
+write coor card pdb name "@{DIR}/@{LIG}_trans.pdb"
+
+stop

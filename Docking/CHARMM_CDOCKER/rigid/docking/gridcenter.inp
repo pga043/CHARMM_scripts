@@ -1,0 +1,35 @@
+* TITLE
+* Grid center of the target protein 
+* Created by Yujin Wu
+
+! read topology and parameter files
+stream toppar.str
+stream "@{DIR}/@{LIG}.str" 
+
+read psf card name "@{DIR}/@{LIG}.psf"
+read coor card name "@{DIR}/@{LIG}.crd"
+
+! dimension information of native pose and grid dimension
+coor stats select segid LIG end
+set xcen ?XAVE
+set ycen ?YAVE
+set zcen ?ZAVE
+calc xlen ?XMAX - ?XMIN
+calc ylen ?YMAX - ?YMIN
+calc zlen ?ZMAX - ?ZMIN
+set maxlen @xlen
+if @ylen .gt. @maxlen then set maxlen @ylen
+if @zlen .gt. @maxlen then set maxlen @zlen
+calc maxlen @maxlen + 10
+
+open unit 51 write form name @dir/maxlen
+echu 51
+echo @maxlen
+close unit 51
+
+STOP
+
+
+
+
+

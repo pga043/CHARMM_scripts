@@ -1,0 +1,50 @@
+* create psf and crd files
+*
+
+set builddir = .
+
+stream toppar.str
+
+read sequ pdb name @builddir/p01a.pdb
+generate setu P01A first ACE last CT3
+read coor pdb name @builddir/p01a.pdb resid
+
+read sequ pdb name @builddir/p01b.pdb
+generate setu P01B first ACE last CT3
+read coor pdb name @builddir/p01b.pdb resid
+
+ic para
+ic fill preserve
+ic build
+hbuild sele all end
+
+set out = dimer
+
+write psf card name @out.psf
+write coor card name @out.crd
+write coor pdb card name @out.pdb
+
+stop
+
+delete atom sele all end
+
+read sequ pdb name @builddir/wt00.pdb
+generate W00A first none last none setup noangl nodihe
+read coor pdb resid name @builddir/wt00.pdb
+
+read sequ pdb name @builddir/w00b.pdb
+generate W00B first none last none setup noangl nodihe
+read coor pdb resid name @builddir/w00b.pdb
+
+!! !! Load ions
+!read sequ pdb name @builddir/heta_conv.pdb
+!generate IONS first none last none setup noangl nodihe
+!read coor pdb resid name @builddir/heta_conv.pdb
+
+set out = cw
+
+write psf card name @out.psf
+write coor card name @out.crd
+write coor pdb card name @out.pdb
+
+stop

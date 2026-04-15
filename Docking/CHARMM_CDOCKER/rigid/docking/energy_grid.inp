@@ -1,0 +1,34 @@
+* calculating grid energy for ligand
+*
+
+!! Read the topology and parameter files for ligand
+bomlev -1
+read rtf card name "../toppar/top_all36_prot.rtf" 
+read rtf card name "../toppar/top_all36_cgenff.rtf" append
+read param flex card name "../toppar/par_all36m_prot.prm" 
+read param flex card name "../par_all36_cgenff.prm" append
+bomlev 0
+
+stream @dir/@lig.str
+
+! read ligand psf and crd
+read psf card name @dir/@lig.psf
+read coor card name @dir/@lig_trans.crd
+
+!! Read in Grid
+open unit 30 read unform name "grid-emax-100-mine--100-maxe-100.bin"
+grid read unit 30 select segid LIG end !GRHB = grid hbonds: only used for covalent docking
+close unit 30
+
+set idxcopy = 1
+
+! copy coordinate from OpenMM_dock results into the main coordinates
+OMMD COOR IDXC @idxcopy
+
+! Docking result
+mini sd nstep 50
+mini abnr nstep 1000 tolenr 0.001
+set dockener = ?ener
+
+stop
+

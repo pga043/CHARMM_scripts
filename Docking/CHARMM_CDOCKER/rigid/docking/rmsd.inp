@@ -1,0 +1,51 @@
+* Calculating rmsd for all docked poses wrt minimum energy pose
+*
+
+!! Read the topology and parameter files for ligand
+bomlev -1
+read rtf card name "../toppar/top_all36_prot.rtf" 
+read rtf card name "../toppar/top_all36_cgenff.rtf" append
+read param flex card name "../toppar/par_all36m_prot.prm" 
+read param flex card name "../par_all36_cgenff.prm" append
+bomlev 0
+
+stream @dir/@lig.str
+
+! read ligand psf and crd
+read psf card name @dir/@lig.psf
+read coor resid pdb name @dir/dock_pose/total_@top.pdb
+coor copy comp
+
+open unit 51 write form name @dir/dock_result/result/docked_rmsd.dat
+
+stream @dir/dock_result/result/varibales.dat
+
+set j = 1
+label loop
+
+! check if the pdb file exists or not
+bomlev -1
+open unit 55 read form name @dir/dock_pose/total_@a@@j.pdb
+if ?IOSTAT .eq. 1 then
+close unit 55
+bomlev 0
+read coor resid pdb name @dir/dock_pose/total_@a@@j.pdb
+coor rms select segid LIG .and. (.not. type *H*) end
+set dockrmsd = ?rms 
+
+coor orie rms sele segid LIG .and. (.not. type *H*) end
+COOR RMS
+set orientrmsd = ?rms
+
+write title unit 51
+* @a@@j @dockrmsd @orientrmsd
+*
+  
+else
+incr j by 1
+if j le @end goto loop
+endif
+incr j by 1
+if j le @end goto loop
+
+stop

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+while read i
+do
+
+export j=`sort -g -k 2 ../"$i"/dock_result/result/sorted_total.dat | sed -n '1p' |awk '{print $1}'`
+
+cp ../"$i"/dock_result/result/total_"$j".pdb "$i".pdb
+
+python rdkit_pdbqt2sdf.py ../"$i"/"$i".mol2 "$i".pdb "$i".sdf
+
+done < <(cat ../mol_list.txt)
+
