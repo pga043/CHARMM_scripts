@@ -1,4 +1,4 @@
-Examples for:
+Examples for using CHARMM and bash scripts:
 
 1. fftdock
 
@@ -7,3 +7,5 @@ Examples for:
 3. Flexible CDOCKER
 
 4. Covalent CDOCKER
+
+It is (or might be) easier to run CDOCKER with pyCHARMM. Also, remember to compile CHARMM with --fftdock option (it's not a default feature).
