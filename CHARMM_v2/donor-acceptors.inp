@@ -1,0 +1,71 @@
+* Donor acceptor definitions for amino acids
+* based on CHARMM36 (top_all36_prot.rtf)
+*
+
+set segid = P01*
+
+donor add sele segid @segid .and. resname ALA .and. (type hn .or. type n) show end
+acceptor add sele segid @segid .and. resname ALA .and. (type O .or. type c) show end
+
+donor add sele segid @segid .and. resn arg .and. (type HN .or. type n .or. type he .or. type ne .or. type hh* .or. type nh*) show end
+acceptor add sele segid @segid .and. resn arg .and. (type O .or. type c) show end
+
+donor add sele segid @segid .and. resname asn .and. (type hn .or. type n .or. type hd2* .or. type nd2) show end
+acceptor add sele segid @segid .and. resname asn .and. (type od1 .or. type O .or. type cg .or. type c) show end
+
+donor add sele segid @segid .and. resname asp .and. (type hn .or. type n) show end
+acceptor add sele segid @segid .and. resname asp .and. (type od* .or. type O .or. type cg .or. type c) show end
+
+donor add sele segid @segid .and. resname cys .and. (type hn .or. type n .or. type hg1 .or. type sg) show end
+acceptor add sele segid @segid .and. resname cys .and. (type O .or. type c) show end
+
+donor add sele segid @segid .and. resn gln .and. (type hn .or. type he2* .or. type n .or. type ne2) show end
+acceptor add sele segid @segid .and. resn gln .and. (type OE1 .or. type O .or. type cd .or. type c) show end
+
+donor add sele segid @segid .and. resname glu .and. (type hn .or. type n) show end
+acceptor add sele segid @segid .and. resname glu .and. (type OE* .or. type cd .or. type O .or. type c) show end
+
+donor add sele segid @segid .and. resname gly .and. (type hn .or. type n) show end
+acceptor add sele segid @segid .and. resname gly .and. (type O .or. type c) show end
+
+donor add sele segid @segid .and. resname hsd .and. (type hn .or. type n .or. type hd1 .or. type nd1) show end
+acceptor add sele segid @segid .and. resname hsd .and. (type O .or. type c .or. type ne2) show end
+
+donor add sele segid @segid .and. resname hse .and. (type hn .or. type n .or. type he2 .or. type ne2) show end
+acceptor add sele segid @segid .and. resname hse .and. (type O .or. type c .or. type nd1) show end
+
+donor add sele segid @segid .and. resname hsp .and. (type hn .or. type n .or. type hd1 .or. type nd1 .or. type he2 .or. type ne2) show end
+acceptor add sele segid @segid .and. resname hsp .and. (type O .or. type c) show end
+
+donor add sele segid @segid .and. resname ile .and. (type hn .or. type n) show end
+acceptor add sele segid @segid .and. resname ile .and. (type O .or. type c) show end
+
+donor add sele segid @segid .and. resname leu .and. (type hn .or. type n) show end
+acceptor add sele segid @segid .and. resname leu .and. (type O .or. type c) show end
+
+donor add sele segid @segid .and. resname lys .and. (type hn .or. type n .or. type hz* .or. type nz) show end
+acceptor add sele segid @segid .and. resname lys .and. (type O .or. type c) show end
+
+donor add sele segid @segid .and. resname met .and. (type hn .or. type n) show end
+acceptor add sele segid @segid .and. resname met .and. (type O .or. type c) show end
+
+donor add sele segid @segid .and. resname phe .and. (type hn .or. type n) show end
+acceptor add sele segid @segid .and. resname phe .and. (type O .or. type c) show end
+
+acceptor add sele segid @segid .and. resname pro .and. (type O .or. type c) show end
+
+donor add sele segid @segid .and. resname ser .and. (type hn .or. type n .or. type hg1 .or. type og) show end
+acceptor add sele segid @segid .and. resname ser .and. (type O .or. type c .or. type og) show end
+
+donor add sele segid @segid .and. resname thr .and. (type hn .or. type n .or. type hg1 .or. type og1) show end
+acceptor add sele segid @segid .and. resname thr .and. (type O .or. type c .or. type og1) show end
+
+donor add sele segid @segid .and. resname trp .and. (type hn .or. type n .or. type he1 .or. type ne1) show end
+acceptor add sele segid @segid .and. resname trp .and. (type O .or. type c) show end
+
+donor add sele segid @segid .and. resname TYR .and. (type hn .or. type hh .or. type n .or. type oh) show end
+acceptor add sele segid @segid .and. resname TYR .and. (type OH .or. type O .or. type c) show end
+
+donor add sele segid @segid .and. resname val .and. (type hn .or. type n) show end
+acceptor add sele segid @segid .and. resname val .and. (type O .or. type c) show end
+
