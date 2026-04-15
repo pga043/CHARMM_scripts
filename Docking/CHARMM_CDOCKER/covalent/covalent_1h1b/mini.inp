@@ -1,0 +1,61 @@
+* TITLE
+* Created by Yujin Wu
+* Minimize ligand random conformer 
+* 2021/03/26
+*
+ 
+!! Read the topology and parameter files for ligand
+bomlev -1
+read rtf card name "../../toppar/top_all36_prot.rtf" 
+read rtf card name "../../toppar/top_all36_cgenff.rtf" append
+read param flex card name "../../toppar/par_all36m_prot.prm" 
+read param flex card name "../../par_all36_cgenff.prm" append
+bomlev 0
+
+stream @dir/@lig.str
+
+! read ligand psf and crd
+read psf card name @dir/@lig.psf
+read coor card name @dir/@lig_trans.crd
+coor copy comp
+
+!-----------------------------------------------------------------------
+! Generate random ligand conformer
+!-----------------------------------------------------------------------
+
+!! Variables
+set idx = 1
+open unit 52 write form name "conformer.dat"
+
+!! Generate random rotamer
+label conformer
+read coor pdb name "conformer/@IDX.pdb" resid
+
+!-----------------------------------------------------------------------
+! Calculate rmsd after minimization in vacuum 
+!-----------------------------------------------------------------------
+
+!! Brief minimization
+update atom switch vswitch cutnb 12 ctofnb 10 ctonnb 8 rdie epsilon 3
+mini sd nstep 50
+mini abnr nstep 1000 tolenr 0.001
+
+!! RMSD difference
+!read coor comp select segid LIGA end card name "ligand.crd" resid
+coor orient rms select segid LIG .and. (.not. type *H*) end
+set dockrmsd = ?rms
+
+!! Save result
+write title unit 52
+* @idx @dockrmsd ?ener 
+*
+write coor pdb select segid LIG end name "optimized/@IDX.pdb"
+
+!! Loop
+if @idx .lt. @num then
+   incr idx by 1
+   goto conformer
+   endif
+
+stop
+

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# look at the article for some information: 
+# https://doi.org/10.1007/s10822-022-00472-3
+
+Covalent parameters
+reaction type                r1 (angstroms)  r2 (angstroms)   Emax (kcal/mol)
+addition to aldehyde         1.5             4.5              -10
+Disulfide bond formation     0               3.5              -10
+Addition to ketone           0               5                -10
+Michael addition             0               4.5              -10
+Addition to nitrile          1.5             4                -10
+Nucleophilic substitution    1               5                -7.5
+Ring opening                 1               5                -10

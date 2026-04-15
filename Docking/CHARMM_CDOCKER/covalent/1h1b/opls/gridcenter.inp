@@ -1,0 +1,32 @@
+* Get coordinates for docking
+*
+
+!! Read in topology and parameter file
+read rtf card name toppar/top_opls_aam.inp
+read param card name toppar/par_opls_aam.inp
+
+read psf card name swiss1.psf
+read coor card name swiss1.crd
+
+coor stats sele segid PROT .and. resid 41 .and. type ND1 show end
+
+set xcen ?XAVE
+set ycen ?YAVE
+set zcen ?ZAVE
+
+open unit 51 write form name "xcen"
+echu 51
+echo @xcen
+close unit 51
+
+open unit 52 write form name "ycen"
+echu 52
+echo @ycen
+close unit 52
+
+open unit 53 write form name "zcen"
+echu 53
+echo @zcen
+close unit 53
+
+stop

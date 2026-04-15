@@ -1,0 +1,69 @@
+* Run Segment Through CHARMM
+*
+
+! read topology and parameter files
+bomlev -2
+read rtf card name ../../toppar/top_all36_cgenff.rtf
+read param card flex name ../../par_all36_cgenff.prm
+bomlev 0
+stream @dir/@lig.str
+
+! Read sequence from the PDB coordinate file
+read sequ pdb name @dir/@lig.pdb
+
+generate LIG setu
+
+bomlev -1
+read coor pdb name @dir/@lig.pdb
+bomlev 0
+
+define fixed sele (.not. INIT) .and. (.not. hydrogen) end
+
+!Print heavy atoms with unknown coordinates
+coor print sele (.not. INIT) .and. (.not. hydrogen) end
+
+! try IC GENERATE  if there are unknown coordinate
+define XXX sele .not. INIT show end
+if ?nsel .gt. 0 then
+   ic generate 
+   ic param
+   ic fill preserve
+   ic build
+   define LONEPAIR sele chem LPH end
+   if ?nsel .gt. 0 coor shake sele LONEPAIR end
+   hbuild sele hydr end
+   coor print
+endif
+
+if ?nsel .eq. 0 then
+   hbuild sele hydr end
+   coor print
+endif
+
+!! Check if it has lone pair
+!! If it has lone pair -- redistribute this charge
+define lp select type lp* .and. segid LIG end
+if ?nsel .gt. 0 then
+   set nlp = ?nsel
+   scalar charge stat select .not. type lp* end
+   calc qinc = -?stot / @nlp
+   scalar charge add @qinc select type cl* .or. type br* .or. type i* end
+   delete atom select lp end
+   scalar charge stat
+endif
+
+stream @dir/lig_donors.txt
+!acceptor set select segid LIG .and. (type C10 .or. type O1) show end
+acceptor set select segid LIG .and. (type @atom1 .or. type @atom2) show end
+
+set acceptor = ?nsel
+if @acceptor .le. 0 then
+   echo "Check acceptor definitions for the ligand."
+   stop
+endif
+
+
+write psf card name @dir/@lig.psf
+write coor card name @dir/@lig.crd
+
+stop
