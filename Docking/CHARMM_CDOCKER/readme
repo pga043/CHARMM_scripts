@@ -6,6 +6,6 @@ Examples for using CHARMM and bash scripts:
 
 3. Flexible CDOCKER
 
-4. Covalent CDOCKER
+4. Covalent CDOCKER: Make sure DONOR/ACCEPTOR definitions are present for both the protein (reacting site) and the ligand (psf/str/rtf).
 
 It is (or might be) easier to run CDOCKER with pyCHARMM. Also, remember to compile CHARMM with --fftdock option (it's not a default feature).
