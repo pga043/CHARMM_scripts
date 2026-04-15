@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cp /net/orinoco/pga043/simulations/Xray-structure/1h1b/swiss1.crd .
+cp /net/orinoco/pga043/simulations/Xray-structure/1h1b/swiss1.psf .
+
+
