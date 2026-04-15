@@ -1,5 +1,6 @@
 * Donor acceptor definitions for amino acids
 * based on CHARMM36 (top_all36_prot.rtf)
+* Parveen Gartan, Chem, UiB
 *
 
 set segid = P01*
