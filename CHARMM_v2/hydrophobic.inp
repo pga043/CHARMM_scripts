@@ -1,5 +1,6 @@
 * compute hydrophobic contacts from trajectory
-* 
+* Parveen Gartan, Chem, UiB
+*
 
 !===================================================================
 set toppar = /net/orinoco/pga043/simulations/@prot-@lig/namd/toppar
