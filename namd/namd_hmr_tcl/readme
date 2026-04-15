@@ -1,0 +1,3 @@
+#!/bin/bash
+
+vmd -dispdev test -e repartitionHydMasses.tcl -args toto.psf toto.pdb 3 not_water sortir.psf
