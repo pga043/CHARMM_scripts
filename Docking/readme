@@ -9,3 +9,5 @@ open protein pdb in MGLTools
 ** skip step 2 if using a CHARMM pdb file
 
 
+convert pdbqt to sdf:
+python rdkit_pdbqt2sdf.py original.sdf docked.pdbqt docked.sdf
