@@ -1,0 +1,11 @@
+Steps used for docking:
+
+Autodock Vina
+open protein pdb in MGLTools
+2. Edit > Hydrogens > Add > polar only + with no bond order + edit Histidines
+3. Grid > macromolecule > choose
+4. Grid > grid box > blind: center on macromolecule
+                     site-specific: center on named atom: PDB_name:CHAIN:HIS57:ND1
+** skip step 2 if using a CHARMM pdb file
+
+
