@@ -23,7 +23,7 @@ For someone not familiar with CHARMM, I think the two important files/directorie
 | Update  | Linear ALF | Nonlinear ALF | Reference |
 | ------------- | ------------- | ------------ | ------------ |
 | G_imp  | Standard files  | New files with theta bias | - |
-| Theta bias  | supported but will require updating the G_imp files | By default supported but if not required then change lmalf/src/lmalf.cu and also remove the theta bias from internal G_imp generation => Ryan | 10.1021/acs.jctc.4c00514 |
+| Theta bias  | Use G_imp files with theta bias - same as LM-ALF | By default supported but if not required then change lmalf/src/lmalf.cu and also remove the theta bias from internal G_imp generation => Ryan | 10.1021/acs.jctc.4c00514 |
 
 
 # Restraints and Engine compatability
