@@ -53,3 +53,27 @@ Combination rules : this can be taken care of by using either scalar or NBFIX (a
 selected atom pair, for more information see:10.1021/jp401512z) \
 e14fac = according to Charlie, there is no rationale as to why the interactions are scaled down (at least that’s what I understood)
 		can be taken care of by using the scalar command (scalar e14fac set 0.5/1/0 select xxx end)
+
+# CHARMM Errors and Potential Solutions:
+Maximum number of dihedrals reached error:\
+With the new version of CGenFF (v 5.0), I am getting the following error after reading par_all36_cgenff.prm
+
+***** LEVEL -3 WARNING FROM <PARRDR> ***** \
+***** Maximum no. of dihedrals reached \
+****************************************** \
+BOMLEV ( 0) IS REACHED - TERMINATING. WRNLEV IS 5
+
+Solution: \
+The error can be solved by increasing the following array sizes (suggestion received from silcsbio): 
+
+MAXCP 100000 \
+MAXNBF 400000 
+
+in
+
+charmm/source/ltm/dimens_ltm.F90
+
+
+
+
+
