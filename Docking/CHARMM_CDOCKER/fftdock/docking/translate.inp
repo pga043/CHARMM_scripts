@@ -1,0 +1,31 @@
+* translating ligand coordinates based on protein center 
+*
+
+! read topology and parameter files
+bomlev -2
+read rtf card name ../toppar/top_all36_cgenff.rtf
+read param card flex name ../par_all36_cgenff.prm
+bomlev 0
+stream @dir/@lig.str
+
+read psf card name @dir/@lig.psf
+read coor card name @dir/@lig.crd
+
+coor stat mass sele resname LIG END
+set ligx ?XAVE
+set ligy ?YAVE
+set ligz ?ZAVE
+
+calc xaxis @xcen - @ligx
+calc yaxis @ycen - @ligy
+calc zaxis @zcen - @ligz
+
+coor tran xdir @xaxis ydir @yaxis zdir @zaxis -
+     sele resname LIG end
+
+!coor print
+
+write coor card name @dir/@lig_trans.crd
+write coor card pdb name @dir/@lig_trans.pdb
+
+stop

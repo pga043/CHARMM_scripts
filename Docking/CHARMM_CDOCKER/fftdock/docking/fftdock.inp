@@ -1,0 +1,102 @@
+* TITLE
+* Created by Yujin Wu
+* Rigid docking - Docking in grids 
+* Use RDKit to generate multiple random ligand conformers
+* FFT docking 
+*     Top 100 pose
+*     fft qua - 1
+* 2021/06/21
+*
+									
+!-----------------------------------------------------------------------
+! Prepare ligand
+!-----------------------------------------------------------------------
+
+!! Read the topology and parameter files for ligand 
+bomlev -1
+read rtf card name "../toppar/top_all36_prot.rtf" 
+read rtf card name "../toppar/top_all36_cgenff.rtf" append
+read param flex card name "../toppar/par_all36m_prot.prm" 
+read param flex card name "../par_all36_cgenff.prm" append
+bomlev 0
+
+stream @dir/@lig.str
+
+!! Read ligand
+read psf card name @dir/@lig.psf
+read coor card name @dir/@lig_trans.crd
+coor copy comp
+
+!! Dimensional analysis
+coor stats select segid LIG end
+set xcen ?XAVE
+set ycen ?YAVE
+set zcen ?ZAVE
+
+!-----------------------------------------------------------------------
+! Prepare FFT docking system
+! Ligand # = # of ligand conformers * # of copy saved
+!-----------------------------------------------------------------------
+
+!! Read grid potential and quaternions for FFT docking
+open unit 40 read form name "../toppar/fftdock_rotation_1.qua"
+open unit 31 read unform name grid-emax-3-mine--30-maxe-30.bin 
+FFTG read unit 31
+close unit 31
+
+!! Set up numbers for loop
+set idxnum = 1                          ! index of loop num
+set idxcopy = 1                         ! index of ligand copy
+
+!! Run FFT docking
+label fftdock
+      read coor pdb name "optimized/@IDXNUM.pdb" resid
+      FFTG lcon ncon @num icon @idxnum nrok @copy sizb 64 quau 40 -
+           sele segid LIG end
+      incr idxnum by 1
+      if @idxnum .le. @num goto fftdock
+
+!-----------------------------------------------------------------------
+! Final result 
+!-----------------------------------------------------------------------
+
+!! Read in Grid
+open unit 30 read unform name "grid-emax-100-mine--100-maxe-100.bin"
+grid read unit 30 select segid LIG end 
+close unit 30
+
+!! Output docking results after grid minimization
+open unit 51 write form name "saresult_grid.dat"
+set i = 1
+set idxnum = 1
+set idxcopy = 1
+
+label LoopGrid 
+      ! copy coordinate from FFT dock results into the main coordinates
+      FFTG coor icon @idxnum irot @idxcopy 
+
+      ! Docking result
+      mini sd nstep 50
+      mini abnr nstep 1000 tolenr 0.001
+      set dockener = ?ener
+      !read coor comp select segid LIGA end card name "ligand.crd" resid
+      coor rms select segid LIG .and. (.not. type *H*) end
+      set dockrmsd = ?rms
+
+      ! Save result
+      write coor pdb select segid LIG end name "@IDXNUM_@IDXCOPY.pdb"
+      write title unit 51
+      * @idxnum_@idxcopy @dockener @dockrmsd
+      *
+
+      incr idxcopy by 1
+      if @idxcopy .gt. @copy then
+         set idxcopy = 1 
+         incr idxnum by 1
+         if @idxnum .le. @num goto LoopGrid 
+      else
+         goto LoopGrid
+         endif 
+
+stop
+

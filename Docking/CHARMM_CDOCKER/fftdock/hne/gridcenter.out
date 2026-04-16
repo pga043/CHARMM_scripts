@@ -1,0 +1,157 @@
+1
+                 Chemistry at HARvard Macromolecular Mechanics
+           (CHARMM) - Developmental Version 47a2   February 15, 2021            
+                             Git commit ID ff3e1f1                              
+       Copyright(c) 1984-2020  President and Fellows of Harvard College
+                              All Rights Reserved
+  Current operating system: Linux-3.10.0-957.el7.x86_64(x86_64)@gollum004.lsa   
+                 Created on  5/25/22 at  9:39:15 by user: pgartan     
+
+            Maximum number of ATOMS:    360720, and RESidues:      120240
+ RDTITL> * GET COORDINATES FOR DOCKING
+ RDTITL> *
+  
+ CHARMM>     
+  
+ CHARMM>    !! Read in topology and parameter file
+ CHARMM>    read rtf card name "../toppar/top_all36_prot.rtf"
+ VOPEN> Attempting to open::../toppar/top_all36_prot.rtf::
+ MAINIO> Residue topology file being read from unit  90.
+ TITLE> *>>>>>>>>CHARMM36 ALL-HYDROGEN TOPOLOGY FILE FOR PROTEINS <<<<<<
+ TITLE> *>>>>> INCLUDES PHI, PSI CROSS TERM MAP (CMAP) CORRECTION <<<<<<<
+ TITLE> *>>>>>>>>>>>>>>>>>>>>>>>>>> MAY 2011 <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ TITLE> * ALL COMMENTS TO THE CHARMM WEB SITE: WWW.CHARMM.ORG
+ TITLE> *             PARAMETER SET DISCUSSION FORUM
+ TITLE> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read param flex card name "../toppar/par_all36m_prot.prm"
+ VOPEN> Attempting to open::../toppar/par_all36m_prot.prm::
+
+          PARAMETER FILE BEING READ FROM UNIT 90
+ TITLE> *>>>> CHARMM36 ALL-HYDROGEN PARAMETER FILE FOR PROTEINS <<<<<<<<<<
+ TITLE> *>>>>> INCLUDES PHI, PSI CROSS TERM MAP (CMAP) CORRECTION <<<<<<<<
+ TITLE> *>>>>>>>>>>>>>>>>>>>>>>>>>> JAN. 2016 <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ TITLE> * ALL COMMENTS TO THE CHARMM WEB SITE: WWW.CHARMM.ORG
+ TITLE> *             PARAMETER SET DISCUSSION FORUM
+ TITLE> *
+ PARRDR> Error: Repeated ANGLE parameter (    13): NH2   CT2   CD   is replaced
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>     
+  
+ CHARMM>    read psf card name hne.psf
+ VOPEN> Attempting to open::hne.psf::
+ MAINIO> Protein structure file being read from unit  90.
+ TITLE>  * RUN SEGMENT THROUGH CHARMM
+ TITLE>  *  DATE:     5/16/20     10:50:41      CREATED BY USER: parveengartan
+ TITLE>  *
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        1   Number of residues   =      218
+         Number of atoms         =     3291   Number of groups     =      984
+         Number of bonds         =     3325   Number of angles     =     5994
+         Number of dihedrals     =     8736   Number of impropers  =      642
+         Number of cross-terms   =      216   Number of autogens   =        0
+         Number of HB acceptors  =      288   Number of HB donors  =      390
+         Number of NB exclusions =        0   Total charge =   11.00000
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read coor card name hne.crd
+ VOPEN> Attempting to open::hne.crd::
+          SPATIAL COORDINATES BEING READ FROM UNIT 90
+ TITLE> * RUN SEGMENT THROUGH CHARMM
+ TITLE> *  DATE:     5/16/20     10:50:41      CREATED BY USER: PARVEENGARTAN
+ TITLE> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    coor stats sele segid PROT .and. resid 41 .and. type ND1 show end
+ The following atoms are currently set:
+SEGId RESId RESName  .. TYPEs ..
+ PROT 41   HSD ND1 
+ SELRPN>      1 atoms have been selected out of   3291
+ STATISTICS FOR         1 SELECTED ATOMS:
+    XMIN =   23.409000 XMAX =   23.409000 XAVE =   23.409000
+    YMIN =  -23.885000 YMAX =  -23.885000 YAVE =  -23.885000
+    ZMIN =    5.887000 ZMAX =    5.887000 ZAVE =    5.887000
+    WMIN =    0.000000 WMAX =    0.000000 WAVE =    0.000000
+  
+ CHARMM>     
+  
+ CHARMM>    set xcen ?XAVE
+ RDCMND substituted energy or value "?XAVE" to "23.409"
+ Parameter: XCEN <- "23.409"
+  
+ CHARMM>    set ycen ?YAVE
+ RDCMND substituted energy or value "?YAVE" to "-23.885"
+ Parameter: YCEN <- "-23.885"
+  
+ CHARMM>    set zcen ?ZAVE
+ RDCMND substituted energy or value "?ZAVE" to "5.887"
+ Parameter: ZCEN <- "5.887"
+  
+ CHARMM>     
+  
+ CHARMM>    open unit 51 write form name "xcen"
+ VOPEN> Attempting to open::xcen::
+ OPNLGU> Unit 51 opened for WRITE access to xcen
+  
+ CHARMM>    echu 51
+  
+ CHARMM>    echo @xcen
+ Parameter: XCEN -> "23.409"
+  
+ CHARMM>    close unit 51
+ VCLOSE: Closing unit   51 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    open unit 52 write form name "ycen"
+ VOPEN> Attempting to open::ycen::
+ OPNLGU> Unit 52 opened for WRITE access to ycen
+  
+ CHARMM>    echu 52
+  
+ CHARMM>    echo @ycen
+ Parameter: YCEN -> "-23.885"
+  
+ CHARMM>    close unit 52
+ VCLOSE: Closing unit   52 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    open unit 53 write form name "zcen"
+ VOPEN> Attempting to open::zcen::
+ OPNLGU> Unit 53 opened for WRITE access to zcen
+  
+ CHARMM>    echu 53
+  
+ CHARMM>    echo @zcen
+ Parameter: ZCEN -> "5.887"
+  
+ CHARMM>    close unit 53
+ VCLOSE: Closing unit   53 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    stop
+
+      $$$$$$  New timer profile Local node$$$$$
+
+ Total time                      0.21 Other:            0.00
+
+         $$$$$$  Average   profile $$$$$
+
+ Total time                      0.21 Other:            0.00
+
+                    NORMAL TERMINATION BY NORMAL STOP
+                    NO WARNINGS WERE ISSUED
+
+                    $$$$$ JOB ACCOUNTING INFORMATION $$$$$
+                     ELAPSED TIME:     0.26  SECONDS 
+                         CPU TIME:     0.18  SECONDS 

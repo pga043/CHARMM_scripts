@@ -1,0 +1,33 @@
+	This module will set up environment variables
+	for Anaconda 2021.
+
+	If you need to install Python modules please
+	create a virtual enviornment with the 
+	'conda create -n <my env>' command.  Follow
+	this with 'conda install -n <my env> conda pip ipython' command.
+	Then activate the enviornment with 'conda activate  <my env>'.
+	Once you have done this then you can use 'pip' and 'conda' to
+	install your Python modules.
+	This module will set up environment variables
+	for CUDA.
+	This module will set up environment variables
+	for openmm.
+
+Loading openmm/7.6.0
+  Loading requirement: anaconda/2021 cuda/11.2
+	This module will set up environment variables
+	for the GCC Compiler Suite.
+	This module will set up environment variables
+	for OpenMPI 
+
+Loading openmpi/3.1.2-gcc-10.2.0
+  Loading requirement: gcc/10.2.0
+--------------------------------------------------------------------------
+WARNING: There is at least non-excluded one OpenFabrics device found,
+but there are no active ports detected (or Open MPI was unable to use
+them).  This is most certainly not what you wanted.  Check your
+cables, subnet manager configuration, etc.  The openib BTL will be
+ignored for this job.
+
+  Local host: gollum004
+--------------------------------------------------------------------------

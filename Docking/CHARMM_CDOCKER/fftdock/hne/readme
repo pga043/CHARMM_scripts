@@ -1,0 +1,4 @@
+#!/bin/bash
+
+scp /Users/parveengartan/data/simulations/hne-pm32/hne.* 
+
