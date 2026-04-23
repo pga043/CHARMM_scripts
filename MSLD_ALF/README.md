@@ -1,8 +1,13 @@
 # MSLD and ALF feature Tracking 
-| Update  | Linear ALF | Nonlinear ALF | Reference |
-| ------------- | ------------- | ------------ | ------------ |
-| G_imp  | Standard files  | New files with theta bias | - |
-| Theta bias  | Use G_imp files with theta bias - same as LM-ALF | By default supported but if not required then change lmalf/src/lmalf.cu and also remove the theta bias from internal G_imp generation => Ryan | 10.1021/acs.jctc.4c00514 |
+
+# ALF loss functions and implicit constraints
+| Loss Function  | Implicit Constraint | Biases | G_imp | Reference |
+| ------------- | ------------- | ------------ | ------------ | ------------ |
+| Linear | FNEX | bcxs | with fnex constraints | - |
+| Linear | FNEX + theta bias | bcxs | updated with theta bias | - |
+| LM-ALF | FNEX + theta bias | bcxs | updated with theta bias | 10.1021/acs.jctc.4c00514 |
+| LM-ALF | FNEX | bcxs | with fnex but require changes to lmalf/src/lmalf.cu and also remove the theta bias from internal G_imp generation => Ryan | - |
+| LM-ALF | FNPW + theta bias () | bcxstu | ?? | - |
 
 
 # Restraints and Engine compatability
