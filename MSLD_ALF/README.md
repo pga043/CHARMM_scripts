@@ -6,7 +6,7 @@
 | Linear | FNEX | bcxs | with fnex constraints | - |
 | Linear | FNEX + theta bias | bcxs | updated with theta bias | - |
 | LM-ALF | FNEX + theta bias | bcxs | updated with theta bias | 10.1021/acs.jctc.4c00514 |
-| LM-ALF | FNEX | bcxs | with fnex but require changes to lmalf/src/lmalf.cu and also remove the theta bias from internal G_imp generation => Ryan | - |
+| LM-ALF | FNEX | bcxs | with fnex but also requires changes to lmalf/src/lmalf.cu to remove the theta bias from internal G_imp generation => Ryan | - |
 | LM-ALF | FNPW + theta bias () | bcxstu | ?? | - |
 
 
